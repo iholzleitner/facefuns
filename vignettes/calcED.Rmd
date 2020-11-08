@@ -1,0 +1,150 @@
+---
+title: "Calculate similarity of faces"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Calculate similarity of faces}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+**NEEDS REWRITING AFTER FUNCTION CHANGES**
+
+This tutorial will explain how to calculate facial (dis)similarity in a set of 2D faces. We will calculate the Euclidean distance between Procrustes-aligned landmark templates, as well as the Euclidean distance in face space (i.e. principal component space), and compare these two measures.
+
+```{r setup, message=FALSE}
+library(facefuns)
+library(geomorph)
+```
+
+### Prerequisites
+
+You will need 
+
+* A TPS file containing your landmark templates (see [here](./TEMtoTPS.html) if you have a bunch of Webmorph templates and are unsure what to do)
+
+
+## GPA
+
+We start by Procrustes-aligning the templates.
+
+We load the templates ...
+
+```{r}
+path_to_tps <- system.file("extdata", "LondonSet.tps", package="facefuns")
+data <- readland.tps(path_to_tps, specID = "ID", warnmsg = FALSE)
+```
+
+... subject them to a GPA ...
+
+```{r}
+data_gpa <- gpagen(data, print.progress = FALSE)
+```
+
+... extract the aligned templates, and rotate them if necessary ([see intro](./intro.html)).
+
+```{r}
+data_aligned <- rotate.coords(data_gpa$coords,
+                              type = "rotateC")
+
+# Re-adding dimension names
+dimnames(data_aligned)[[3]] <- dimnames(data_gpa$coords)[[3]]
+```
+
+Lastly, we will check everything looks the way we expect it to by plotting one of the faces.
+
+```{r}
+plot(data_aligned[, , 1], asp = 1)
+```
+
+## Calculate facial similarity from landmark templates
+
+We will use the `facefuns` function `calcED` to calculate similarity. `calcED` requires two arguments:
+
+1. Landmark coordinates in a matrix format
+
+2. A table specifying for which pairs of faces you would like to calculate similarity
+
+### Create landmark matrix
+
+Currently, our landmark templates are stored in a three-dimensional array: a list of *n* matrices of the dimensions *p* x *k*
+
+* _**p**_ The number of landmarks, here 132
+* _**k**_ The number of landmark dimension, here 2
+* _**n**_ The number of subjects, here 102
+
+```{r}
+str(data_aligned)
+```
+
+We assign these dimensions to variables so we can easily access them in the next steps:
+
+```{r}
+p <- dim(data_aligned)[1]
+k <- dim(data_aligned)[2]
+n <- dim(data_aligned)[3]
+```
+
+We need to convert this three-dimensional array into one big matrix containing the x- and y-coordinates for all faces. [NOTE: TURN THIS INTO FUNCTION]
+
+```{r}
+temp <- matrix(data_aligned, ncol = (p * 2), byrow = T)
+
+x.coords<-temp[ , 1:p] 
+y.coords<-temp[ , (p + 1):(p * 2)]
+
+data_matrix <- matrix(rbind(x.coords, y.coords),
+                      n,
+                      dimnames = list(dimnames(data_aligned)[[3]], NULL))
+```
+
+### Create list of faces
+
+Most times, you will already have a list of face pairs for which you want to calculate similarity. 
+
+For this example, we will calculate the similarity between all possible combinations of face pairs in our data set.
+
+We start by assigning all face IDs in our sample to a variable ...
+
+```{r}
+face_names <- dimnames(data_aligned)[[3]]
+```
+
+... and then create a list of all possible combinations
+
+```{r}
+pairs <- expand.grid(A = face_names,
+                     B = face_names)
+```
+
+### `calcED`
+
+We now have everything we need to run our function
+
+```{r}
+similarity_t <- calcED(coords_matrix = data_matrix,
+                       pairs_table = pairs)
+
+head(similarity_t)
+```
+Let's display our data in a wide format and round the values. It is a rather big table, so we will only print a small subset
+
+```{r}
+similarity_t %>%
+  dplyr::mutate(EuclideanDistance = round(EuclideanDistance, 2)) %>%
+  tidyr::spread(B, EuclideanDistance) %>%
+  dplyr::select(1:10) %>%
+  dplyr::slice(1:9)
+```
+
+## Calculate facial similarity in face space
+
+Run PCA, extract scores, same as above.
+
+Comparing the two: should be extremely highly correlated (or at least they are in 3D!); the point being that it doesn't make much difference which one you go for (well, we'll see).

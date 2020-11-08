@@ -1,0 +1,49 @@
+Package: facefuns
+Title: Convenience Functions Around 2D and 3D Face Shape Analysis
+Version: 0.0.0.9000
+Date: 2020-11-07
+Authors@R: 
+    c(person(given = "Iris J",
+           family = "Holzleitner",
+           role = c("aut", "cre"),
+           email = "iris.holzleitner@glasgow.ac.uk",
+           comment = c(ORCID = "0000-0002-1581-597X")),
+      person(given = "Lisa M",
+           family = "DeBruine",
+           role = "aut",
+           email = "lisa.debruine@glasgow.ac.uk",
+           comment =  c(ORCID = "0000-0002-7523-5539")))
+Description: Miscellaneous functions around 2D and 3D shape analysis.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+Depends:
+    R (>= 3.5.0)
+Imports: 
+    stringr,
+    magrittr,
+    tibble,
+    rgl,
+    geometry,
+    alphashape3d,
+    ggplot2,
+    geomorph,
+    dplyr,
+    tidyr,
+    faux,
+    cowplot,
+    gridGraphics,
+    purrr,
+    rlang
+Suggests: 
+    testthat,
+    knitr,
+    rmarkdown,
+    shiny,
+    shinyjs,
+    shinydashboard
+VignetteBuilder: knitr
+URL: https://github.com/iholzleitner/facefuns
+BugReports: https://github.com/iholzleitner/facefuns/issues
