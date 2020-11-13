@@ -9,7 +9,7 @@ basics(
   p = 189,
   remove_points = NA,
   rotate = c(NA, "flipX", "flipY", "rotateC", "rotateCC"),
-  plot = TRUE,
+  plot_all = TRUE,
   pc_criterion = "broken_stick"
 )
 }
@@ -22,7 +22,7 @@ basics(
 
 \item{rotate}{The type of rotation or flip to be performed. Specimens can be flipped with respect to x or y axes, or rotated clockwise or counter-clockwise. See \code{geomorphs}'s \link[geomorph]{rotate.coords}}
 
-\item{plot}{Plot landmark coordinates of sample. See \code{geomorphs}'s \link[geomorph]{plotAllSpecimens}}
+\item{plot_all}{Plot landmark coordinates of sample. See \code{geomorphs}'s \link[geomorph]{plotAllSpecimens}}
 
 \item{pc_criterion}{Criterion used to choose which PCs to retain. See \link[facefuns]{selectPCs}}
 }
@@ -38,4 +38,25 @@ Returns a list of the following:
 \description{
 Function performs some of the routine steps for getting landmark data ready for shape analyses. Data can be imported from a directory of Webmorph template files, or by reading an existing TPS file. For more details see vignette:
 \code{vignette("intro", package = "facefuns")}
+}
+\examples{
+path_to_tem <- system.file("extdata", "tem", package="facefuns")
+x <- basics(path_to_data = path_to_tem,
+            p = 189,
+            remove_points = NA,
+            rotate = "rotateC",
+            plot = TRUE,
+            pc_criterion = "broken_stick"
+            )
+
+remove_points <- c(45:50, 100:104, 116:125, 146:158, 159:164, 165:170, 171:174, 175:179, 184:185)
+
+x <- basics(path_to_data = path_to_tem,
+            p = 189,
+            remove_points = remove_points,
+            rotate = "rotateC",
+            plot = TRUE,
+            pc_criterion = "broken_stick"
+            )
+
 }

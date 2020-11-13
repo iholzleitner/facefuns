@@ -7,7 +7,7 @@
 #' @param p Number of landmarks images were delineated with. Defaults to value for FRL standard template.
 #' @param remove_points If reading from template files, it can be specified whether any landmarks should be removed. If no value is entered, all landmarks are retained.
 #' @param rotate The type of rotation or flip to be performed. Specimens can be flipped with respect to x or y axes, or rotated clockwise or counter-clockwise. See \code{geomorphs}'s \link[geomorph]{rotate.coords}
-#' @param plot Plot landmark coordinates of sample. See \code{geomorphs}'s \link[geomorph]{plotAllSpecimens}
+#' @param plot_all Plot landmark coordinates of sample. See \code{geomorphs}'s \link[geomorph]{plotAllSpecimens}
 #' @param pc_criterion Criterion used to choose which PCs to retain. See \link[facefuns]{selectPCs}
 #'
 #' @return Returns a list of the following:
@@ -19,8 +19,27 @@
 #' \item{plot}{Coordinates of sample average at -3SD and +3SD for each selected PC}
 #'
 #' @export
+#' @examples
+#' path_to_tem <- system.file("extdata", "tem", package="facefuns")
+#' x <- basics(path_to_data = path_to_tem,
+#'             p = 189,
+#'             remove_points = NA,
+#'             rotate = "rotateC",
+#'             plot = TRUE,
+#'             pc_criterion = "broken_stick"
+#'             )
 #'
-basics <- function (path_to_data, p = 189, remove_points = NA, rotate = c(NA, "flipX", "flipY", "rotateC", "rotateCC"), plot = TRUE, pc_criterion = "broken_stick") {
+#' remove_points <- c(45:50, 100:104, 116:125, 146:158, 159:164, 165:170, 171:174, 175:179, 184:185)
+#'
+#' x <- basics(path_to_data = path_to_tem,
+#'             p = 189,
+#'             remove_points = remove_points,
+#'             rotate = "rotateC",
+#'             plot = TRUE,
+#'             pc_criterion = "broken_stick"
+#'             )
+#'
+basics <- function (path_to_data, p = 189, remove_points = NA, rotate = c(NA, "flipX", "flipY", "rotateC", "rotateCC"), plot_all = TRUE, pc_criterion = "broken_stick") {
 
   ## ---------
   # LOAD DATA
@@ -60,8 +79,10 @@ basics <- function (path_to_data, p = 189, remove_points = NA, rotate = c(NA, "f
   # ---------
   # PLOT data
   # ---------
-  if (plot) {
-    geomorph::plotAllSpecimens(data_aligned)
+  plot_allsp <- function(){geomorph::plotAllSpecimens(data_aligned)}
+
+  if (plot_all == TRUE) {
+    plot_allsp()
   }
 
   # ---------
@@ -88,13 +109,42 @@ basics <- function (path_to_data, p = 189, remove_points = NA, rotate = c(NA, "f
   # ---------
   # RETURN
   # ---------
-  invisible(list(
+
+  to_return <- list(
     data = data,
     aligned = data_aligned,
     scores = data_scores,
-    pcs = pc_sel,
     average = ref,
-    plot = pc_plot
-  ))
+    pc_info = pc_sel,
+    pc_plot = pc_plot,
+    plot_all = plot_allsp()
+  )
+
+  class(to_return) <- "basic_output"
+
+  return(to_return)
+
+#  invisible(list(
+#    data = data,
+#    aligned = data_aligned,
+#    scores = data_scores,
+#    pcs = pc_sel,
+#    average = ref,
+#    plot = pc_plot
+#  ))
 
 }
+
+#' Print for basic_output
+#'
+#' @param x a list of class basic_output
+#' @param ... arguments passed to or from other methods
+#'
+#' @return prints the basic output
+#' @export
+#'
+print.selected_PCs <- function(x, ...) {
+  print(x$pc_plotall())
+  invisible(x)
+}
+

@@ -115,7 +115,20 @@ LondonSet_scores <- pca_output$x %>%
   dplyr::select(1:(london_pcs$n + 1))
 ```
 
-What do these PCs look like? We will visualize the first three PCs by first defining a reference face, and then plotting what that reference face looks like when one PC at a time is increased/decreased. We will use the sample average as reference.
+What do these PCs look like? You can use `geomorph`s `plotRefToTarget` function to visualize differences, e.g., between the average face and sample min/max values on individual PCs.
+
+We will first define the reference face (here, the sample average) and then plot the difference to the sample min and max on PC1. 
+
+```{r}
+ref <- mshape(data_aligned)
+
+plotRefToTarget(ref, pca_output$shapes$shapes.comp1$min)
+plotRefToTarget(ref, pca_output$shapes$shapes.comp1$max)
+```
+
+You can also use the `facefuns` function `plot2DPCs` for plotting up to any three PCs in one output plot. Other than `plotRefToTarget`, the magnitude of `plot2DPCs` visualizations is based on standard deviations.
+
+Let's plot the first three PCs.
 
 ```{r, fig.width=9, fig.height=15, fig.show='hold', fig.align='center'}
 ref <- mshape(data_aligned)

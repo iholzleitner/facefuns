@@ -142,7 +142,7 @@ vignette(&quot;intro&quot;, package = &quot;facefuns&quot;)" />
   p <span class='op'>=</span> <span class='fl'>189</span>,
   remove_points <span class='op'>=</span> <span class='cn'>NA</span>,
   rotate <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='cn'>NA</span>, <span class='st'>"flipX"</span>, <span class='st'>"flipY"</span>, <span class='st'>"rotateC"</span>, <span class='st'>"rotateCC"</span><span class='op'>)</span>,
-  plot <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  plot_all <span class='op'>=</span> <span class='cn'>TRUE</span>,
   pc_criterion <span class='op'>=</span> <span class='st'>"broken_stick"</span>
 <span class='op'>)</span></pre>
 
@@ -166,7 +166,7 @@ vignette(&quot;intro&quot;, package = &quot;facefuns&quot;)" />
       <td><p>The type of rotation or flip to be performed. Specimens can be flipped with respect to x or y axes, or rotated clockwise or counter-clockwise. See <code>geomorphs</code>'s <a href='https://rdrr.io/pkg/geomorph/man/rotate.coords.html'>rotate.coords</a></p></td>
     </tr>
     <tr>
-      <th>plot</th>
+      <th>plot_all</th>
       <td><p>Plot landmark coordinates of sample. See <code>geomorphs</code>'s <a href='https://rdrr.io/pkg/geomorph/man/plotAllSpecimens.html'>plotAllSpecimens</a></p></td>
     </tr>
     <tr>
@@ -186,6 +186,31 @@ vignette(&quot;intro&quot;, package = &quot;facefuns&quot;)" />
 <dt>plot</dt><dd><p>Coordinates of sample average at -3SD and +3SD for each selected PC</p></dd>
 
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='va'>path_to_tem</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata"</span>, <span class='st'>"tem"</span>, package<span class='op'>=</span><span class='st'>"facefuns"</span><span class='op'>)</span>
+<span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'>basics</span><span class='op'>(</span>path_to_data <span class='op'>=</span> <span class='va'>path_to_tem</span>,
+            p <span class='op'>=</span> <span class='fl'>189</span>,
+            remove_points <span class='op'>=</span> <span class='cn'>NA</span>,
+            rotate <span class='op'>=</span> <span class='st'>"rotateC"</span>,
+            plot <span class='op'>=</span> <span class='cn'>TRUE</span>,
+            pc_criterion <span class='op'>=</span> <span class='st'>"broken_stick"</span>
+            <span class='op'>)</span>
+</div><div class='output co'>#&gt; 
+#&gt; Negative landmark coordinates have been identified and imported as such.
+#&gt; If you want to treat them as NAs please set negNA = TRUE</div><div class='img'><img src='basics-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='va'>remove_points</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>45</span><span class='op'>:</span><span class='fl'>50</span>, <span class='fl'>100</span><span class='op'>:</span><span class='fl'>104</span>, <span class='fl'>116</span><span class='op'>:</span><span class='fl'>125</span>, <span class='fl'>146</span><span class='op'>:</span><span class='fl'>158</span>, <span class='fl'>159</span><span class='op'>:</span><span class='fl'>164</span>, <span class='fl'>165</span><span class='op'>:</span><span class='fl'>170</span>, <span class='fl'>171</span><span class='op'>:</span><span class='fl'>174</span>, <span class='fl'>175</span><span class='op'>:</span><span class='fl'>179</span>, <span class='fl'>184</span><span class='op'>:</span><span class='fl'>185</span><span class='op'>)</span>
+
+<span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'>basics</span><span class='op'>(</span>path_to_data <span class='op'>=</span> <span class='va'>path_to_tem</span>,
+            p <span class='op'>=</span> <span class='fl'>189</span>,
+            remove_points <span class='op'>=</span> <span class='va'>remove_points</span>,
+            rotate <span class='op'>=</span> <span class='st'>"rotateC"</span>,
+            plot <span class='op'>=</span> <span class='cn'>TRUE</span>,
+            pc_criterion <span class='op'>=</span> <span class='st'>"broken_stick"</span>
+            <span class='op'>)</span>
+</div><div class='output co'>#&gt; 
+#&gt; Negative landmark coordinates have been identified and imported as such.
+#&gt; If you want to treat them as NAs please set negNA = TRUE</div><div class='img'><img src='basics-2.png' alt='' width='700' height='433' /></div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

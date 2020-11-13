@@ -180,8 +180,8 @@
 </table>
 <p>We can define which landmarks to exclude by creating a vector that contains the number of every landmark to be deleted. Note that Webmorph starts counting at 0 - you will have to add +1 to each landmark!</p>
 <p>If deleting multiple landmarks, it’s easier to save all the landmarks in a vector instead of typing them into the function; for the current example, this would look like:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="va">del</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">45</span><span class="op">:</span><span class="fl">50</span>, <span class="fl">100</span><span class="op">:</span><span class="fl">104</span>, <span class="fl">116</span><span class="op">:</span><span class="fl">125</span>, <span class="fl">146</span><span class="op">:</span><span class="fl">158</span>, <span class="fl">159</span><span class="op">:</span><span class="fl">164</span>, <span class="fl">165</span><span class="op">:</span><span class="fl">170</span>, <span class="fl">171</span><span class="op">:</span><span class="fl">174</span>, <span class="fl">175</span><span class="op">:</span><span class="fl">179</span>, <span class="fl">184</span><span class="op">:</span><span class="fl">185</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">del</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">45</span><span class="op">:</span><span class="fl">50</span>, <span class="fl">100</span><span class="op">:</span><span class="fl">104</span>, <span class="fl">116</span><span class="op">:</span><span class="fl">125</span>, <span class="fl">146</span><span class="op">:</span><span class="fl">158</span>, <span class="fl">159</span><span class="op">:</span><span class="fl">164</span>, <span class="fl">165</span><span class="op">:</span><span class="fl">170</span>, <span class="fl">171</span><span class="op">:</span><span class="fl">174</span>, <span class="fl">175</span><span class="op">:</span><span class="fl">179</span>, <span class="fl">184</span><span class="op">:</span><span class="fl">185</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="path_to_output" class="section level4">
 <h4 class="hasAnchor">
@@ -193,20 +193,20 @@
 <div id="run-function" class="section level3">
 <h3 class="hasAnchor">
 <a href="#run-function" class="anchor"></a>Run function</h3>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/iholzleitner/facefuns">facefuns</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/geomorphR/geomorph">geomorph</a></span><span class="op">)</span></pre></div>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="fu"><a href="../reference/convertTEMtoTPS.html">convertTEMtoTPS</a></span><span class="op">(</span>path_to_tem <span class="op">=</span> <span class="st">"./tem"</span>,
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/iholzleitner/facefuns">facefuns</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/geomorphR/geomorph">geomorph</a></span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/convertTEMtoTPS.html">convertTEMtoTPS</a></span><span class="op">(</span>path_to_tem <span class="op">=</span> <span class="st">"./tem"</span>,
                           p <span class="op">=</span> <span class="fl">189</span>,
                           image_height <span class="op">=</span> <span class="fl">1350</span>,
                           del <span class="op">=</span> <span class="va">del</span>,
-                          path_to_tps <span class="op">=</span> <span class="st">"./LondonSet.tps"</span><span class="op">)</span></pre></div>
+                          path_to_tps <span class="op">=</span> <span class="st">"./LondonSet.tps"</span><span class="op">)</span></code></pre></div>
 <p>We can check if everything worked the way we expected by using <code>geomorph</code> to load and plot data</p>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/geomorph/man/readland.tps.html">readland.tps</a></span><span class="op">(</span><span class="st">"./LondonSet.tps"</span>, specID <span class="op">=</span> <span class="st">"ID"</span>, warnmsg <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></pre></div>
-<div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/pkg/geomorph/man/plotAllSpecimens.html">plotAllSpecimens</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/geomorph/man/readland.tps.html">readland.tps</a></span><span class="op">(</span><span class="st">"./LondonSet.tps"</span>, specID <span class="op">=</span> <span class="st">"ID"</span>, warnmsg <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/geomorph/man/plotAllSpecimens.html">plotAllSpecimens</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span></code></pre></div>
 <p><img src="TEMtoTPS_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
 </div>
 </div>
