@@ -2,20 +2,18 @@
 % Please edit documentation in R/convertTEMtoTPS.R
 \name{convertTEMtoTPS}
 \alias{convertTEMtoTPS}
-\title{Convert Webmorph template files to .tps format}
+\title{Read Webmorph template files}
 \usage{
-convertTEMtoTPS(path_to_tem, p, remove_points = NA, path_to_tps)
+convertTEMtoTPS(path_to_tem, remove_points = NA, path_to_tps = NA)
 }
 \arguments{
 \item{path_to_tem}{Path to directory containing template files}
-
-\item{p}{Number of landmarks images were delineated with}
 
 \item{remove_points}{Vector containing number of landmarks to be deleted. If no value is entered, all landmarks are retained}
 
 \item{path_to_tps}{Name and path of TPS file to be created}
 }
 \description{
-For more details see the corresponding vignette:
+Reads Webmorph templates and converts them to TPS. For more details see the corresponding vignette:
 \code{vignette("TEMtoTPS", package = "facefuns")}
 }

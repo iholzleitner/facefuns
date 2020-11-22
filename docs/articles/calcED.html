@@ -60,6 +60,9 @@
       <a href="../articles/calcED.html">Calculate similarity of faces</a>
     </li>
     <li>
+      <a href="../articles/developing.html">Developing</a>
+    </li>
+    <li>
       <a href="../articles/intro.html">Introduction</a>
     </li>
   </ul>
@@ -116,7 +119,10 @@
 <p>We load the templates …</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">path_to_tps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"LondonSet.tps"</span>, package<span class="op">=</span><span class="st">"facefuns"</span><span class="op">)</span>
-<span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/geomorph/man/readland.tps.html">readland.tps</a></span><span class="op">(</span><span class="va">path_to_tps</span>, specID <span class="op">=</span> <span class="st">"ID"</span>, warnmsg <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+<span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/geomorph/man/readland.tps.html">readland.tps</a></span><span class="op">(</span><span class="va">path_to_tps</span>, specID <span class="op">=</span> <span class="st">"ID"</span>, warnmsg <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Negative landmark coordinates have been identified and imported as such.</span>
+<span class="co">#&gt; If you want to treat them as NAs please set negNA = TRUE</span></code></pre></div>
 <p>… subject them to a GPA …</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">data_gpa</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/geomorph/man/gpagen.html">gpagen</a></span><span class="op">(</span><span class="va">data</span>, print.progress <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
@@ -158,7 +164,7 @@
 <span class="co">#&gt;  - attr(*, "dimnames")=List of 3</span>
 <span class="co">#&gt;   ..$ : chr [1:132] "1" "2" "3" "4" ...</span>
 <span class="co">#&gt;   ..$ : NULL</span>
-<span class="co">#&gt;   ..$ : chr [1:102] "001_03.tem" "002_03.tem" "003_03.tem" "004_03.tem" ...</span></code></pre></div>
+<span class="co">#&gt;   ..$ : chr [1:102] "001_03" "002_03" "003_03" "004_03" ...</span></code></pre></div>
 <p>We assign these dimensions to variables so we can easily access them in the next steps:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">data_aligned</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>
@@ -199,14 +205,14 @@
 
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">similarity_t</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 6 x 3</span>
-<span class="co">#&gt;   A          B          EuclideanDistance</span>
-<span class="co">#&gt;   &lt;fct&gt;      &lt;fct&gt;                  &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 001_03.tem 001_03.tem            0     </span>
-<span class="co">#&gt; 2 002_03.tem 001_03.tem            0.0857</span>
-<span class="co">#&gt; 3 003_03.tem 001_03.tem            0.0663</span>
-<span class="co">#&gt; 4 004_03.tem 001_03.tem            0.129 </span>
-<span class="co">#&gt; 5 005_03.tem 001_03.tem            0.112 </span>
-<span class="co">#&gt; 6 006_03.tem 001_03.tem            0.119</span></code></pre></div>
+<span class="co">#&gt;   A      B      EuclideanDistance</span>
+<span class="co">#&gt;   &lt;fct&gt;  &lt;fct&gt;              &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 001_03 001_03            0     </span>
+<span class="co">#&gt; 2 002_03 001_03            0.0857</span>
+<span class="co">#&gt; 3 003_03 001_03            0.0663</span>
+<span class="co">#&gt; 4 004_03 001_03            0.129 </span>
+<span class="co">#&gt; 5 005_03 001_03            0.112 </span>
+<span class="co">#&gt; 6 006_03 001_03            0.119</span></code></pre></div>
 <p>Let’s display our data in a wide format and round the values. It is a rather big table, so we will only print a small subset</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">similarity_t</span> <span class="op">%&gt;%</span>
@@ -215,19 +221,18 @@
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">9</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 9 x 10</span>
-<span class="co">#&gt;   A     `001_03.tem` `002_03.tem` `003_03.tem` `004_03.tem` `005_03.tem`</span>
-<span class="co">#&gt;   &lt;fct&gt;        &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 001_…         0            0.09         0.07         0.13         0.11</span>
-<span class="co">#&gt; 2 002_…         0.09         0            0.07         0.1          0.08</span>
-<span class="co">#&gt; 3 003_…         0.07         0.07         0            0.1          0.09</span>
-<span class="co">#&gt; 4 004_…         0.13         0.1          0.1          0            0.09</span>
-<span class="co">#&gt; 5 005_…         0.11         0.08         0.09         0.09         0   </span>
-<span class="co">#&gt; 6 006_…         0.12         0.08         0.1          0.08         0.1 </span>
-<span class="co">#&gt; 7 007_…         0.08         0.12         0.09         0.14         0.13</span>
-<span class="co">#&gt; 8 008_…         0.14         0.11         0.11         0.11         0.1 </span>
-<span class="co">#&gt; 9 009_…         0.07         0.11         0.09         0.14         0.12</span>
-<span class="co">#&gt; # … with 4 more variables: `006_03.tem` &lt;dbl&gt;, `007_03.tem` &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   `008_03.tem` &lt;dbl&gt;, `009_03.tem` &lt;dbl&gt;</span></code></pre></div>
+<span class="co">#&gt;   A     `001_03` `002_03` `003_03` `004_03` `005_03` `006_03` `007_03` `008_03`</span>
+<span class="co">#&gt;   &lt;fct&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 001_…     0        0.09     0.07     0.13     0.11     0.12     0.08     0.14</span>
+<span class="co">#&gt; 2 002_…     0.09     0        0.07     0.1      0.08     0.08     0.12     0.11</span>
+<span class="co">#&gt; 3 003_…     0.07     0.07     0        0.1      0.09     0.1      0.09     0.11</span>
+<span class="co">#&gt; 4 004_…     0.13     0.1      0.1      0        0.09     0.08     0.14     0.11</span>
+<span class="co">#&gt; 5 005_…     0.11     0.08     0.09     0.09     0        0.1      0.13     0.1 </span>
+<span class="co">#&gt; 6 006_…     0.12     0.08     0.1      0.08     0.1      0        0.14     0.09</span>
+<span class="co">#&gt; 7 007_…     0.08     0.12     0.09     0.14     0.13     0.14     0        0.16</span>
+<span class="co">#&gt; 8 008_…     0.14     0.11     0.11     0.11     0.1      0.09     0.16     0   </span>
+<span class="co">#&gt; 9 009_…     0.07     0.11     0.09     0.14     0.12     0.13     0.06     0.15</span>
+<span class="co">#&gt; # … with 1 more variable: `009_03` &lt;dbl&gt;</span></code></pre></div>
 </div>
 </div>
 <div id="calculate-facial-similarity-in-face-space" class="section level2">

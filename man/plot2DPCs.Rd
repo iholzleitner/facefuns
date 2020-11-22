@@ -4,10 +4,10 @@
 \alias{plot2DPCs}
 \title{Plot 2D PCs}
 \usage{
-plot2DPCs(pca_output, ref, which_pcs = 1, vis_sd = 3)
+plot2DPCs(input, ref, which_pcs = 1:3, vis_sd = 3)
 }
 \arguments{
-\item{pca_output}{Output from \code{gm.prcomp}}
+\item{input}{Output from \code{gm.prcomp} or list of PC coordinates}
 
 \item{ref}{Reference face (sample average is recommended)}
 

@@ -11,7 +11,7 @@ make2DPCs(pca_output, ref, which_pcs, vis_sd)
 
 \item{ref}{Reference face}
 
-\item{which_pcs}{Which PCs are to be created. Single number or vector, maximum allowed is 3}
+\item{which_pcs}{Which PCs are to be created. Single number or vector, maximum length is 3}
 
 \item{vis_sd}{Extent of desired manipulation in units of standard deviation}
 }
@@ -26,6 +26,6 @@ data(LondonSet_aligned)
 data_aligned <- LondonSet_aligned
 pca_output <- geomorph::gm.prcomp(data_aligned)
 ref <- geomorph::mshape(data_aligned)
-make2DPCs(pca_output, ref, which_pcs = 1:3, vis_sd = 1.5)
+pc_list <- make2DPCs(pca_output, ref, which_pcs = 1:3, vis_sd = 1.5)
 
 }

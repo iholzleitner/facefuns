@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Convert Webmorph template files to .tps format — convertTEMtoTPS • facefuns</title>
+<title>Read Webmorph template files — convertTEMtoTPS • facefuns</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Convert Webmorph template files to .tps format — convertTEMtoTPS" />
-<meta property="og:description" content="For more details see the corresponding vignette:
+<meta property="og:title" content="Read Webmorph template files — convertTEMtoTPS" />
+<meta property="og:description" content="Reads Webmorph templates and converts them to TPS. For more details see the corresponding vignette:
 vignette(&quot;TEMtoTPS&quot;, package = &quot;facefuns&quot;)" />
 
 
@@ -102,6 +102,9 @@ vignette(&quot;TEMtoTPS&quot;, package = &quot;facefuns&quot;)" />
       <a href="../articles/calcED.html">Calculate similarity of faces</a>
     </li>
     <li>
+      <a href="../articles/developing.html">Developing</a>
+    </li>
+    <li>
       <a href="../articles/intro.html">Introduction</a>
     </li>
   </ul>
@@ -127,17 +130,17 @@ vignette(&quot;TEMtoTPS&quot;, package = &quot;facefuns&quot;)" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Convert Webmorph template files to .tps format</h1>
+    <h1>Read Webmorph template files</h1>
     <small class="dont-index">Source: <a href='https://github.com/iholzleitner/facefuns/blob/master/R/convertTEMtoTPS.R'><code>R/convertTEMtoTPS.R</code></a></small>
     <div class="hidden name"><code>convertTEMtoTPS.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>For more details see the corresponding vignette:
+    <p>Reads Webmorph templates and converts them to TPS. For more details see the corresponding vignette:
 <code><a href='../articles/TEMtoTPS.html'>vignette("TEMtoTPS", package = "facefuns")</a></code></p>
     </div>
 
-    <pre class="usage"><span class='fu'>convertTEMtoTPS</span><span class='op'>(</span><span class='va'>path_to_tem</span>, <span class='va'>p</span>, remove_points <span class='op'>=</span> <span class='cn'>NA</span>, <span class='va'>path_to_tps</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>convertTEMtoTPS</span><span class='op'>(</span><span class='va'>path_to_tem</span>, remove_points <span class='op'>=</span> <span class='cn'>NA</span>, path_to_tps <span class='op'>=</span> <span class='cn'>NA</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -145,10 +148,6 @@ vignette(&quot;TEMtoTPS&quot;, package = &quot;facefuns&quot;)" />
     <tr>
       <th>path_to_tem</th>
       <td><p>Path to directory containing template files</p></td>
-    </tr>
-    <tr>
-      <th>p</th>
-      <td><p>Number of landmarks images were delineated with</p></td>
     </tr>
     <tr>
       <th>remove_points</th>

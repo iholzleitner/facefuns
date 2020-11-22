@@ -60,6 +60,9 @@
       <a href="../articles/calcED.html">Calculate similarity of faces</a>
     </li>
     <li>
+      <a href="../articles/developing.html">Developing</a>
+    </li>
+    <li>
       <a href="../articles/intro.html">Introduction</a>
     </li>
   </ul>
@@ -203,9 +206,12 @@
                           del <span class="op">=</span> <span class="va">del</span>,
                           path_to_tps <span class="op">=</span> <span class="st">"./LondonSet.tps"</span><span class="op">)</span></code></pre></div>
 <p>We can check if everything worked the way we expected by using <code>geomorph</code> to load and plot data</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/geomorph/man/readland.tps.html">readland.tps</a></span><span class="op">(</span><span class="st">"./LondonSet.tps"</span>, specID <span class="op">=</span> <span class="st">"ID"</span>, warnmsg <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+<pre><code>#&gt; 
+#&gt; Negative landmark coordinates have been identified and imported as such.
+#&gt; If you want to treat them as NAs please set negNA = TRUE</code></pre>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/geomorph/man/readland.tps.html">readland.tps</a></span><span class="op">(</span><span class="st">"./LondonSet.tps"</span>, specID <span class="op">=</span> <span class="st">"ID"</span>, warnmsg <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/geomorph/man/plotAllSpecimens.html">plotAllSpecimens</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span></code></pre></div>
 <p><img src="TEMtoTPS_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
 </div>

@@ -1,60 +1,93 @@
-#' Convert Webmorph template files to .tps format
+#' Read Webmorph template files
 #'
-#' For more details see the corresponding vignette:
+#' Reads Webmorph templates and converts them to TPS. For more details see the corresponding vignette:
 #' \code{vignette("TEMtoTPS", package = "facefuns")}
 #'
 #' @param path_to_tem Path to directory containing template files
-#' @param p Number of landmarks images were delineated with
 #' @param remove_points Vector containing number of landmarks to be deleted. If no value is entered, all landmarks are retained
 #' @param path_to_tps Name and path of TPS file to be created
 #'
 #' @export
 
-convertTEMtoTPS <- function (path_to_tem, p, remove_points = NA, path_to_tps) {
+convertTEMtoTPS <- function (path_to_tem, remove_points = NA, path_to_tps = NA) {
 
-  files <- list.files(path_to_tem, pattern="*.tem", full.names = TRUE)
-
-  for(i in 1:length(files)){
-
-    raw <- scan(files[i], character(0), sep = "\n", skip = 1, nlines = p, quiet = TRUE)
-
-    if (!is.na(remove_points[1])) {
-      red <- raw[-remove_points]
-    } else {
-      red <- raw
-    }
-
-    # Split each line into separate elements for x and y coords
-    rep <- strsplit(red, "\t", fixed = TRUE) %>%
-      unlist() %>%
-      as.numeric()
-
-    flip <- tibble::tibble(
-      # Convert to table
-      x = rep[seq(1, length(rep), by = 2 )],
-      y = rep[seq(2, length(rep), by = 2 )]
-    ) %>%
-      # Flip templates upside down
-      dplyr::mutate(
-        y = .data$y * -1
-      ) %>%
-      # And convert back to text
-      tidyr::unite(t, c(.data$x, .data$y), sep = "\t") %>%
-      dplyr::pull()
-
-    newLM <- length(flip)
-
-    # add first line with new number of LMs, and last line with image ID
-    temp <- c(paste0("LM=", newLM), flip, paste0("ID=", basename(files[i])))
-
-    # concatenate landmark files
-    if (i == 1) {
-      data <- temp
-    } else {
-      data <- c(data, temp)
-    }
-
+  # GET PATH ----
+  if (dir.exists(path_to_tem)) {
+    temfiles <- list.files(path = path_to_tem,
+                           pattern = "\\.tem$",
+                           full.names = TRUE)
+  } else if (file.exists(path_to_tem)) {
+    temfiles <- path_to_tem
   }
-  writeLines(data, con = path_to_tps, sep = "\n", useBytes = FALSE)
-  #return(data)
+
+  # PROCESS EACH TEMFILE ----
+  temlist <- lapply(temfiles, function(temfile) {
+    # read and clean  ----
+    tem_txt <- readLines(temfile[1]) %>%
+      trimws() %>%
+      `[`(. != "") %>% # get rid of blank lines
+      `[`(substr(., 1, 1) != "#") # get rid of comments
+
+    # extract points ----
+    npoints <- as.integer(tem_txt[[1]])
+    points <- tem_txt[2:(npoints+1)] %>%
+      strsplit("\t", fixed = TRUE) %>%
+      sapply(as.numeric)
+
+    # flip templates upside down ----
+    points <- points * c(1, -1)
+
+    # remove points ----
+    if (!is.na(remove_points[1])) {
+      points <- t(points)[-remove_points,] %>% t()
+    }
+
+    # get template name ----
+    name <- paste0("ID=", sub("\\.tem$", "", basename(temfile)))
+
+    # create list
+    tem <- list(
+      name = name,
+      points = points)
+
+  })
+
+  # CHECK EACH TEM HAS SAME NUMBER OF POINTS ----
+  n_pts <- lapply(temlist, `[[`, "points") %>%
+    sapply(ncol) %>%
+    unique()
+
+  if (length(n_pts) > 1) {
+    stop("Each template file must have the same number of landmarks")
+  }
+
+  # CONVERT TO ARRAY ----
+  nm <- sapply(temlist, `[[`, "name")
+  tem_array <- sapply(temlist, function(tem) {
+    t(tem$points)}) %>%
+    array(dim = c(n_pts, 2, length(temlist)),
+          dimnames = list(NULL, NULL, nm))
+
+  # WRITE TPS FILE ----
+  if (!is.na(path_to_tps)) {
+    tps <- lapply(temlist, function(tem) {
+      pt <- tem$points %>%
+        t() %>%
+        as.data.frame()
+
+      pt_list <- paste(pt[[1]], pt[[2]], sep = "\t") %>%
+        paste(collapse = "\n")
+
+      sprintf("LM=%i\n%s\n%s",
+              ncol(tem$points),
+              pt_list,
+              tem$name)
+    }) %>%
+      paste(collapse = "\n")
+
+    write(tps, path_to_tps)
+  }
+
+  tem_array
+
 }

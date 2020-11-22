@@ -2,7 +2,7 @@
 #'
 #' Convenience function for plotting shape PCs based on \code{geomorph::plotRefToTarget()}. Other than \code{plotRefToTarget}, magnitude of visualized difference in shape between reference face at average and low/high levels of the respective PC is based on standard deviations (instead of range).
 #'
-#' @param pca_output Output from \code{gm.prcomp}
+#' @param input Output from \code{gm.prcomp} or list of PC coordinates
 #' @param ref Reference face (sample average is recommended)
 #' @param which_pcs Which PCs are to be created. Single number or vector, maximum allowed is 5
 #' @param vis_sd Extent of desired manipulation in units of standard deviation
@@ -16,19 +16,36 @@
 #' ref <- geomorph::mshape(LondonSet_aligned)
 #' plot2DPCs(pca_output, ref)
 #'
-plot2DPCs <- function (pca_output, ref, which_pcs = 1, vis_sd = 3){
+plot2DPCs <- function (input, ref, which_pcs = 1:3, vis_sd = 3){
 
-  # For their own good, limit how much data can be entered
+  # LIMIT NUMBER OF PCs ----
   if (length(which_pcs) > 5) {
-    stop("This function will only plot up to 5 PCs per plot. You can choose a subset of PCs with the which_pcs argument.")
+    stop("This function will only plot up to 5 PCs per plot. You can choose a subset of PCs with the which_pcs argument")
   }
-  # TODO: check if PCs availabe
 
-  shapes_list <- make2DPCs(pca_output, ref, which_pcs, vis_sd)
+  # CHECK INPUT ----
+  if ("sdev" %in% names(input)) {
 
+    shapes_list <- make2DPCs(input, ref, which_pcs, vis_sd)
+
+  } else if (is.list(input) && "PC_list" %in% class(input)) {
+
+    pcs <- paste0("PC", which_pcs)
+    shapes_list <- input[pcs]
+
+  } else {
+
+    stop("Input cannot be read - check it is output from gm.prcomp/prcomp or list of PCs")
+
+  }
+
+  # CHECK PCs are available
+  if (!all(paste0("PC", which_pcs) %in% names(shapes_list))) {
+    stop("At least one of the PCs you are trying to plot is out of range")
+  }
+
+  # CREATE PLOTS----
   # Nifty hack from stackoverflow user cartwheel: store plots as functions (https://stackoverflow.com/a/46961131/6401207)
-
-  # one line that took me 6 hours.
   plot_list <- rapply(shapes_list, function(x) {
     function() { geomorph::plotRefToTarget(ref, x) }
   }, how = "list")

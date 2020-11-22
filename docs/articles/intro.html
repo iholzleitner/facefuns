@@ -60,6 +60,9 @@
       <a href="../articles/calcED.html">Calculate similarity of faces</a>
     </li>
     <li>
+      <a href="../articles/developing.html">Developing</a>
+    </li>
+    <li>
       <a href="../articles/intro.html">Introduction</a>
     </li>
   </ul>
@@ -98,61 +101,122 @@
     
 <p><strong>WORK IN PROGRESS</strong></p>
 <p>This package contains convenience functions for doing shape analyses of 2D and 3D face images in <code>R</code>, as well as tutorials for some common analyses (such as calculating averageness, asymmetry, sexual dimorphism and <a href="./calceED.html">facial similarity</a>).</p>
-<p>The following tutorial will provide a quick start to loading 2D face data into R, Procrustes-aligning landmark templates and conducting a principal component analysis of shape using the package <code>geomorph</code>. It will conclude by introducing a function called <code>basics</code>, which will automatically create some of the most commonly used outputs.</p>
+<p>The following tutorial will provide a quick start to loading 2D face data into R, Procrustes-aligning landmark templates and conducting a principal component analysis of shape using the package <code>geomorph</code>. It will conclude by introducing the <code>facefuns</code> function <code>quickstart</code>, which will automatically conduct these steps and create outputs for use in subsequent analyses.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/iholzleitner/facefuns">facefuns</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/geomorphR/geomorph">geomorph</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/facelab/webmorph">webmorph</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/">tibble</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></code></pre></div>
-<div id="load-data" class="section level2">
+<div id="read_shapedata" class="section level2">
 <h2 class="hasAnchor">
-<a href="#load-data" class="anchor"></a>Load data</h2>
-<p>Steps for importing your delineated landmark templates into <code>R</code> will vary depending on the software you used to delineate and the ‘R’ package(s) you want to use. If you have used Webmorph [REF] to delineate, you can find a tutorial on how to convert your templates into the <code>geomorph</code>-friendly TPS format <a href=".%5CTEMtoTPS.html">here</a>.</p>
-<p>For this tutorial, we will use <code>geomorph</code> to explore the Face Research Lab London Set [REF]. Start by loading the TPS file.</p>
+<a href="#read_shapedata" class="anchor"></a><code>read_shapedata</code>
+</h2>
+<p>Steps for importing your delineated landmark templates into <code>R</code> will vary depending on the software you used to delineate and the <code>R</code> package(s) you want to use.</p>
+<p>For this tutorial, we will work with the CC-BY licensed <a href="https://figshare.com/articles/Face_Research_Lab_London_Set/5047666">Face Research London Set</a>. This is a set of 102 faces that were delineated with the standard Face Research Lab (FRL) template of 189 points.</p>
+<p>We will use <code><a href="../reference/read_shapedata.html">facefuns::read_shapedata</a></code> to read the template files.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">path_to_tps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"LondonSet.tps"</span>, package<span class="op">=</span><span class="st">"facefuns"</span><span class="op">)</span>
-<span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/geomorph/man/readland.tps.html">readland.tps</a></span><span class="op">(</span><span class="va">path_to_tps</span>, specID <span class="op">=</span> <span class="st">"ID"</span>, warnmsg <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
-<p>It is always a good idea to start with plotting your data. This will show you straight away if there any obvious problems, for example, if you accidentally deleted landmarks you actually meant to keep.</p>
+<code class="sourceCode R"><span class="va">path_to_tem</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"tem"</span>, package<span class="op">=</span><span class="st">"facefuns"</span><span class="op">)</span>
+<span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_shapedata.html">read_shapedata</a></span><span class="op">(</span>shapedata <span class="op">=</span> <span class="va">path_to_tem</span><span class="op">)</span></code></pre></div>
+<p><img src="intro_files/figure-html/unnamed-chunk-2-1.png" width="700"></p>
+<p>As you can see, <code>read_shapedata</code> will by default plot the loaded data. Use <code>plot = FALSE</code> to turn off plotting.</p>
+<p>You might not want to retain all of the standard template’s 189 landmarks for shape analyses. For this example, we will remove the following landmarks:</p>
+<table class="table">
+<thead><tr class="header">
+<th align="left">Landmarks</th>
+<th align="left">Number</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">Under eye</td>
+<td align="left">44-49</td>
+</tr>
+<tr class="even">
+<td align="left">Lower lip</td>
+<td align="left">99-103</td>
+</tr>
+<tr class="odd">
+<td align="left">Ears</td>
+<td align="left">115-124</td>
+</tr>
+<tr class="even">
+<td align="left">Halo</td>
+<td align="left">145-157</td>
+</tr>
+<tr class="odd">
+<td align="left">Smile lines</td>
+<td align="left">158-163</td>
+</tr>
+<tr class="even">
+<td align="left">Cheeks</td>
+<td align="left">164-169</td>
+</tr>
+<tr class="odd">
+<td align="left">Philtrum</td>
+<td align="left">170-173</td>
+</tr>
+<tr class="even">
+<td align="left">Chin</td>
+<td align="left">174-178</td>
+</tr>
+<tr class="odd">
+<td align="left">Neck</td>
+<td align="left">183-184</td>
+</tr>
+</tbody>
+</table>
+<p>We can define which landmarks to exclude by creating a vector that contains the number of every landmark to be deleted. Note that Webmorph starts counting at 0 - you will have to add +1 to each landmark!</p>
+<p>If deleting multiple landmarks, it’s easier to save them all into a vector; for the current example, this would look like:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/geomorph/man/plotAllSpecimens.html">plotAllSpecimens</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span></code></pre></div>
-<p><img src="intro_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
-<p>The black dots show the sample average, the gray points represent individual faces. As you can see, there is a lot of “noise” in the individual data - some of this variation will be due to differences in the size of delineated faces (e.g., some peoples’ faces might just be overall bigger, but it could also be that some people were slightly closer to the camera), their position on screen (e.g., some people’s faces might have been a bit more in the center of the captured image than others), and their rotation (e.g., some people might have been tilting their face slightly to the left or right). We are not interested in that sort of variation, but seek to eliminate it - Generalized Procrustes alignment does exactly that!</p>
-</div>
-<div id="generalized-procrustes-analysis-gpa" class="section level2">
-<h2 class="hasAnchor">
-<a href="#generalized-procrustes-analysis-gpa" class="anchor"></a>Generalized Procrustes Analysis (GPA)</h2>
-<p>We’ll use <code>geomporph</code> to Procrustes align our data.</p>
+<code class="sourceCode R"><span class="va">remove_points</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">45</span><span class="op">:</span><span class="fl">50</span>, <span class="fl">100</span><span class="op">:</span><span class="fl">104</span>, <span class="fl">116</span><span class="op">:</span><span class="fl">125</span>, <span class="fl">146</span><span class="op">:</span><span class="fl">158</span>, <span class="fl">159</span><span class="op">:</span><span class="fl">164</span>, <span class="fl">165</span><span class="op">:</span><span class="fl">170</span>, <span class="fl">171</span><span class="op">:</span><span class="fl">174</span>, <span class="fl">175</span><span class="op">:</span><span class="fl">179</span>, <span class="fl">184</span><span class="op">:</span><span class="fl">185</span><span class="op">)</span></code></pre></div>
+<p>Let’s read in the template files again, but this time we will remove the points we decided to eliminate:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_shapedata.html">read_shapedata</a></span><span class="op">(</span>shapedata <span class="op">=</span> <span class="va">path_to_tem</span>,
+                       remove_points <span class="op">=</span> <span class="va">remove_points</span><span class="op">)</span></code></pre></div>
+<p><img src="intro_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
+<p>The black dots show the sample average, the gray points represent individual faces. As you can see, there is a lot of “noise” in the individual data - some of this variation will be due to</p>
+<ul>
+<li><p>differences in the <strong>size</strong> of delineated faces, e.g., some peoples’ faces might just be genuinely bigger, but it could also they were slightly closer to the camera;</p></li>
+<li><p>their <strong>position</strong> on screen, e.g., some people’s faces might have been a bit more in the center of the captured image than others;</p></li>
+<li><p>and their <strong>rotation</strong>, e.g., some people might have been tilting their face slightly to the left or right</p></li>
+</ul>
+<p>We are not interested in that sort of variation, but seek to eliminate it - Generalized Procrustes alignment does exactly that!</p>
+</div>
+<div id="gpa" class="section level2">
+<h2 class="hasAnchor">
+<a href="#gpa" class="anchor"></a>GPA</h2>
+<p>We’ll use <code>geomporph</code> to Procrustes-align our data.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">data_gpa</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/geomorph/man/gpagen.html">gpagen</a></span><span class="op">(</span><span class="va">data</span>, print.progress <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
 <p>The aligned coordinates are stored in <code>data_gpa$coords</code>. Let’s plot one of the aligned faces.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">data_gpa</span><span class="op">$</span><span class="va">coords</span><span class="op">[</span>, , <span class="fl">1</span><span class="op">]</span>, asp <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
-<p><img src="intro_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
-<p>The GPA will sometimes rotate landmark templates, but this can be easily fixed by rotating them back into the right position.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">data_gpa</span><span class="op">$</span><span class="va">coords</span><span class="op">[</span>, , <span class="fl">1</span><span class="op">]</span>, asp <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
+<p><img src="intro_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
+<p>The GPA will sometimes rotate landmark templates, but this can be easily fixed by rotating them back into the right position.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">data_aligned</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/geomorph/man/rotate.coords.html">rotate.coords</a></span><span class="op">(</span><span class="va">data_gpa</span><span class="op">$</span><span class="va">coords</span>,
                               type <span class="op">=</span> <span class="st">"rotateC"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">data_aligned</span><span class="op">[</span>, , <span class="fl">1</span><span class="op">]</span>, asp <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
-<p><img src="intro_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
-<p>Better. Let’s have another look at the whole sample again.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/geomorph/man/plotAllSpecimens.html">plotAllSpecimens</a></span><span class="op">(</span><span class="va">data_aligned</span><span class="op">)</span></code></pre></div>
 <p><img src="intro_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
-<p>Much less messy! What we are left with after the GPA is actual <em>shape</em> data - data that is free of variation due to differences in size, location and orientation between individual subjects.</p>
+<p>Better. Let’s have another look at the whole sample again.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/geomorph/man/plotAllSpecimens.html">plotAllSpecimens</a></span><span class="op">(</span><span class="va">data_aligned</span><span class="op">)</span></code></pre></div>
+<p><img src="intro_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
+<p>Much less messy! What we are left with after the GPA is actual <strong><em>shape</em></strong> data - data that is free of variation due to differences in size, location and orientation between individual subjects.</p>
 </div>
 <div id="shape-pca" class="section level2">
 <h2 class="hasAnchor">
 <a href="#shape-pca" class="anchor"></a>Shape PCA</h2>
 <p>You might want to explore which shape dimensions explain the most variance in your data. Or, you might just be keen to get out principal component scores for each face for use in subsequent analyses.</p>
 <p>The <code>geomorph</code> function for conducting a shape PCA is <code>gm.prcomp</code>:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">pca_output</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/geomorph/man/gm.prcomp.html">gm.prcomp</a></span><span class="op">(</span><span class="va">data_aligned</span><span class="op">)</span>
 <span class="co"># summary(pca_output)</span></code></pre></div>
-<p><code><a href="https://rdrr.io/r/base/summary.html">summary(data_PCA)</a></code> will return a list of <em>all</em> principal components. That is usually not what we want. Instead, we will use the <code><a href="../reference/selectPCs.html">facefuns::selectPCs</a></code> to decide which PCs we would like to retain for subsequent analyses.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">london_pcs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/selectPCs.html">selectPCs</a></span><span class="op">(</span><span class="va">pca_output</span><span class="op">)</span></code></pre></div>
-<p><code>selectPCs</code> returns a list of principal components as chosen by one of three methods. It defaults to the most conservative “broken_stick”method. Other methods are “Kaiser_Guttman” (retains PCs with eigenvalues greater than the mean eigenvalue) and “total_variance” (retains PCs explaining at least total_var variance). It returns three items: the number of selected PCs (<code>london_pcs$n</code>), their importance (<code>london_pcs$selected</code>) and the criterion that was used to choose PCs (<code>london_pcs$method</code>). The London Set has 8 selected PCs; the first three PCs explain 36.2%, 11.1% and 6.7% of variance, respectively.</p>
+<p><code><a href="https://rdrr.io/r/base/summary.html">summary(pca_output)</a></code> will return a list of <em>all</em> principal components. That is usually not what we want. Instead, we will use <code><a href="../reference/selectPCs.html">facefuns::selectPCs</a></code> to decide which PCs we would like to retain for subsequent analyses.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">london_pcs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/selectPCs.html">selectPCs</a></span><span class="op">(</span><span class="va">pca_output</span><span class="op">)</span></code></pre></div>
+<p><code>selectPCs</code> returns a list of principal components as chosen by one of three methods. It defaults to the most conservative “broken_stick” method. Other methods are “Kaiser_Guttman” (retains PCs with eigenvalues greater than the mean eigenvalue) and “total_variance” (retains PCs explaining at least total_var variance). It returns three items: the number of selected PCs (<code>london_pcs$n</code>), their importance (<code>london_pcs$selected</code>) and the criterion that was used to choose PCs (<code>london_pcs$method</code>). The London Set has 8 selected PCs; the first three PCs explain 36.2%, 11.1% and 6.7% of variance, respectively.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">london_pcs</span><span class="op">$</span><span class="va">selected</span>
 <span class="co">#&gt;        SD Variance Cum Var</span>
 <span class="co">#&gt; PC1 0.046    0.362   0.362</span>
@@ -163,8 +227,8 @@
 <span class="co">#&gt; PC6 0.017    0.050   0.705</span>
 <span class="co">#&gt; PC7 0.014    0.033   0.739</span>
 <span class="co">#&gt; PC8 0.013    0.027   0.766</span></code></pre></div>
-<p>We will save the principal component scores for any subsequent analyses we might want to do.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<p>The principal component scores for each face are stored in <code>pca_output$x</code>. We will save them for any subsequent analyses we might want to do.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">LondonSet_scores</span> <span class="op">&lt;-</span> <span class="va">pca_output</span><span class="op">$</span><span class="va">x</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="co"># tidy colnames</span>
@@ -172,45 +236,74 @@
   <span class="co"># re-add IDs</span>
   <span class="fu"><a href="https://tibble.tidyverse.org/reference/add_column.html">add_column</a></span><span class="op">(</span>.before <span class="op">=</span> <span class="fl">1</span>, id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">"_03.tem"</span>, <span class="st">""</span>, <span class="fu"><a href="https://rdrr.io/r/base/dimnames.html">dimnames</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="op">(</span><span class="va">london_pcs</span><span class="op">$</span><span class="va">n</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p>What do these PCs look like? You can use <code>geomorph</code>s <code>plotRefToTarget</code> function to visualize differences, e.g., between the average face and sample min/max values on individual PCs.</p>
+<p>What do the shape PCs for the London Set look like? You can use <code>geomorph</code>s <code>plotRefToTarget</code> function to visualize differences, e.g., between the average face and the sample min and max values on individual PCs.</p>
 <p>We will first define the reference face (here, the sample average) and then plot the difference to the sample min and max on PC1.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">ref</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/geomorph/man/mshape.html">mshape</a></span><span class="op">(</span><span class="va">data_aligned</span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/pkg/geomorph/man/plotRefToTarget.html">plotRefToTarget</a></span><span class="op">(</span><span class="va">ref</span>, <span class="va">pca_output</span><span class="op">$</span><span class="va">shapes</span><span class="op">$</span><span class="va">shapes.comp1</span><span class="op">$</span><span class="va">min</span><span class="op">)</span></code></pre></div>
-<p><img src="intro_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/geomorph/man/plotRefToTarget.html">plotRefToTarget</a></span><span class="op">(</span><span class="va">ref</span>, <span class="va">pca_output</span><span class="op">$</span><span class="va">shapes</span><span class="op">$</span><span class="va">shapes.comp1</span><span class="op">$</span><span class="va">max</span><span class="op">)</span></code></pre></div>
-<p><img src="intro_files/figure-html/unnamed-chunk-12-2.png" width="700"></p>
-<p>You can also use the <code>facefuns</code> function <code>plot2DPCs</code> for plotting up to any three PCs in one output plot. Other than <code>plotRefToTarget</code>, the magnitude of <code>plot2DPCs</code> visualizations is based on standard deviations.</p>
-<p>Let’s plot the first three PCs.</p>
+<p><img src="intro_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">ref</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/geomorph/man/mshape.html">mshape</a></span><span class="op">(</span><span class="va">data_aligned</span><span class="op">)</span>
-<span class="fu"><a href="../reference/plot2DPCs.html">plot2DPCs</a></span><span class="op">(</span><span class="va">pca_output</span>, <span class="va">ref</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, <span class="fl">3</span><span class="op">)</span></code></pre></div>
-<p><img src="intro_files/figure-html/unnamed-chunk-13-1.png" width="864" style="display: block; margin: auto;"></p>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/geomorph/man/plotRefToTarget.html">plotRefToTarget</a></span><span class="op">(</span><span class="va">ref</span>, <span class="va">pca_output</span><span class="op">$</span><span class="va">shapes</span><span class="op">$</span><span class="va">shapes.comp1</span><span class="op">$</span><span class="va">max</span><span class="op">)</span></code></pre></div>
+<p><img src="intro_files/figure-html/unnamed-chunk-13-2.png" width="700"></p>
 </div>
-<div id="big-function" class="section level1">
-<h1 class="hasAnchor">
-<a href="#big-function" class="anchor"></a>Big function</h1>
-<p>[add info explaining EVERYTHING :), change help file accordingly/keep stuff consistent; also get rid off warning message from readland.tps in basics output]</p>
+<div id="quickstart" class="section level2">
+<h2 class="hasAnchor">
+<a href="#quickstart" class="anchor"></a><code>quickstart</code>
+</h2>
+<p><code>quickstart</code> is a convenience function for doing all of the above in one step.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">path_to_tem</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"tem"</span>, package<span class="op">=</span><span class="st">"facefuns"</span><span class="op">)</span>
-<span class="va">remove_points</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">45</span><span class="op">:</span><span class="fl">50</span>, <span class="fl">100</span><span class="op">:</span><span class="fl">104</span>, <span class="fl">116</span><span class="op">:</span><span class="fl">125</span>, <span class="fl">146</span><span class="op">:</span><span class="fl">158</span>, <span class="fl">159</span><span class="op">:</span><span class="fl">164</span>,
-                   <span class="fl">165</span><span class="op">:</span><span class="fl">170</span>, <span class="fl">171</span><span class="op">:</span><span class="fl">174</span>, <span class="fl">175</span><span class="op">:</span><span class="fl">179</span>, <span class="fl">184</span><span class="op">:</span><span class="fl">185</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">shapedata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/quickstart.html">quickstart</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>,
+                         rotate <span class="op">=</span> <span class="st">"rotateC"</span>,
+                         plot_sample <span class="op">=</span> <span class="cn">TRUE</span>,
+                         pc_criterion <span class="op">=</span> <span class="st">"broken_stick"</span><span class="op">)</span></code></pre></div>
+<p><img src="intro_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
+<p><code>quickstart</code> returns a list with the following elements:</p>
+<ul>
+<li>
+<code>data</code>: Procrustes- aligned data<br>
+</li>
+<li>
+<code>scores</code>: principal component scores<br>
+</li>
+<li>
+<code>average</code>: sample average<br>
+</li>
+<li>
+<code>pc_info</code>:
+<ul>
+<li>
+<code>selected</code>: contains elements <code>SD</code>, <code>Variance</code>, and <code>Cum Var</code>
+</li>
+<li>
+<code>n</code>: number of selected PCs</li>
+<li>
+<code>method</code>: criterion used to select PCs</li>
+</ul>
+</li>
+<li>
+<code>pc_plot</code>: PCs for plotting</li>
+</ul>
+<div id="plot2dpcs" class="section level3">
+<h3 class="hasAnchor">
+<a href="#plot2dpcs" class="anchor"></a><code>plot2DPCs</code>
+</h3>
+<p>By default, <code>quickstart</code> will create all selected PCs at plus and minus 3 standard deviations. These can again be plotted using <code>plotRefToTarget</code> or using <code>plot2DPCs</code>. Note that while <code>plotRefToTarget</code> is based on the sample range of a specific PC, <code>plot2DPCs</code> is based on units of standard deviation (see also <code><a href="../reference/plot2DPCs.html">help(plot2DPCs)</a></code>).</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/plot2DPCs.html">plot2DPCs</a></span><span class="op">(</span>input <span class="op">=</span> <span class="va">shapedata</span><span class="op">$</span><span class="va">pc_plot</span>,
+          ref <span class="op">=</span> <span class="va">shapedata</span><span class="op">$</span><span class="va">average</span>,
+          which_pcs <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span></code></pre></div>
+<p><img src="intro_files/figure-html/unnamed-chunk-15-1.png" width="864" style="display: block; margin: auto;"></p>
+<p>To create plots of any other PCs than the selected ones (or to visualize PCs at a different level of manipulation, e.g., 5 SDs), just enter the output from the PCA directly into <code>plot2DPCs</code></p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">pca_output</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/geomorph/man/gm.prcomp.html">gm.prcomp</a></span><span class="op">(</span><span class="va">shapedata</span><span class="op">$</span><span class="va">data</span><span class="op">)</span>
 
-<span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/basics.html">basics</a></span><span class="op">(</span>path_to_data <span class="op">=</span> <span class="va">path_to_tem</span>,
-            p <span class="op">=</span> <span class="fl">189</span>,
-            remove_points <span class="op">=</span> <span class="va">remove_points</span>,
-            rotate <span class="op">=</span> <span class="st">"rotateC"</span>, 
-            plot <span class="op">=</span> <span class="cn">TRUE</span>,
-            pc_criterion <span class="op">=</span> <span class="st">"broken_stick"</span><span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Negative landmark coordinates have been identified and imported as such.</span>
-<span class="co">#&gt; If you want to treat them as NAs please set negNA = TRUE</span></code></pre></div>
-<p><img src="intro_files/figure-html/unnamed-chunk-14-1.png" width="700"> It is highly recommended you plot your PCs!!</p>
-<p>Explain different options:</p>
-<p>Use geomorph::plotRefToTarget() to * plot from geomorph::gm.prcomp output - visualizes PCs based on sample range * plot from our function’s output - visualize PCs based on (+/- 3) standard deviations * plot PCs at any SD using make2DPCs</p>
-<p>Or use convenience functionplot2DPCs to create plot of pairs of any PC(s) at customizable level of SD</p>
+<span class="fu"><a href="../reference/plot2DPCs.html">plot2DPCs</a></span><span class="op">(</span>input <span class="op">=</span> <span class="va">pca_output</span>,
+          ref <span class="op">=</span> <span class="va">shapedata</span><span class="op">$</span><span class="va">average</span>,
+          which_pcs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">15</span>, <span class="fl">20</span><span class="op">)</span>,
+          vis_sd <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></code></pre></div>
+<p><img src="intro_files/figure-html/unnamed-chunk-16-1.png" width="864" style="display: block; margin: auto;"></p>
+</div>
 </div>
   </div>
 

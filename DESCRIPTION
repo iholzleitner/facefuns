@@ -36,7 +36,8 @@ Imports:
     cowplot,
     gridGraphics,
     purrr,
-    rlang
+    rlang,
+    webmorph
 Suggests: 
     testthat,
     knitr,

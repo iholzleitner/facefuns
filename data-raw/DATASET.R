@@ -2,17 +2,15 @@
 
 ## LondonSet_data ----
 
-del <- c(45:50, 100:104, 116:125, 146:158, 159:164,
+remove_points <- c(45:50, 100:104, 116:125, 146:158, 159:164,
          165:170, 171:174, 175:179, 184:185)
 
 convertTEMtoTPS(path_to_tem = "inst/extdata/tem/",
-                p = 189,
-                image_height = 1350,
-                del = del,
+                remove_points = remove_points,
                 path_to_tps = "inst/extdata/LondonSet.tps")
 
-LondonSet_data <- geomorph::readland.tps("inst/extdata/LondonSet.tps",
-                     specID = "ID", warnmsg = FALSE)
+LondonSet_data <- read_shapedata(shapedata = "inst/extdata/LondonSet.tps",
+                     specID = "ID")
 
 usethis::use_data(LondonSet_data, overwrite = TRUE)
 

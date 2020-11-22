@@ -101,6 +101,9 @@
       <a href="../articles/calcED.html">Calculate similarity of faces</a>
     </li>
     <li>
+      <a href="../articles/developing.html">Developing</a>
+    </li>
+    <li>
       <a href="../articles/intro.html">Introduction</a>
     </li>
   </ul>
@@ -135,14 +138,14 @@
     <p>Convenience function for plotting shape PCs based on <code><a href='https://rdrr.io/pkg/geomorph/man/plotRefToTarget.html'>geomorph::plotRefToTarget()</a></code>. Other than <code>plotRefToTarget</code>, magnitude of visualized difference in shape between reference face at average and low/high levels of the respective PC is based on standard deviations (instead of range).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plot2DPCs</span><span class='op'>(</span><span class='va'>pca_output</span>, <span class='va'>ref</span>, which_pcs <span class='op'>=</span> <span class='fl'>1</span>, vis_sd <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>plot2DPCs</span><span class='op'>(</span><span class='va'>input</span>, <span class='va'>ref</span>, which_pcs <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>, vis_sd <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>pca_output</th>
-      <td><p>Output from <code>gm.prcomp</code></p></td>
+      <th>input</th>
+      <td><p>Output from <code>gm.prcomp</code> or list of PC coordinates</p></td>
     </tr>
     <tr>
       <th>ref</th>
