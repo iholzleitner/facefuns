@@ -3,6 +3,7 @@
 S3method(print,selected_PCs)
 export("%>%")
 export(calcED)
+export(convertArrayToMatrix)
 export(convertPointsToMesh)
 export(convertTEMtoTPS)
 export(facefuns_app)

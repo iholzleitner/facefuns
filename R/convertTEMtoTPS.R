@@ -62,11 +62,14 @@ convertTEMtoTPS <- function (path_to_tem, remove_points = NA, path_to_tps = NA) 
   }
 
   # CONVERT TO ARRAY ----
-  nm <- sapply(temlist, `[[`, "name")
+  n_names <- sapply(temlist, `[[`, "name")
+  p_names <- 1:n_pts
+  k_names <- c("X", "Y")
+
   tem_array <- sapply(temlist, function(tem) {
     t(tem$points)}) %>%
     array(dim = c(n_pts, 2, length(temlist)),
-          dimnames = list(NULL, NULL, nm))
+          dimnames = list(p_names, k_names, n_names))
 
   # WRITE TPS FILE ----
   if (!is.na(path_to_tps)) {

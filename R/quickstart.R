@@ -45,8 +45,11 @@ quickstart <- function (data, rotate = c(NA, "flipX", "flipY", "rotateC", "rotat
       data_aligned <- geomorph::rotate.coords(data_aligned, type = rtype)
     }}
 
-  dimnames(data_aligned)[[3]] <- dimnames(gpa$coords)[[3]]
-
+  # re-assiagn dimnames ----
+  # rotations appears to delete dimnames for 2nd and 3rd array dims??
+  dimnames(data_aligned) <- list(dimnames(gpa$coords)[[1]],
+                                 dimnames(gpa$coords)[[2]],
+                                 dimnames(gpa$coords)[[3]])
 
   # PLOT ----
   if (plot_sample == TRUE ) {

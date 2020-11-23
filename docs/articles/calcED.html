@@ -99,49 +99,32 @@
 
     
     
-<p><strong>NEEDS REWRITING AFTER FUNCTION CHANGES</strong></p>
+<p><strong>WORK IN PROGRESS</strong></p>
 <p>This tutorial will explain how to calculate facial (dis)similarity in a set of 2D faces. We will calculate the Euclidean distance between Procrustes-aligned landmark templates, as well as the Euclidean distance in face space (i.e. principal component space), and compare these two measures.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/iholzleitner/facefuns">facefuns</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/geomorphR/geomorph">geomorph</a></span><span class="op">)</span></code></pre></div>
-<div id="prerequisites" class="section level3">
-<h3 class="hasAnchor">
-<a href="#prerequisites" class="anchor"></a>Prerequisites</h3>
-<p>You will need</p>
-<ul>
-<li>A TPS file containing your landmark templates (see <a href="./TEMtoTPS.html">here</a> if you have a bunch of Webmorph templates and are unsure what to do)</li>
-</ul>
-</div>
-<div id="gpa" class="section level2">
+<div id="read-and-prepare-data" class="section level2">
 <h2 class="hasAnchor">
-<a href="#gpa" class="anchor"></a>GPA</h2>
-<p>We start by Procrustes-aligning the templates.</p>
-<p>We load the templates …</p>
+<a href="#read-and-prepare-data" class="anchor"></a>Read and prepare data</h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">path_to_tps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"LondonSet.tps"</span>, package<span class="op">=</span><span class="st">"facefuns"</span><span class="op">)</span>
-<span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/geomorph/man/readland.tps.html">readland.tps</a></span><span class="op">(</span><span class="va">path_to_tps</span>, specID <span class="op">=</span> <span class="st">"ID"</span>, warnmsg <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Negative landmark coordinates have been identified and imported as such.</span>
-<span class="co">#&gt; If you want to treat them as NAs please set negNA = TRUE</span></code></pre></div>
-<p>… subject them to a GPA …</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">data_gpa</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/geomorph/man/gpagen.html">gpagen</a></span><span class="op">(</span><span class="va">data</span>, print.progress <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
-<p>… extract the aligned templates, and rotate them if necessary (<a href="./intro.html">see intro</a>).</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">data_aligned</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/geomorph/man/rotate.coords.html">rotate.coords</a></span><span class="op">(</span><span class="va">data_gpa</span><span class="op">$</span><span class="va">coords</span>,
-                              type <span class="op">=</span> <span class="st">"rotateC"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">path_to_tem</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"tem"</span>, package<span class="op">=</span><span class="st">"facefuns"</span><span class="op">)</span>
+<span class="va">remove_points</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">45</span><span class="op">:</span><span class="fl">50</span>, <span class="fl">100</span><span class="op">:</span><span class="fl">104</span>, <span class="fl">116</span><span class="op">:</span><span class="fl">125</span>, <span class="fl">146</span><span class="op">:</span><span class="fl">158</span>, <span class="fl">159</span><span class="op">:</span><span class="fl">164</span>, <span class="fl">165</span><span class="op">:</span><span class="fl">170</span>, <span class="fl">171</span><span class="op">:</span><span class="fl">174</span>, <span class="fl">175</span><span class="op">:</span><span class="fl">179</span>, <span class="fl">184</span><span class="op">:</span><span class="fl">185</span><span class="op">)</span>
 
-<span class="co"># Re-adding dimension names</span>
-<span class="fu"><a href="https://rdrr.io/r/base/dimnames.html">dimnames</a></span><span class="op">(</span><span class="va">data_aligned</span><span class="op">)</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/dimnames.html">dimnames</a></span><span class="op">(</span><span class="va">data_gpa</span><span class="op">$</span><span class="va">coords</span><span class="op">)</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span></code></pre></div>
-<p>Lastly, we will check everything looks the way we expect it to by plotting one of the faces.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">data_aligned</span><span class="op">[</span>, , <span class="fl">1</span><span class="op">]</span>, asp <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
-<p><img src="calcED_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
+<span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_shapedata.html">read_shapedata</a></span><span class="op">(</span>shapedata <span class="op">=</span> <span class="va">path_to_tem</span>,
+                       remove_points <span class="op">=</span> <span class="va">remove_points</span>,
+                       plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+
+<span class="va">shapedata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/quickstart.html">quickstart</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>,
+                         rotate <span class="op">=</span> <span class="st">"rotateC"</span>,
+                         plot_sample <span class="op">=</span> <span class="cn">TRUE</span>,
+                         pc_criterion <span class="op">=</span> <span class="st">"broken_stick"</span><span class="op">)</span></code></pre></div>
+<p><img src="calcED_files/figure-html/unnamed-chunk-2-1.png" width="700"></p>
 </div>
 <div id="calculate-facial-similarity-from-landmark-templates" class="section level2">
 <h2 class="hasAnchor">
 <a href="#calculate-facial-similarity-from-landmark-templates" class="anchor"></a>Calculate facial similarity from landmark templates</h2>
-<p>We will use the <code>facefuns</code> function <code>calcED</code> to calculate similarity. <code>calcED</code> requires two arguments:</p>
+<p>We will use <code><a href="../reference/calcED.html">facefuns::calcED</a></code> to calculate similarity. <code>calcED</code> requires two arguments:</p>
 <ol style="list-style-type: decimal">
 <li><p>Landmark coordinates in a matrix format</p></li>
 <li><p>A table specifying for which pairs of faces you would like to calculate similarity</p></li>
@@ -149,48 +132,41 @@
 <div id="create-landmark-matrix" class="section level3">
 <h3 class="hasAnchor">
 <a href="#create-landmark-matrix" class="anchor"></a>Create landmark matrix</h3>
-<p>Currently, our landmark templates are stored in a three-dimensional array: a list of <em>n</em> matrices of the dimensions <em>p</em> x <em>k</em></p>
+<p>Currently, our landmark templates are stored in a three-dimensional array: a list of <em>n</em> matrices of dimensions <em>p</em> x <em>k</em></p>
 <ul>
 <li>
 <em><strong>p</strong></em> The number of landmarks, here 132</li>
 <li>
-<em><strong>k</strong></em> The number of landmark dimension, here 2</li>
+<em><strong>k</strong></em> The number of landmark dimensions, here 2</li>
 <li>
-<em><strong>n</strong></em> The number of subjects, here 102</li>
+<em><strong>n</strong></em> The number of faces, here 102</li>
 </ul>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">data_aligned</span><span class="op">)</span>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">shapedata</span><span class="op">$</span><span class="va">data</span><span class="op">)</span>
 <span class="co">#&gt;  num [1:132, 1:2, 1:102] -0.0526 0.054 -0.0522 -0.0603 -0.0622 ...</span>
 <span class="co">#&gt;  - attr(*, "dimnames")=List of 3</span>
 <span class="co">#&gt;   ..$ : chr [1:132] "1" "2" "3" "4" ...</span>
-<span class="co">#&gt;   ..$ : NULL</span>
-<span class="co">#&gt;   ..$ : chr [1:102] "001_03" "002_03" "003_03" "004_03" ...</span></code></pre></div>
-<p>We assign these dimensions to variables so we can easily access them in the next steps:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">data_aligned</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>
-<span class="va">k</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">data_aligned</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>
-<span class="va">n</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">data_aligned</span><span class="op">)</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span></code></pre></div>
-<p>We need to convert this three-dimensional array into one big matrix containing the x- and y-coordinates for all faces. [NOTE: TURN THIS INTO FUNCTION]</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">temp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="va">data_aligned</span>, ncol <span class="op">=</span> <span class="op">(</span><span class="va">p</span> <span class="op">*</span> <span class="fl">2</span><span class="op">)</span>, byrow <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>
-
-<span class="va">x.coords</span><span class="op">&lt;-</span><span class="va">temp</span><span class="op">[</span> , <span class="fl">1</span><span class="op">:</span><span class="va">p</span><span class="op">]</span> 
-<span class="va">y.coords</span><span class="op">&lt;-</span><span class="va">temp</span><span class="op">[</span> , <span class="op">(</span><span class="va">p</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span><span class="op">:</span><span class="op">(</span><span class="va">p</span> <span class="op">*</span> <span class="fl">2</span><span class="op">)</span><span class="op">]</span>
-
-<span class="va">data_matrix</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span><span class="va">x.coords</span>, <span class="va">y.coords</span><span class="op">)</span>,
-                      <span class="va">n</span>,
-                      dimnames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/dimnames.html">dimnames</a></span><span class="op">(</span><span class="va">data_aligned</span><span class="op">)</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span>, <span class="cn">NULL</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<span class="co">#&gt;   ..$ : chr [1:2] "X" "Y"</span>
+<span class="co">#&gt;   ..$ : chr [1:102] "ID=001_03" "ID=002_03" "ID=003_03" "ID=004_03" ...</span></code></pre></div>
+<p>We will use <code><a href="../reference/convertArrayToMatrix.html">facefuns::convertArrayToMatrix</a></code> to convert our array into a matrix with <em>n</em> rows and <em>p</em> x <em>k</em> columns.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">data_matrix</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/convertArrayToMatrix.html">convertArrayToMatrix</a></span><span class="op">(</span><span class="va">shapedata</span><span class="op">$</span><span class="va">data</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">data_matrix</span><span class="op">)</span>
+<span class="co">#&gt;  num [1:102, 1:264] -0.0526 -0.0515 -0.0514 -0.0474 -0.0505 ...</span>
+<span class="co">#&gt;  - attr(*, "dimnames")=List of 2</span>
+<span class="co">#&gt;   ..$ : chr [1:102] "ID=001_03" "ID=002_03" "ID=003_03" "ID=004_03" ...</span>
+<span class="co">#&gt;   ..$ : chr [1:264] "X1" "Y1" "X2" "Y2" ...</span></code></pre></div>
 </div>
 <div id="create-list-of-faces" class="section level3">
 <h3 class="hasAnchor">
 <a href="#create-list-of-faces" class="anchor"></a>Create list of faces</h3>
 <p>Most times, you will already have a list of face pairs for which you want to calculate similarity.</p>
-<p>For this example, we will calculate the similarity between all possible combinations of face pairs in our data set.</p>
+<p>For this example, we will calculate the similarity between <em>all</em> possible combinations of face pairs in our data set.</p>
 <p>We start by assigning all face IDs in our sample to a variable …</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">face_names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/dimnames.html">dimnames</a></span><span class="op">(</span><span class="va">data_aligned</span><span class="op">)</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">face_names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/dimnames.html">dimnames</a></span><span class="op">(</span><span class="va">shapedata</span><span class="op">$</span><span class="va">data</span><span class="op">)</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span></code></pre></div>
 <p>… and then create a list of all possible combinations</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">pairs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/expand.grid.html">expand.grid</a></span><span class="op">(</span>A <span class="op">=</span> <span class="va">face_names</span>,
                      B <span class="op">=</span> <span class="va">face_names</span><span class="op">)</span></code></pre></div>
 </div>
@@ -199,40 +175,41 @@
 <a href="#calced" class="anchor"></a><code>calcED</code>
 </h3>
 <p>We now have everything we need to run our function</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">similarity_t</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calcED.html">calcED</a></span><span class="op">(</span>coords_matrix <span class="op">=</span> <span class="va">data_matrix</span>,
-                       pairs_table <span class="op">=</span> <span class="va">pairs</span><span class="op">)</span>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">sim_table</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calcED.html">calcED</a></span><span class="op">(</span>coords_matrix <span class="op">=</span> <span class="va">data_matrix</span>,
+                    pairs_table <span class="op">=</span> <span class="va">pairs</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">similarity_t</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">sim_table</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 6 x 3</span>
-<span class="co">#&gt;   A      B      EuclideanDistance</span>
-<span class="co">#&gt;   &lt;fct&gt;  &lt;fct&gt;              &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 001_03 001_03            0     </span>
-<span class="co">#&gt; 2 002_03 001_03            0.0857</span>
-<span class="co">#&gt; 3 003_03 001_03            0.0663</span>
-<span class="co">#&gt; 4 004_03 001_03            0.129 </span>
-<span class="co">#&gt; 5 005_03 001_03            0.112 </span>
-<span class="co">#&gt; 6 006_03 001_03            0.119</span></code></pre></div>
+<span class="co">#&gt;   A         B         EuclideanDistance</span>
+<span class="co">#&gt;   &lt;fct&gt;     &lt;fct&gt;                 &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 ID=001_03 ID=001_03            0     </span>
+<span class="co">#&gt; 2 ID=002_03 ID=001_03            0.0857</span>
+<span class="co">#&gt; 3 ID=003_03 ID=001_03            0.0663</span>
+<span class="co">#&gt; 4 ID=004_03 ID=001_03            0.129 </span>
+<span class="co">#&gt; 5 ID=005_03 ID=001_03            0.112 </span>
+<span class="co">#&gt; 6 ID=006_03 ID=001_03            0.119</span></code></pre></div>
 <p>Let’s display our data in a wide format and round the values. It is a rather big table, so we will only print a small subset</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">similarity_t</span> <span class="op">%&gt;%</span>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">sim_table</span> <span class="op">%&gt;%</span>
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>EuclideanDistance <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">EuclideanDistance</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/spread.html">spread</a></span><span class="op">(</span><span class="va">B</span>, <span class="va">EuclideanDistance</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">9</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 9 x 10</span>
-<span class="co">#&gt;   A     `001_03` `002_03` `003_03` `004_03` `005_03` `006_03` `007_03` `008_03`</span>
-<span class="co">#&gt;   &lt;fct&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 001_…     0        0.09     0.07     0.13     0.11     0.12     0.08     0.14</span>
-<span class="co">#&gt; 2 002_…     0.09     0        0.07     0.1      0.08     0.08     0.12     0.11</span>
-<span class="co">#&gt; 3 003_…     0.07     0.07     0        0.1      0.09     0.1      0.09     0.11</span>
-<span class="co">#&gt; 4 004_…     0.13     0.1      0.1      0        0.09     0.08     0.14     0.11</span>
-<span class="co">#&gt; 5 005_…     0.11     0.08     0.09     0.09     0        0.1      0.13     0.1 </span>
-<span class="co">#&gt; 6 006_…     0.12     0.08     0.1      0.08     0.1      0        0.14     0.09</span>
-<span class="co">#&gt; 7 007_…     0.08     0.12     0.09     0.14     0.13     0.14     0        0.16</span>
-<span class="co">#&gt; 8 008_…     0.14     0.11     0.11     0.11     0.1      0.09     0.16     0   </span>
-<span class="co">#&gt; 9 009_…     0.07     0.11     0.09     0.14     0.12     0.13     0.06     0.15</span>
-<span class="co">#&gt; # … with 1 more variable: `009_03` &lt;dbl&gt;</span></code></pre></div>
+<span class="co">#&gt;   A     `ID=001_03` `ID=002_03` `ID=003_03` `ID=004_03` `ID=005_03` `ID=006_03`</span>
+<span class="co">#&gt;   &lt;fct&gt;       &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 ID=0…        0           0.09        0.07        0.13        0.11        0.12</span>
+<span class="co">#&gt; 2 ID=0…        0.09        0           0.07        0.1         0.08        0.08</span>
+<span class="co">#&gt; 3 ID=0…        0.07        0.07        0           0.1         0.09        0.1 </span>
+<span class="co">#&gt; 4 ID=0…        0.13        0.1         0.1         0           0.09        0.08</span>
+<span class="co">#&gt; 5 ID=0…        0.11        0.08        0.09        0.09        0           0.1 </span>
+<span class="co">#&gt; 6 ID=0…        0.12        0.08        0.1         0.08        0.1         0   </span>
+<span class="co">#&gt; 7 ID=0…        0.08        0.12        0.09        0.14        0.13        0.14</span>
+<span class="co">#&gt; 8 ID=0…        0.14        0.11        0.11        0.11        0.1         0.09</span>
+<span class="co">#&gt; 9 ID=0…        0.07        0.11        0.09        0.14        0.12        0.13</span>
+<span class="co">#&gt; # … with 3 more variables: `ID=007_03` &lt;dbl&gt;, `ID=008_03` &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   `ID=009_03` &lt;dbl&gt;</span></code></pre></div>
 </div>
 </div>
 <div id="calculate-facial-similarity-in-face-space" class="section level2">
