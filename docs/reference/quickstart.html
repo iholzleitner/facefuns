@@ -102,6 +102,9 @@ vignette(&quot;intro&quot;, package = &quot;facefuns&quot;)" />
       <a href="../articles/calcED.html">Calculate similarity of faces</a>
     </li>
     <li>
+      <a href="../articles/calcSD.html">Calculate sexual dimorphism of faces</a>
+    </li>
+    <li>
       <a href="../articles/developing.html">Developing</a>
     </li>
     <li>
@@ -171,10 +174,11 @@ vignette(&quot;intro&quot;, package = &quot;facefuns&quot;)" />
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>Returns a list of the following components:</p>
-<dt>data</dt><dd><p>Procrustes- aligned data</p></dd>
-<dt>scores</dt><dd><p>Principal component scores</p></dd>
-<dt>average</dt><dd><p>Coordinates of sample average</p></dd>
+<dt>array</dt><dd><p>Three-dimensional array containing Procrustes-aligned data</p></dd>
+<dt>matrix</dt><dd><p>Two-dimensional matrix containing Procrustes-aligned data. See <a href='convertArrayToMatrix.html'>convertArrayToMatrix</a></p></dd>
+<dt>average</dt><dd><p>Coordinates of sample average for plotting</p></dd>
 <dt>pc_info</dt><dd><p>List of selected PCs (including their SD, variance explained and cumulative variance explained), number of selected PCs, criterion used to select PCs</p></dd>
+<dt>pc_scores</dt><dd><p>Principal component scores</p></dd>
 <dt>pc_plot</dt><dd><p>PCs for plotting. Will by default create list of coordinates for all selected PCs at +/- 3SDs. To create plots of other PCs or at different level of SD, please see <a href='plot2DPCs.html'>plot2DPCs</a></p></dd>
 
 

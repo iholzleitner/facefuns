@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-**WORK IN PROGRESS**
+**WORK IN PROGRESS/needs rewriting after function changes**
 
 This tutorial will explain how to calculate facial (dis)similarity in a set of 2D faces. We will calculate the Euclidean distance between Procrustes-aligned landmark templates, as well as the Euclidean distance in face space (i.e. principal component space), and compare these two measures.
 
@@ -57,13 +57,13 @@ Currently, our landmark templates are stored in a three-dimensional array: a lis
 * _**n**_ The number of faces, here 102
 
 ```{r}
-str(shapedata$data)
+str(shapedata$array)
 ```
 
 We will use `facefuns::convertArrayToMatrix` to convert our array into a matrix with *n* rows and *p* x *k* columns.
 
 ```{r}
-data_matrix <- convertArrayToMatrix(shapedata$data)
+data_matrix <- convertArrayToMatrix(shapedata$array)
 str(data_matrix)
 ```
 
@@ -76,7 +76,7 @@ For this example, we will calculate the similarity between *all* possible combin
 We start by assigning all face IDs in our sample to a variable ...
 
 ```{r}
-face_names <- dimnames(shapedata$data)[[3]]
+face_names <- dimnames(shapedata$array)[[3]]
 ```
 
 ... and then create a list of all possible combinations

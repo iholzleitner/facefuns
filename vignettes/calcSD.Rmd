@@ -1,0 +1,96 @@
+---
+title: "Calculate sexual dimorphism of faces"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Calculate sexual dimorphism of faces}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+**WORK IN PROGRESS**
+
+[Eventually, this function should take as arguments: set of faces for which SD is to be calculated, set of male faces, set of female faces, type of calculation (vector/discriminant)]
+
+This tutorial will explain how to calculate facial sexual dimorphism (SD) in a set of 2D faces, using (1) a vector method (REF) and (2) linear discriminant analyses (REF).
+
+[Explain what these are/how they differ]
+
+Vector scores can be calculated within- or out-of-set. For example, the sample for which you want to calculate sexual dimorphism may be small, but you might have a more sizable sample of female/male faces at hand from another project. You could use that bigger sample to construct your female-male vector, and then use it to calculate SD of the faces in the smaller set.
+
+For this tutorial, we'll stay within set.
+
+```{r setup}
+library(facefuns)
+```
+
+## Read and prepare landmark data
+
+[For now, start from PC scores; eventually make it so you can go directly from raw landmark data to scores?]
+
+```{r}
+path_to_tem <- system.file("extdata", "tem", package="facefuns")
+remove_points <- c(45:50, 100:104, 116:125, 146:158, 159:164, 165:170, 171:174, 175:179, 184:185)
+
+data <- read_shapedata(shapedata = path_to_tem,
+                       remove_points = remove_points,
+                       plot = FALSE)
+
+shapedata <- quickstart(data = data,
+                         rotate = "rotateC",
+                         plot_sample = TRUE,
+                         pc_criterion = "broken_stick")
+```
+
+We also need to know which of the faces are female/male.
+
+```{r eval=FALSE}
+data(LondonSet_info)
+
+fem_ids <- LondonSet_info %>%
+  dplyr::filter(face_sex == "female") %>%
+  dplyr::pull(face_id)
+
+mal_ids <- LondonSet_info %>%
+  dplyr::filter(face_sex == "male") %>%
+  dplyr::pull(face_id)
+
+fem <-shapedata$pc_scores %>%
+  as.data.frame() %>%
+  dplyr::filter(grepl(paste(fem_ids, collapse="|"), shapedata$pc_scores$id)) %>%
+  tibble::column_to_rownames("id")
+
+mal <-shapedata$pc_scores %>%
+  as.data.frame() %>%
+  dplyr::filter(grepl(paste(mal_ids, collapse="|"), shapedata$pc_scores$id)) %>%
+  tibble::column_to_rownames("id")
+
+
+```
+
+```{r eval=FALSE}
+fem.mean <- t(as.matrix(colMeans(fem)))
+mal.mean <- t(as.matrix(colMeans(mal)))
+
+temp <- mal.mean - fem.mean
+norm.dist <- sqrt(sum(temp ^ 2))
+norm.vec <- temp / norm.dist
+
+R <- nrow(PC.scores)
+pc.matrix <- PC.scores %>% dplyr::select(starts_with("PC")) %>% as.matrix()
+sd.vector <- numeric(R)
+for (i in 1:R) {
+  z1 <- pc.matrix[i, ] - fem.mean
+  z2 <- z1 / norm.dist
+  z3 <- z2 * norm.vec
+  sd.vector[i] <- sum(z3)
+}
+```
+
+

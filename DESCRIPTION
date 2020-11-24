@@ -37,7 +37,8 @@ Imports:
     gridGraphics,
     purrr,
     rlang,
-    webmorph
+    webmorph,
+    readr
 Suggests: 
     testthat,
     knitr,

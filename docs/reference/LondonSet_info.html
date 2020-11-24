@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Plot 3D principal components — make3DPCs • facefuns</title>
+<title>FRL London Set — LondonSet_info • facefuns</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Plot 3D principal components — make3DPCs" />
-<meta property="og:description" content="Plot 3D principal components" />
+<meta property="og:title" content="FRL London Set — LondonSet_info" />
+<meta property="og:description" content="Face Research Lab London face image data set. Images are of 102 adult faces that were originally delineated with 189 landmarks. Original template files were converted to .tps file format and some landmark points removed for shape analyses (see https://osf.io/98qf4/)" />
 
 
 
@@ -132,57 +132,35 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Plot 3D principal components</h1>
-    <small class="dont-index">Source: <a href='https://github.com/iholzleitner/facefuns/blob/master/R/make3DPCs.R'><code>R/make3DPCs.R</code></a></small>
-    <div class="hidden name"><code>make3DPCs.Rd</code></div>
+    <h1>FRL London Set</h1>
+    <small class="dont-index">Source: <a href='https://github.com/iholzleitner/facefuns/blob/master/R/LondonSet_info.R'><code>R/LondonSet_info.R</code></a></small>
+    <div class="hidden name"><code>LondonSet_info.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Plot 3D principal components</p>
+    <p>Face Research Lab London face image data set. Images are of 102 adult faces that were originally delineated with 189 landmarks. Original template files were converted to .tps file format and some landmark points removed for shape analyses (see https://osf.io/98qf4/)</p>
     </div>
 
-    <pre class="usage"><span class='fu'>make3DPCs</span><span class='op'>(</span>
-  <span class='va'>pca_output</span>,
-  <span class='va'>numberOfPCs</span>,
-  <span class='va'>visSD</span>,
-  <span class='va'>mean_shape</span>,
-  plot <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  return <span class='op'>=</span> <span class='cn'>TRUE</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>LondonSet_info</span><span class='op'>)</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>pca_output</th>
-      <td><p>Prcomp output</p></td>
-    </tr>
-    <tr>
-      <th>numberOfPCs</th>
-      <td><p>How many PCs to visualize</p></td>
-    </tr>
-    <tr>
-      <th>visSD</th>
-      <td><p>How many standard deviations to visualize, e.g. 3</p></td>
-    </tr>
-    <tr>
-      <th>mean_shape</th>
-      <td><p>Reference coordinates on which visualization will be based</p></td>
-    </tr>
-    <tr>
-      <th>plot</th>
-      <td><p>Plot or not</p></td>
-    </tr>
-    <tr>
-      <th>return</th>
-      <td><p>Return list of PCs</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>List of 3D meshes visualizing PCs according to requested SDs; e.g., if numberOfPCs was set to 3, six meshes will be returned - PCs 1, 2, and 3 at plus and minus visSD</p>
+    <p>fill me in</p>
+    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
 
+    <p><a href='https://figshare.com/articles/Face_Research_Lab_London_Set/5047666b'>Figshare</a></p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>This file contains info on age, gender and ethnicity of faces</p>
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>fill me in
+(<a href='https://figshare.com/articles/Face_Research_Lab_London_Set/5047666'>Figshare</a>)</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>LondonSet_info</span><span class='op'>)</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

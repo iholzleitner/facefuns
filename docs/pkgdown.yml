@@ -4,7 +4,8 @@ pkgdown_sha: ~
 articles:
   TEMtoTPS: TEMtoTPS.html
   calcED: calcED.html
+  calcSD: calcSD.html
   developing: developing.html
   intro: intro.html
-last_built: 2020-11-23T21:36Z
+last_built: 2020-11-24T14:20Z
 

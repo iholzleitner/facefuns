@@ -60,6 +60,9 @@
       <a href="../articles/calcED.html">Calculate similarity of faces</a>
     </li>
     <li>
+      <a href="../articles/calcSD.html">Calculate sexual dimorphism of faces</a>
+    </li>
+    <li>
       <a href="../articles/developing.html">Developing</a>
     </li>
     <li>
@@ -261,10 +264,10 @@
 <p><code>quickstart</code> returns a list with the following elements:</p>
 <ul>
 <li>
-<code>data</code>: Procrustes- aligned data<br>
+<code>array</code>: Procrustes-aligned data as three-dimensional array<br>
 </li>
 <li>
-<code>scores</code>: principal component scores<br>
+<code>matrix</code>: Procrustes-aligned data as two-dimensional matrix [MAKE OPTIONAL?]<br>
 </li>
 <li>
 <code>average</code>: sample average<br>
@@ -278,8 +281,12 @@
 <li>
 <code>n</code>: number of selected PCs</li>
 <li>
-<code>method</code>: criterion used to select PCs</li>
+<code>method</code>: criterion used to select PCs<br>
+</li>
 </ul>
+</li>
+<li>
+<code>pc_scores</code>: principal component scores<br>
 </li>
 <li>
 <code>pc_plot</code>: PCs for plotting</li>
@@ -296,7 +303,7 @@
 <p><img src="intro_files/figure-html/unnamed-chunk-15-1.png" width="864" style="display: block; margin: auto;"></p>
 <p>To create plots of any other PCs than the selected ones (or to visualize PCs at a different level of manipulation, e.g., 5 SDs), just enter the output from the PCA directly into <code>plot2DPCs</code></p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">pca_output</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/geomorph/man/gm.prcomp.html">gm.prcomp</a></span><span class="op">(</span><span class="va">shapedata</span><span class="op">$</span><span class="va">data</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">pca_output</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/geomorph/man/gm.prcomp.html">gm.prcomp</a></span><span class="op">(</span><span class="va">shapedata</span><span class="op">$</span><span class="va">array</span><span class="op">)</span>
 
 <span class="fu"><a href="../reference/plot2DPCs.html">plot2DPCs</a></span><span class="op">(</span>input <span class="op">=</span> <span class="va">pca_output</span>,
           ref <span class="op">=</span> <span class="va">shapedata</span><span class="op">$</span><span class="va">average</span>,

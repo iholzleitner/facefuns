@@ -174,13 +174,14 @@ shapedata <- quickstart(data = data,
 
 `quickstart` returns a list with the following elements:
 
-* `data`: Procrustes- aligned data    
-* `scores`: principal component scores   
+* `array`: Procrustes-aligned data as three-dimensional array     
+* `matrix`: Procrustes-aligned data as two-dimensional matrix [MAKE OPTIONAL?]     
 * `average`: sample average   
 * `pc_info`:
     + `selected`: contains elements `SD`, `Variance`, and `Cum Var`
     +  `n`: number of selected PCs
-    +  `method`: criterion used to select PCs
+    +  `method`: criterion used to select PCs    
+* `pc_scores`: principal component scores   
 * `pc_plot`: PCs for plotting
 
 ### `plot2DPCs`
@@ -196,7 +197,7 @@ plot2DPCs(input = shapedata$pc_plot,
 To create plots of any other PCs than the selected ones (or to visualize PCs at a different level of manipulation, e.g., 5 SDs), just enter the output from the PCA directly into `plot2DPCs`
 
 ```{r, fig.width=9, fig.height=15, fig.show='hold', fig.align='center'}
-pca_output <- gm.prcomp(shapedata$data)
+pca_output <- gm.prcomp(shapedata$array)
 
 plot2DPCs(input = pca_output,
           ref = shapedata$average,

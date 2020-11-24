@@ -22,10 +22,11 @@ quickstart(
 }
 \value{
 Returns a list of the following components:
-\item{data}{Procrustes- aligned data}
-\item{scores}{Principal component scores}
-\item{average}{Coordinates of sample average}
+\item{array}{Three-dimensional array containing Procrustes-aligned data}
+\item{matrix}{Two-dimensional matrix containing Procrustes-aligned data. See \link[facefuns]{convertArrayToMatrix}}
+\item{average}{Coordinates of sample average for plotting}
 \item{pc_info}{List of selected PCs (including their SD, variance explained and cumulative variance explained), number of selected PCs, criterion used to select PCs}
+\item{pc_scores}{Principal component scores}
 \item{pc_plot}{PCs for plotting. Will by default create list of coordinates for all selected PCs at +/- 3SDs. To create plots of other PCs or at different level of SD, please see \link[facefuns]{plot2DPCs}}
 }
 \description{

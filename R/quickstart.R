@@ -9,10 +9,11 @@
 #' @param pc_criterion Criterion used to choose which PCs to retain. See \link[facefuns]{selectPCs}
 #'
 #' @return Returns a list of the following components:
-#' \item{data}{Procrustes- aligned data}
-#' \item{scores}{Principal component scores}
-#' \item{average}{Coordinates of sample average}
+#' \item{array}{Three-dimensional array containing Procrustes-aligned data}
+#' \item{matrix}{Two-dimensional matrix containing Procrustes-aligned data. See \link[facefuns]{convertArrayToMatrix}}
+#' \item{average}{Coordinates of sample average for plotting}
 #' \item{pc_info}{List of selected PCs (including their SD, variance explained and cumulative variance explained), number of selected PCs, criterion used to select PCs}
+#' \item{pc_scores}{Principal component scores}
 #' \item{pc_plot}{PCs for plotting. Will by default create list of coordinates for all selected PCs at +/- 3SDs. To create plots of other PCs or at different level of SD, please see \link[facefuns]{plot2DPCs}}
 #' @export
 #'
@@ -51,6 +52,9 @@ quickstart <- function (data, rotate = c(NA, "flipX", "flipY", "rotateC", "rotat
                                  dimnames(gpa$coords)[[2]],
                                  dimnames(gpa$coords)[[3]])
 
+  # CONVERT TO MATRIX ----
+  data_matrix <- convertArrayToMatrix(data_aligned)
+
   # PLOT ----
   if (plot_sample == TRUE ) {
     geomorph::plotAllSpecimens(data_aligned) %>% cat()}
@@ -75,10 +79,11 @@ quickstart <- function (data, rotate = c(NA, "flipX", "flipY", "rotateC", "rotat
 
   # RETURN----
   invisible(list(
-    data = data_aligned,
-    scores = data_scores,
+    array = data_aligned,
+    matrix = data_matrix,
     average = ref,
     pc_info = pc_sel,
+    pc_scores = data_scores,
     pc_plot = vis_pcs
   ))
 

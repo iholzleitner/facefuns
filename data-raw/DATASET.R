@@ -40,3 +40,11 @@ LondonSet_scores <- geomorph::gm.prcomp(LondonSet_aligned) %>%
 
 usethis::use_data(LondonSet_scores, overwrite = TRUE)
 
+
+## LondonSet_info ----
+LondonSet_info <- readr::read_csv(file = "inst/extdata/LondonSet_info.csv", col_types = readr::cols()) %>%
+  dplyr::mutate(face_id = substr(face_id, start = 2, stop = 4))
+
+usethis::use_data(LondonSet_info, overwrite = TRUE)
+
+
