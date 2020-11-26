@@ -38,7 +38,10 @@ Imports:
     purrr,
     rlang,
     webmorph,
-    readr
+    readr,
+    klaR,
+    MASS,
+    stats
 Suggests: 
     testthat,
     knitr,

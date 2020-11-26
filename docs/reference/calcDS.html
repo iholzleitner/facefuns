@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>geom_flat_violin_HELPER2 — gfv_helper2 • facefuns</title>
+<title>Calculate linear discriminant scores — calcDS • facefuns</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="geom_flat_violin_HELPER2 — gfv_helper2" />
-<meta property="og:description" content="geom_flat_violin_HELPER2" />
+<meta property="og:title" content="Calculate linear discriminant scores — calcDS" />
+<meta property="og:description" content="Function uses stepwise LDA to choose best predictors for group membership, and then &quot;regular&quot; LDA to predict discriminant scores." />
 
 
 
@@ -126,17 +126,40 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>geom_flat_violin_HELPER2</h1>
-    <small class="dont-index">Source: <a href='https://github.com/iholzleitner/facefuns/blob/master/R/geom_flat_violin.R'><code>R/geom_flat_violin.R</code></a></small>
-    <div class="hidden name"><code>gfv_helper2.Rd</code></div>
+    <h1>Calculate linear discriminant scores</h1>
+    <small class="dont-index">Source: <a href='https://github.com/iholzleitner/facefuns/blob/master/R/calcDS.R'><code>R/calcDS.R</code></a></small>
+    <div class="hidden name"><code>calcDS.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>geom_flat_violin_HELPER2</p>
+    <p>Function uses stepwise LDA to choose best predictors for group membership, and then "regular" LDA to predict discriminant scores.</p>
     </div>
 
+    <pre class="usage"><span class='fu'>calcDS</span><span class='op'>(</span><span class='va'>data</span>, group_info <span class='op'>=</span> <span class='fl'>1</span>, acc <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>data</th>
+      <td><p>Matrix or data frame containing PC scores of specimen (rows = specimen, cols = PCs)</p></td>
+    </tr>
+    <tr>
+      <th>group_info</th>
+      <td><p>Numeric index of column in data that indicates actual group membership</p></td>
+    </tr>
+    <tr>
+      <th>acc</th>
+      <td><p>Print accuracy of group membership prediction</p></td>
+    </tr>
+    </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>Returns tibble with columns "id" and "discrimScore". If data contained rownames, these will be saved as ids. If acc = TRUE, output will be list, with tibble "ds" containing id and vector score, and list "acc" containing accuracy info.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>First uses <a href='https://rdrr.io/pkg/klaR/man/greedy.wilks.html'>greedy.wilks</a> to perform stepwise forward variable selection for classification, then uses selected variables in <a href='https://rdrr.io/pkg/MASS/man/lda.html'>lda</a></p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

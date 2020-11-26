@@ -9,7 +9,7 @@ convertTEMtoTPS(path_to_tem = "inst/extdata/tem/",
                 remove_points = remove_points,
                 path_to_tps = "inst/extdata/LondonSet.tps")
 
-LondonSet_data <- read_shapedata(shapedata = "inst/extdata/tem/",
+LondonSet_data <- read_lmdata(lmdata = "inst/extdata/tem/",
                                  remove_points = remove_points,
                                  specID = "ID",
                                  plot = FALSE)
@@ -34,9 +34,12 @@ usethis::use_data(LondonSet_aligned, overwrite = TRUE)
 LondonSet_scores <- geomorph::gm.prcomp(LondonSet_aligned) %>%
   `[[`("x") %>%
   tibble::as_tibble() %>%
+  # tidy colnames
   dplyr::rename_with(~make_id(102, "PC")) %>%
   # re-add IDs
-  tibble::add_column(.before = 1, id = dimnames(LondonSet_aligned)[[3]])
+  tibble::add_column(.before = 1,
+                     id = gsub("^ID=", "", dimnames(LondonSet_aligned)[[3]])) %>%
+  tibble::column_to_rownames(var = "id")
 
 usethis::use_data(LondonSet_scores, overwrite = TRUE)
 

@@ -10,7 +10,6 @@
 #'
 #' @return Returns a list of the following components:
 #' \item{array}{Three-dimensional array containing Procrustes-aligned data}
-#' \item{matrix}{Two-dimensional matrix containing Procrustes-aligned data. See \link[facefuns]{convertArrayToMatrix}}
 #' \item{average}{Coordinates of sample average for plotting}
 #' \item{pc_info}{List of selected PCs (including their SD, variance explained and cumulative variance explained), number of selected PCs, criterion used to select PCs}
 #' \item{pc_scores}{Principal component scores}
@@ -21,7 +20,7 @@
 #' path_to_tem <- system.file("extdata", "tem", package="facefuns")
 #' remove_points <- c(45:50, 100:104, 116:125, 146:158, 159:164, 165:170, 171:174, 175:179, 184:185)
 #'
-#' data <- read_shapedata(shapedata = path_to_tem, remove_points = remove_points)
+#' data <- read_lmdata(lmdata = path_to_tem, remove_points = remove_points)
 #' shapedata <- quickstart(data = data,
 #' rotate = "rotateC",
 #' plot_sample = TRUE,
@@ -52,8 +51,6 @@ quickstart <- function (data, rotate = c(NA, "flipX", "flipY", "rotateC", "rotat
                                  dimnames(gpa$coords)[[2]],
                                  dimnames(gpa$coords)[[3]])
 
-  # CONVERT TO MATRIX ----
-  data_matrix <- convertArrayToMatrix(data_aligned)
 
   # PLOT ----
   if (plot_sample == TRUE ) {
@@ -65,9 +62,11 @@ quickstart <- function (data, rotate = c(NA, "flipX", "flipY", "rotateC", "rotat
   data_scores <- tibble::as_tibble(pca_output$x)
   # rename columns
   names(data_scores) <- make_id(ncol(data_scores), "PC")
-  # re-add IDs to table
+  # re-add IDs to table, remove "ID="
   data_scores <- data_scores %>%
-    tibble::add_column(.before = 1, id = dimnames(data_aligned)[[3]])
+    tibble::add_column(.before = 1,
+                       id = gsub("^ID=", "", dimnames(data_aligned)[[3]])) %>%
+    tibble::column_to_rownames(var = "id")
   # select PCs
   pc_sel <- selectPCs(pca_output = pca_output, method = pc_criterion)
 
@@ -80,7 +79,6 @@ quickstart <- function (data, rotate = c(NA, "flipX", "flipY", "rotateC", "rotat
   # RETURN----
   invisible(list(
     array = data_aligned,
-    matrix = data_matrix,
     average = ref,
     pc_info = pc_sel,
     pc_scores = data_scores,

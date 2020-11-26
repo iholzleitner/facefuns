@@ -16,81 +16,192 @@ knitr::opts_chunk$set(
 
 **WORK IN PROGRESS**
 
-[Eventually, this function should take as arguments: set of faces for which SD is to be calculated, set of male faces, set of female faces, type of calculation (vector/discriminant)]
+*Eventually, there should be a function `calcSD` with the following arguments:*
 
-This tutorial will explain how to calculate facial sexual dimorphism (SD) in a set of 2D faces, using (1) a vector method (REF) and (2) linear discriminant analyses (REF).
+* set of faces for which SD is to be calculated   
+* type of SD score (vector/discriminant)
+* optional arguments
+    + for SD=vector: set of male faces, set of female faces
+    + for SD=discrim: group_info, accuracy
+    
+*For starters, two separate functions (calcVS, calcDS)*
 
-[Explain what these are/how they differ]
 
-Vector scores can be calculated within- or out-of-set. For example, the sample for which you want to calculate sexual dimorphism may be small, but you might have a more sizable sample of female/male faces at hand from another project. You could use that bigger sample to construct your female-male vector, and then use it to calculate SD of the faces in the smaller set.
+***
+ 	
 
-For this tutorial, we'll stay within set.
+This tutorial will explain how to calculate facial sexual dimorphism (SD) in a set of 2D faces, using (1) a vector method (REF) and (2) linear discriminant analysis.
+
+[Explain what these are/how they differ, references etc.]
 
 ```{r setup}
 library(facefuns)
+library(ggplot2)
 ```
 
-## Read and prepare landmark data
-
-[For now, start from PC scores; eventually make it so you can go directly from raw landmark data to scores?]
+## Read and prep landmark data
 
 ```{r}
 path_to_tem <- system.file("extdata", "tem", package="facefuns")
 remove_points <- c(45:50, 100:104, 116:125, 146:158, 159:164, 165:170, 171:174, 175:179, 184:185)
 
-data <- read_shapedata(shapedata = path_to_tem,
-                       remove_points = remove_points,
-                       plot = FALSE)
+data <- read_lmdata(lmdata = path_to_tem,
+                    remove_points = remove_points,
+                    plot = FALSE)
 
 shapedata <- quickstart(data = data,
-                         rotate = "rotateC",
-                         plot_sample = TRUE,
-                         pc_criterion = "broken_stick")
+                        rotate = "rotateC",
+                        plot_sample = FALSE,
+                        pc_criterion = "broken_stick")
 ```
 
-We also need to know which of the faces are female/male.
+In addition, we'll also need info on which of the faces in our sample are female, and which are male
 
-```{r eval=FALSE}
+```{r}
 data(LondonSet_info)
-
-fem_ids <- LondonSet_info %>%
-  dplyr::filter(face_sex == "female") %>%
-  dplyr::pull(face_id)
-
-mal_ids <- LondonSet_info %>%
-  dplyr::filter(face_sex == "male") %>%
-  dplyr::pull(face_id)
-
-fem <-shapedata$pc_scores %>%
-  as.data.frame() %>%
-  dplyr::filter(grepl(paste(fem_ids, collapse="|"), shapedata$pc_scores$id)) %>%
-  tibble::column_to_rownames("id")
-
-mal <-shapedata$pc_scores %>%
-  as.data.frame() %>%
-  dplyr::filter(grepl(paste(mal_ids, collapse="|"), shapedata$pc_scores$id)) %>%
-  tibble::column_to_rownames("id")
-
-
 ```
+
+
+## Vector scores: `calcVS`
+
+`facefuns::calcVS` calculates sexual dimorphism by computing an n-dimensional vector between the average female and the average male shape, and then projecting each face onto this vector. Scores are scaled so that a score of 0 corresponds to the average female, and a score of 1 to the average male shape; a negative score, e.g., would thus indicates a hyperfeminine face.
+
+`calcVS` takes three arguments, all of which should be a data frame or matrix with specimen as rows, and PC scores as columns:
+
+* `data`: Faces for which SD is to be calculated 
+* `fem`: Faces that will constitute female average     
+* `mal`: Faces that will constitute male average     
+
+```{r}
+data <- shapedata$pc_scores %>%
+  as.matrix()
+
+fem <- shapedata$pc_scores %>%
+  # filter all rows in PC scores that have a rowname (an ID) which has a corresponding face ID in the info data for which sex == female
+  dplyr::filter(row.names(data) %in% LondonSet_info$face_id[which(LondonSet_info$face_sex == "female")]) %>%
+  as.matrix()
+
+mal <- shapedata$pc_scores %>%
+  dplyr::filter(row.names(data) %in% LondonSet_info$face_id[which(LondonSet_info$face_sex == "male")]) %>%
+  as.matrix()
+```
+
+Now, we can run our function:
+```{r}
+sd_vector <- calcVS(data, fem, mal)
+```
+
+`calcVS` will return a tibble that has two columns, `id` and `vectorScore`:
+
+```{r}
+head(sd_vector)
+```
+We would expect for these scores to show a bimodal distribution
+
+```{r}
+LondonSet_info %>%
+  dplyr::left_join(sd_vector, by = c("face_id" = "id")) %>%
+  ggplot(aes(x = vectorScore, color=face_sex, fill = face_sex)) +
+  geom_histogram(binwidth = .1) +
+  theme_bw()
+```
+
+[explain you could also do this out-of-set if your current sample is small, but you have a larger sample at hand that was delineated with same landmarks/a compatible sub-/superset]
+
+## Discriminant scores: `calcDS`
+
+Another way to calculate sexual dimorphism is by employing a linear discriminant analyses to predict group membership.
+
+`calcVS` first conducts a (forward) stepwise variable selection and then carries out a linear discriminant analysis. It, too, takes three arguments:
+
+* `data`: A data frame or matrix with specimen as rows, and PCs as columns. Note that the data frame also needs to include a column that indicates actual group memmbership (in this case, biological sex)
+* `group_info`: The numeric index of the column with the group membership info
+* `acc`: Allows to print accuracy of group membership prediction
+
+We'll start by adding sex to our PC scores table.
+
+```{r}
+data <- LondonSet_info %>%
+  dplyr::select(face_id, face_sex) %>%
+  dplyr::left_join((shapedata$pc_scores[1:shapedata$pc_info$n] %>%
+                      tibble::rownames_to_column(var = "face_id")),
+                   by = "face_id") %>%
+  tibble::column_to_rownames("face_id")
+```
+
+Now, we can run `calcDS`
+
+```{r}
+sd_discrim <- calcDS(data, group_info = 1, acc = FALSE)
+```
+
+Like `calcVS`, `calcDS` will return a tibble that has two columns, in this case `id` and `discrimScore`:
 
 ```{r eval=FALSE}
-fem.mean <- t(as.matrix(colMeans(fem)))
-mal.mean <- t(as.matrix(colMeans(mal)))
-
-temp <- mal.mean - fem.mean
-norm.dist <- sqrt(sum(temp ^ 2))
-norm.vec <- temp / norm.dist
-
-R <- nrow(PC.scores)
-pc.matrix <- PC.scores %>% dplyr::select(starts_with("PC")) %>% as.matrix()
-sd.vector <- numeric(R)
-for (i in 1:R) {
-  z1 <- pc.matrix[i, ] - fem.mean
-  z2 <- z1 / norm.dist
-  z3 <- z2 * norm.vec
-  sd.vector[i] <- sum(z3)
-}
+head(sd_discrim)
 ```
 
+## Compare the two
+
+```{r}
+compareSD <- LondonSet_info %>%
+  dplyr::left_join(sd_vector, by = c("face_id" = "id")) %>%
+  dplyr::left_join(sd_discrim, by = c("face_id" = "id"))
+
+compareSD %>%
+  dplyr::group_by(face_sex) %>%
+  dplyr::summarise(mean_vs = round(mean(vectorScore), 3),
+                   mean_ds = round(mean(discrimScore), 3))
+```
+
+### Plot scores
+
+```{r eval=FALSE}
+compareSD %>%
+  ggplot(aes(x = vectorScore, y = discrimScore)) +
+  geom_point(aes(color = face_sex)) +
+  geom_smooth(method='lm', formula = y ~ x)
+```
+
+### Visualize differences
+
+Pull lowest- and highest-scoring individuals and plot difference between them
+
+[Tidy this up!!]
+
+```{r, echo=FALSE, echo=FALSE, fig.width=9, fig.height=15, fig.show='hold', fig.align='center'}
+lo_vs <- compareSD %>%
+  dplyr::slice_min(vectorScore, n=5) %>%
+  dplyr::mutate(id = paste0("ID=", face_id)) %>%
+  dplyr::pull()
+
+lo_ds <- compareSD %>%
+  dplyr::slice_min(discrimScore, n=5) %>%
+  dplyr::mutate(id = paste0("ID=", face_id)) %>%
+  dplyr::pull()
+
+hi_vs <- compareSD %>%
+  dplyr::slice_max(vectorScore, n=5) %>%
+  dplyr::mutate(id = paste0("ID=", face_id)) %>%
+  dplyr::pull()
+
+hi_ds <- compareSD %>%
+  dplyr::slice_max(discrimScore, n=10) %>%
+  dplyr::mutate(id = paste0("ID=", face_id)) %>%
+  dplyr::pull()
+
+lo_vs_faces <- geomorph::mshape(shapedata$array[,,lo_vs])
+lo_ds_faces <- geomorph::mshape(shapedata$array[,,lo_ds])
+hi_vs_faces <- geomorph::mshape(shapedata$array[,,hi_vs])
+hi_ds_faces <- geomorph::mshape(shapedata$array[,,hi_ds])
+
+plotl <- list(lo_vs_faces, lo_ds_faces, hi_vs_faces, hi_ds_faces)
+ref <- shapedata$average
+
+plot_list <- rapply(plotl, function(x) {
+    function() { geomorph::plotRefToTarget(ref, x, mag=1.5) }
+  }, how = "list")
+
+do.call(cowplot::plot_grid, c(plot_list, list(ncol = 2)))
+```
 

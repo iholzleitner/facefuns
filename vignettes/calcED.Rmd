@@ -29,7 +29,7 @@ library(geomorph)
 path_to_tem <- system.file("extdata", "tem", package="facefuns")
 remove_points <- c(45:50, 100:104, 116:125, 146:158, 159:164, 165:170, 171:174, 175:179, 184:185)
 
-data <- read_shapedata(shapedata = path_to_tem,
+data <- read_lmdata(lmdata = path_to_tem,
                        remove_points = remove_points,
                        plot = FALSE)
 

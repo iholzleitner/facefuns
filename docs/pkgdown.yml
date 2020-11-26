@@ -2,10 +2,8 @@ pandoc: 2.7.3
 pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
-  TEMtoTPS: TEMtoTPS.html
   calcED: calcED.html
   calcSD: calcSD.html
-  developing: developing.html
   intro: intro.html
-last_built: 2020-11-24T14:20Z
+last_built: 2020-11-26T18:12Z
 

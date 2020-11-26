@@ -23,7 +23,6 @@ quickstart(
 \value{
 Returns a list of the following components:
 \item{array}{Three-dimensional array containing Procrustes-aligned data}
-\item{matrix}{Two-dimensional matrix containing Procrustes-aligned data. See \link[facefuns]{convertArrayToMatrix}}
 \item{average}{Coordinates of sample average for plotting}
 \item{pc_info}{List of selected PCs (including their SD, variance explained and cumulative variance explained), number of selected PCs, criterion used to select PCs}
 \item{pc_scores}{Principal component scores}
@@ -37,7 +36,7 @@ Performs some of the routine steps for getting landmark data ready for shape ana
 path_to_tem <- system.file("extdata", "tem", package="facefuns")
 remove_points <- c(45:50, 100:104, 116:125, 146:158, 159:164, 165:170, 171:174, 175:179, 184:185)
 
-data <- read_shapedata(shapedata = path_to_tem, remove_points = remove_points)
+data <- read_lmdata(lmdata = path_to_tem, remove_points = remove_points)
 shapedata <- quickstart(data = data,
 rotate = "rotateC",
 plot_sample = TRUE,

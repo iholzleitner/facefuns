@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 
 **WORK IN PROGRESS**
 
-This package contains convenience functions for doing shape analyses of 2D and 3D face images in `R`, as well as tutorials for some common analyses (such as calculating averageness, asymmetry, sexual dimorphism and [facial similarity](./calceED.html)).
+This package contains convenience functions for doing shape analyses of 2D and 3D face images in `R`, as well as tutorials for some common analyses (such as calculating averageness, asymmetry, [sexual dimorphism](./calcSD.html) and [facial similarity](./calcED.html)).
 
 The following tutorial will provide a quick start to loading 2D face data into R, Procrustes-aligning landmark templates and conducting a principal component analysis of shape using the package `geomorph`. It will conclude by introducing the `facefuns` function `quickstart`, which will automatically conduct these steps and create outputs for use in subsequent analyses.
 
@@ -31,17 +31,17 @@ library(tibble)
 library(dplyr)
 ```
 
-## `read_shapedata`
+## `read_lmdata`
 
 Steps for importing your delineated landmark templates into `R` will vary depending on the software you used to delineate and the `R` package(s) you want to use.
 
 For this tutorial, we will work with the CC-BY licensed [Face Research London Set](https://figshare.com/articles/Face_Research_Lab_London_Set/5047666). This is a set of 102 faces that were delineated with the standard Face Research Lab (FRL) template of 189 points.
 
-We will use `facefuns::read_shapedata` to read the template files.
+We will use `facefuns::read_lmdata` to read the template files.
 
 ```{r}
 path_to_tem <- system.file("extdata", "tem", package="facefuns")
-data <- read_shapedata(shapedata = path_to_tem)
+data <- read_lmdata(lmdata = path_to_tem)
 ```
 
 As you can see, `read_shapedata` will by default plot the loaded data. Use `plot = FALSE` to turn off plotting.
@@ -70,7 +70,7 @@ remove_points <- c(45:50, 100:104, 116:125, 146:158, 159:164, 165:170, 171:174, 
 
 Let's read in the template files again, but this time we will remove the points we decided to eliminate:
 ```{r}
-data <- read_shapedata(shapedata = path_to_tem,
+data <- read_lmdata(lmdata = path_to_tem,
                        remove_points = remove_points)
 ```
 
@@ -86,7 +86,7 @@ We are not interested in that sort of variation, but seek to eliminate it - Gene
 
 ## GPA
 
-We'll use `geomporph` to Procrustes-align our data.
+We'll use `geomporph::gpagen` to Procrustes-align our data.
 
 ```{r}
 data_gpa <- gpagen(data, print.progress = FALSE)
@@ -138,7 +138,7 @@ london_pcs <- selectPCs(pca_output)
 london_pcs$selected
 ```
 
-The principal component scores for each face are stored in `pca_output$x`. We will save them for any subsequent analyses we might want to do.
+The principal component scores for each face are stored in `pca_output$x`. To save them for any subsequent analyses you might want to do, we could use the following code:
 
 ```{r}
 LondonSet_scores <- pca_output$x %>%
@@ -146,11 +146,13 @@ LondonSet_scores <- pca_output$x %>%
   # tidy colnames
   rename_with(~gsub("Comp", "PC", .x)) %>%
   # re-add IDs
-  add_column(.before = 1, id = gsub("_03.tem", "", dimnames(data)[[3]])) %>%
+  tibble::add_column(.before = 1,
+                     id = gsub("^ID=", "", dimnames(data)[[3]])) %>%
+  tibble::column_to_rownames(var = "id") %>%
   dplyr::select(1:(london_pcs$n + 1))
 ```
 
-What do the shape PCs for the London Set look like? You can use `geomorph`s `plotRefToTarget` function to visualize differences, e.g., between the average face and the sample min and max values on individual PCs.
+What do the shape PCs for the London Set look like? You can use `geomorph::plotRefToTarget` function to visualize differences, e.g., between the average face and the sample min and max values on individual PCs.
 
 We will first define the reference face (here, the sample average) and then plot the difference to the sample min and max on PC1. 
 

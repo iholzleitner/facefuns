@@ -96,16 +96,10 @@ vignette(&quot;intro&quot;, package = &quot;facefuns&quot;)" />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/TEMtoTPS.html">Converting Webmorph templates</a>
-    </li>
-    <li>
       <a href="../articles/calcED.html">Calculate similarity of faces</a>
     </li>
     <li>
       <a href="../articles/calcSD.html">Calculate sexual dimorphism of faces</a>
-    </li>
-    <li>
-      <a href="../articles/developing.html">Developing</a>
     </li>
     <li>
       <a href="../articles/intro.html">Introduction</a>
@@ -175,7 +169,6 @@ vignette(&quot;intro&quot;, package = &quot;facefuns&quot;)" />
 
     <p>Returns a list of the following components:</p>
 <dt>array</dt><dd><p>Three-dimensional array containing Procrustes-aligned data</p></dd>
-<dt>matrix</dt><dd><p>Two-dimensional matrix containing Procrustes-aligned data. See <a href='convertArrayToMatrix.html'>convertArrayToMatrix</a></p></dd>
 <dt>average</dt><dd><p>Coordinates of sample average for plotting</p></dd>
 <dt>pc_info</dt><dd><p>List of selected PCs (including their SD, variance explained and cumulative variance explained), number of selected PCs, criterion used to select PCs</p></dd>
 <dt>pc_scores</dt><dd><p>Principal component scores</p></dd>
@@ -186,7 +179,7 @@ vignette(&quot;intro&quot;, package = &quot;facefuns&quot;)" />
     <pre class="examples"><div class='input'><span class='va'>path_to_tem</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata"</span>, <span class='st'>"tem"</span>, package<span class='op'>=</span><span class='st'>"facefuns"</span><span class='op'>)</span>
 <span class='va'>remove_points</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>45</span><span class='op'>:</span><span class='fl'>50</span>, <span class='fl'>100</span><span class='op'>:</span><span class='fl'>104</span>, <span class='fl'>116</span><span class='op'>:</span><span class='fl'>125</span>, <span class='fl'>146</span><span class='op'>:</span><span class='fl'>158</span>, <span class='fl'>159</span><span class='op'>:</span><span class='fl'>164</span>, <span class='fl'>165</span><span class='op'>:</span><span class='fl'>170</span>, <span class='fl'>171</span><span class='op'>:</span><span class='fl'>174</span>, <span class='fl'>175</span><span class='op'>:</span><span class='fl'>179</span>, <span class='fl'>184</span><span class='op'>:</span><span class='fl'>185</span><span class='op'>)</span>
 
-<span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='read_shapedata.html'>read_shapedata</a></span><span class='op'>(</span>shapedata <span class='op'>=</span> <span class='va'>path_to_tem</span>, remove_points <span class='op'>=</span> <span class='va'>remove_points</span><span class='op'>)</span>
+<span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='read_lmdata.html'>read_lmdata</a></span><span class='op'>(</span>lmdata <span class='op'>=</span> <span class='va'>path_to_tem</span>, remove_points <span class='op'>=</span> <span class='va'>remove_points</span><span class='op'>)</span>
 </div><div class='img'><img src='quickstart-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='va'>shapedata</span> <span class='op'>&lt;-</span> <span class='fu'>quickstart</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>data</span>,
 rotate <span class='op'>=</span> <span class='st'>"rotateC"</span>,
 plot_sample <span class='op'>=</span> <span class='cn'>TRUE</span>,

@@ -54,16 +54,10 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/TEMtoTPS.html">Converting Webmorph templates</a>
-    </li>
-    <li>
       <a href="../articles/calcED.html">Calculate similarity of faces</a>
     </li>
     <li>
       <a href="../articles/calcSD.html">Calculate sexual dimorphism of faces</a>
-    </li>
-    <li>
-      <a href="../articles/developing.html">Developing</a>
     </li>
     <li>
       <a href="../articles/intro.html">Introduction</a>
@@ -103,7 +97,7 @@
     
     
 <p><strong>WORK IN PROGRESS</strong></p>
-<p>This package contains convenience functions for doing shape analyses of 2D and 3D face images in <code>R</code>, as well as tutorials for some common analyses (such as calculating averageness, asymmetry, sexual dimorphism and <a href="./calceED.html">facial similarity</a>).</p>
+<p>This package contains convenience functions for doing shape analyses of 2D and 3D face images in <code>R</code>, as well as tutorials for some common analyses (such as calculating averageness, asymmetry, <a href="./calcSD.html">sexual dimorphism</a> and <a href="./calcED.html">facial similarity</a>).</p>
 <p>The following tutorial will provide a quick start to loading 2D face data into R, Procrustes-aligning landmark templates and conducting a principal component analysis of shape using the package <code>geomorph</code>. It will conclude by introducing the <code>facefuns</code> function <code>quickstart</code>, which will automatically conduct these steps and create outputs for use in subsequent analyses.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/iholzleitner/facefuns">facefuns</a></span><span class="op">)</span>
@@ -111,16 +105,16 @@
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/facelab/webmorph">webmorph</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/">tibble</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></code></pre></div>
-<div id="read_shapedata" class="section level2">
+<div id="read_lmdata" class="section level2">
 <h2 class="hasAnchor">
-<a href="#read_shapedata" class="anchor"></a><code>read_shapedata</code>
+<a href="#read_lmdata" class="anchor"></a><code>read_lmdata</code>
 </h2>
 <p>Steps for importing your delineated landmark templates into <code>R</code> will vary depending on the software you used to delineate and the <code>R</code> package(s) you want to use.</p>
 <p>For this tutorial, we will work with the CC-BY licensed <a href="https://figshare.com/articles/Face_Research_Lab_London_Set/5047666">Face Research London Set</a>. This is a set of 102 faces that were delineated with the standard Face Research Lab (FRL) template of 189 points.</p>
-<p>We will use <code><a href="../reference/read_shapedata.html">facefuns::read_shapedata</a></code> to read the template files.</p>
+<p>We will use <code><a href="../reference/read_lmdata.html">facefuns::read_lmdata</a></code> to read the template files.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">path_to_tem</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"tem"</span>, package<span class="op">=</span><span class="st">"facefuns"</span><span class="op">)</span>
-<span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_shapedata.html">read_shapedata</a></span><span class="op">(</span>shapedata <span class="op">=</span> <span class="va">path_to_tem</span><span class="op">)</span></code></pre></div>
+<span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_lmdata.html">read_lmdata</a></span><span class="op">(</span>lmdata <span class="op">=</span> <span class="va">path_to_tem</span><span class="op">)</span></code></pre></div>
 <p><img src="intro_files/figure-html/unnamed-chunk-2-1.png" width="700"></p>
 <p>As you can see, <code>read_shapedata</code> will by default plot the loaded data. Use <code>plot = FALSE</code> to turn off plotting.</p>
 <p>You might not want to retain all of the standard template’s 189 landmarks for shape analyses. For this example, we will remove the following landmarks:</p>
@@ -174,7 +168,7 @@
 <code class="sourceCode R"><span class="va">remove_points</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">45</span><span class="op">:</span><span class="fl">50</span>, <span class="fl">100</span><span class="op">:</span><span class="fl">104</span>, <span class="fl">116</span><span class="op">:</span><span class="fl">125</span>, <span class="fl">146</span><span class="op">:</span><span class="fl">158</span>, <span class="fl">159</span><span class="op">:</span><span class="fl">164</span>, <span class="fl">165</span><span class="op">:</span><span class="fl">170</span>, <span class="fl">171</span><span class="op">:</span><span class="fl">174</span>, <span class="fl">175</span><span class="op">:</span><span class="fl">179</span>, <span class="fl">184</span><span class="op">:</span><span class="fl">185</span><span class="op">)</span></code></pre></div>
 <p>Let’s read in the template files again, but this time we will remove the points we decided to eliminate:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_shapedata.html">read_shapedata</a></span><span class="op">(</span>shapedata <span class="op">=</span> <span class="va">path_to_tem</span>,
+<code class="sourceCode R"><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_lmdata.html">read_lmdata</a></span><span class="op">(</span>lmdata <span class="op">=</span> <span class="va">path_to_tem</span>,
                        remove_points <span class="op">=</span> <span class="va">remove_points</span><span class="op">)</span></code></pre></div>
 <p><img src="intro_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
 <p>The black dots show the sample average, the gray points represent individual faces. As you can see, there is a lot of “noise” in the individual data - some of this variation will be due to</p>
@@ -188,7 +182,7 @@
 <div id="gpa" class="section level2">
 <h2 class="hasAnchor">
 <a href="#gpa" class="anchor"></a>GPA</h2>
-<p>We’ll use <code>geomporph</code> to Procrustes-align our data.</p>
+<p>We’ll use <code>geomporph::gpagen</code> to Procrustes-align our data.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">data_gpa</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/geomorph/man/gpagen.html">gpagen</a></span><span class="op">(</span><span class="va">data</span>, print.progress <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
 <p>The aligned coordinates are stored in <code>data_gpa$coords</code>. Let’s plot one of the aligned faces.</p>
@@ -230,16 +224,18 @@
 <span class="co">#&gt; PC6 0.017    0.050   0.705</span>
 <span class="co">#&gt; PC7 0.014    0.033   0.739</span>
 <span class="co">#&gt; PC8 0.013    0.027   0.766</span></code></pre></div>
-<p>The principal component scores for each face are stored in <code>pca_output$x</code>. We will save them for any subsequent analyses we might want to do.</p>
+<p>The principal component scores for each face are stored in <code>pca_output$x</code>. To save them for any subsequent analyses you might want to do, we could use the following code:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">LondonSet_scores</span> <span class="op">&lt;-</span> <span class="va">pca_output</span><span class="op">$</span><span class="va">x</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="co"># tidy colnames</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html">rename_with</a></span><span class="op">(</span><span class="op">~</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">"Comp"</span>, <span class="st">"PC"</span>, <span class="va">.x</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="co"># re-add IDs</span>
-  <span class="fu"><a href="https://tibble.tidyverse.org/reference/add_column.html">add_column</a></span><span class="op">(</span>.before <span class="op">=</span> <span class="fl">1</span>, id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">"_03.tem"</span>, <span class="st">""</span>, <span class="fu"><a href="https://rdrr.io/r/base/dimnames.html">dimnames</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/add_column.html">add_column</a></span><span class="op">(</span>.before <span class="op">=</span> <span class="fl">1</span>,
+                     id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">"^ID="</span>, <span class="st">""</span>, <span class="fu"><a href="https://rdrr.io/r/base/dimnames.html">dimnames</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html">column_to_rownames</a></span><span class="op">(</span>var <span class="op">=</span> <span class="st">"id"</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="op">(</span><span class="va">london_pcs</span><span class="op">$</span><span class="va">n</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p>What do the shape PCs for the London Set look like? You can use <code>geomorph</code>s <code>plotRefToTarget</code> function to visualize differences, e.g., between the average face and the sample min and max values on individual PCs.</p>
+<p>What do the shape PCs for the London Set look like? You can use <code><a href="https://rdrr.io/pkg/geomorph/man/plotRefToTarget.html">geomorph::plotRefToTarget</a></code> function to visualize differences, e.g., between the average face and the sample min and max values on individual PCs.</p>
 <p>We will first define the reference face (here, the sample average) and then plot the difference to the sample min and max on PC1.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">ref</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/geomorph/man/mshape.html">mshape</a></span><span class="op">(</span><span class="va">data_aligned</span><span class="op">)</span>

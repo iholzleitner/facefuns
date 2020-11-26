@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>geom_flat_violin_HELPER2 — gfv_helper2 • facefuns</title>
+<title>Calculate vector score — calcVS • facefuns</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="geom_flat_violin_HELPER2 — gfv_helper2" />
-<meta property="og:description" content="geom_flat_violin_HELPER2" />
+<meta property="og:title" content="Calculate vector score — calcVS" />
+<meta property="og:description" content="Function projects data onto vector from anchor one (score of 0) to anchor two (score of 1). For all three arguments, input must be two-dimensional matrix with rows = specimen, and columns = PC scores." />
 
 
 
@@ -126,17 +126,37 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>geom_flat_violin_HELPER2</h1>
-    <small class="dont-index">Source: <a href='https://github.com/iholzleitner/facefuns/blob/master/R/geom_flat_violin.R'><code>R/geom_flat_violin.R</code></a></small>
-    <div class="hidden name"><code>gfv_helper2.Rd</code></div>
+    <h1>Calculate vector score</h1>
+    <small class="dont-index">Source: <a href='https://github.com/iholzleitner/facefuns/blob/master/R/calcVS.R'><code>R/calcVS.R</code></a></small>
+    <div class="hidden name"><code>calcVS.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>geom_flat_violin_HELPER2</p>
+    <p>Function projects data onto vector from anchor one (score of 0) to anchor two (score of 1). For all three arguments, input must be two-dimensional matrix with rows = specimen, and columns = PC scores.</p>
     </div>
 
+    <pre class="usage"><span class='fu'>calcVS</span><span class='op'>(</span><span class='va'>data</span>, <span class='va'>anchor1</span>, <span class='va'>anchor2</span><span class='op'>)</span></pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>data</th>
+      <td><p>PC scores of face(s) for which vector scores are to be calculated</p></td>
+    </tr>
+    <tr>
+      <th>anchor1</th>
+      <td><p>PC scores of face(s) which will constitute lower anchor point</p></td>
+    </tr>
+    <tr>
+      <th>anchor2</th>
+      <td><p>PC scores of face(s) which will constitute upper anchor point</p></td>
+    </tr>
+    </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>Returns tibble with columns "id" and "vectorScore". If data contained rownames, these will be saved as ids.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

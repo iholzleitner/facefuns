@@ -54,16 +54,10 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/TEMtoTPS.html">Converting Webmorph templates</a>
-    </li>
-    <li>
       <a href="../articles/calcED.html">Calculate similarity of faces</a>
     </li>
     <li>
       <a href="../articles/calcSD.html">Calculate sexual dimorphism of faces</a>
-    </li>
-    <li>
-      <a href="../articles/developing.html">Developing</a>
     </li>
     <li>
       <a href="../articles/intro.html">Introduction</a>
@@ -114,7 +108,7 @@
 <code class="sourceCode R"><span class="va">path_to_tem</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"tem"</span>, package<span class="op">=</span><span class="st">"facefuns"</span><span class="op">)</span>
 <span class="va">remove_points</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">45</span><span class="op">:</span><span class="fl">50</span>, <span class="fl">100</span><span class="op">:</span><span class="fl">104</span>, <span class="fl">116</span><span class="op">:</span><span class="fl">125</span>, <span class="fl">146</span><span class="op">:</span><span class="fl">158</span>, <span class="fl">159</span><span class="op">:</span><span class="fl">164</span>, <span class="fl">165</span><span class="op">:</span><span class="fl">170</span>, <span class="fl">171</span><span class="op">:</span><span class="fl">174</span>, <span class="fl">175</span><span class="op">:</span><span class="fl">179</span>, <span class="fl">184</span><span class="op">:</span><span class="fl">185</span><span class="op">)</span>
 
-<span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_shapedata.html">read_shapedata</a></span><span class="op">(</span>shapedata <span class="op">=</span> <span class="va">path_to_tem</span>,
+<span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_lmdata.html">read_lmdata</a></span><span class="op">(</span>lmdata <span class="op">=</span> <span class="va">path_to_tem</span>,
                        remove_points <span class="op">=</span> <span class="va">remove_points</span>,
                        plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 
@@ -150,14 +144,14 @@
 <span class="co">#&gt;  - attr(*, "dimnames")=List of 3</span>
 <span class="co">#&gt;   ..$ : chr [1:132] "1" "2" "3" "4" ...</span>
 <span class="co">#&gt;   ..$ : chr [1:2] "X" "Y"</span>
-<span class="co">#&gt;   ..$ : chr [1:102] "ID=001_03" "ID=002_03" "ID=003_03" "ID=004_03" ...</span></code></pre></div>
+<span class="co">#&gt;   ..$ : chr [1:102] "ID=001" "ID=002" "ID=003" "ID=004" ...</span></code></pre></div>
 <p>We will use <code><a href="../reference/convertArrayToMatrix.html">facefuns::convertArrayToMatrix</a></code> to convert our array into a matrix with <em>n</em> rows and <em>p</em> x <em>k</em> columns.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">data_matrix</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/convertArrayToMatrix.html">convertArrayToMatrix</a></span><span class="op">(</span><span class="va">shapedata</span><span class="op">$</span><span class="va">array</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">data_matrix</span><span class="op">)</span>
 <span class="co">#&gt;  num [1:102, 1:264] -0.0526 -0.0515 -0.0514 -0.0474 -0.0505 ...</span>
 <span class="co">#&gt;  - attr(*, "dimnames")=List of 2</span>
-<span class="co">#&gt;   ..$ : chr [1:102] "ID=001_03" "ID=002_03" "ID=003_03" "ID=004_03" ...</span>
+<span class="co">#&gt;   ..$ : chr [1:102] "ID=001" "ID=002" "ID=003" "ID=004" ...</span>
 <span class="co">#&gt;   ..$ : chr [1:264] "X1" "Y1" "X2" "Y2" ...</span></code></pre></div>
 </div>
 <div id="create-list-of-faces" class="section level3">
@@ -184,14 +178,14 @@
 
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">sim_table</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 6 x 3</span>
-<span class="co">#&gt;   A         B         EuclideanDistance</span>
-<span class="co">#&gt;   &lt;fct&gt;     &lt;fct&gt;                 &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 ID=001_03 ID=001_03            0     </span>
-<span class="co">#&gt; 2 ID=002_03 ID=001_03            0.0857</span>
-<span class="co">#&gt; 3 ID=003_03 ID=001_03            0.0663</span>
-<span class="co">#&gt; 4 ID=004_03 ID=001_03            0.129 </span>
-<span class="co">#&gt; 5 ID=005_03 ID=001_03            0.112 </span>
-<span class="co">#&gt; 6 ID=006_03 ID=001_03            0.119</span></code></pre></div>
+<span class="co">#&gt;   A      B      EuclideanDistance</span>
+<span class="co">#&gt;   &lt;fct&gt;  &lt;fct&gt;              &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 ID=001 ID=001            0     </span>
+<span class="co">#&gt; 2 ID=002 ID=001            0.0857</span>
+<span class="co">#&gt; 3 ID=003 ID=001            0.0663</span>
+<span class="co">#&gt; 4 ID=004 ID=001            0.129 </span>
+<span class="co">#&gt; 5 ID=005 ID=001            0.112 </span>
+<span class="co">#&gt; 6 ID=006 ID=001            0.119</span></code></pre></div>
 <p>Let’s display our data in a wide format and round the values. It is a rather big table, so we will only print a small subset</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sim_table</span> <span class="op">%&gt;%</span>
@@ -200,19 +194,18 @@
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">9</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 9 x 10</span>
-<span class="co">#&gt;   A     `ID=001_03` `ID=002_03` `ID=003_03` `ID=004_03` `ID=005_03` `ID=006_03`</span>
-<span class="co">#&gt;   &lt;fct&gt;       &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;       &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 ID=0…        0           0.09        0.07        0.13        0.11        0.12</span>
-<span class="co">#&gt; 2 ID=0…        0.09        0           0.07        0.1         0.08        0.08</span>
-<span class="co">#&gt; 3 ID=0…        0.07        0.07        0           0.1         0.09        0.1 </span>
-<span class="co">#&gt; 4 ID=0…        0.13        0.1         0.1         0           0.09        0.08</span>
-<span class="co">#&gt; 5 ID=0…        0.11        0.08        0.09        0.09        0           0.1 </span>
-<span class="co">#&gt; 6 ID=0…        0.12        0.08        0.1         0.08        0.1         0   </span>
-<span class="co">#&gt; 7 ID=0…        0.08        0.12        0.09        0.14        0.13        0.14</span>
-<span class="co">#&gt; 8 ID=0…        0.14        0.11        0.11        0.11        0.1         0.09</span>
-<span class="co">#&gt; 9 ID=0…        0.07        0.11        0.09        0.14        0.12        0.13</span>
-<span class="co">#&gt; # … with 3 more variables: `ID=007_03` &lt;dbl&gt;, `ID=008_03` &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   `ID=009_03` &lt;dbl&gt;</span></code></pre></div>
+<span class="co">#&gt;   A     `ID=001` `ID=002` `ID=003` `ID=004` `ID=005` `ID=006` `ID=007` `ID=008`</span>
+<span class="co">#&gt;   &lt;fct&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 ID=0…     0        0.09     0.07     0.13     0.11     0.12     0.08     0.14</span>
+<span class="co">#&gt; 2 ID=0…     0.09     0        0.07     0.1      0.08     0.08     0.12     0.11</span>
+<span class="co">#&gt; 3 ID=0…     0.07     0.07     0        0.1      0.09     0.1      0.09     0.11</span>
+<span class="co">#&gt; 4 ID=0…     0.13     0.1      0.1      0        0.09     0.08     0.14     0.11</span>
+<span class="co">#&gt; 5 ID=0…     0.11     0.08     0.09     0.09     0        0.1      0.13     0.1 </span>
+<span class="co">#&gt; 6 ID=0…     0.12     0.08     0.1      0.08     0.1      0        0.14     0.09</span>
+<span class="co">#&gt; 7 ID=0…     0.08     0.12     0.09     0.14     0.13     0.14     0        0.16</span>
+<span class="co">#&gt; 8 ID=0…     0.14     0.11     0.11     0.11     0.1      0.09     0.16     0   </span>
+<span class="co">#&gt; 9 ID=0…     0.07     0.11     0.09     0.14     0.12     0.13     0.06     0.15</span>
+<span class="co">#&gt; # … with 1 more variable: `ID=009` &lt;dbl&gt;</span></code></pre></div>
 </div>
 </div>
 <div id="calculate-facial-similarity-in-face-space" class="section level2">

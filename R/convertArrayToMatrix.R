@@ -10,6 +10,8 @@
 #' data_matrix <- convertArrayToMatrix(LondonSet_aligned)
 convertArrayToMatrix <- function(x){
 
+  # TODO - use aperm() for changing dimension orders (so its xyz rather than xxxxxyyyyyzzzzz)
+
   # CHECK INPUT ----
   if (!is.array(x) || length(dim(x))!=3 || (dim(x)[2]<2 | dim(x)[2]>3)) {
     stop("Input is not an array or of the wrong dimensions")
@@ -41,8 +43,6 @@ convertArrayToMatrix <- function(x){
     data_matrix <- matrix(data = rbind(x.coords, y.coords, z.coords),
                           nrow = n,
                           dimnames = dimnames)
-  } else {
-    stop("Something went wrong.")
   }
 
   return(data_matrix)
