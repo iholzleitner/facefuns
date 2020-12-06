@@ -8,7 +8,8 @@
 <!-- badges: end -->
 
 Miscellaneous convenience functions around geometric morphometric
-analyses of 2D and 3D face data.
+analyses of 2D and 3D face data. A brief intro and some tutorials can be
+found [here](https://iholzleitner.github.io/facefuns)\!
 
 ## Installation
 
@@ -48,5 +49,3 @@ verbatim.
 
   - **Split violin plots**: by StackOverflow user jan-glx  
     <https://stackoverflow.com/questions/35717353/split-violin-plot-with-ggplot/>
-
-.

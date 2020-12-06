@@ -51,6 +51,6 @@ Suggests:
     shinyjs,
     shinydashboard
 VignetteBuilder: knitr
-URL: https://github.com/iholzleitner/facefuns
+URL: https://github.com/iholzleitner/facefuns, https://iholzleitner.github.io/facefuns
 BugReports: https://github.com/iholzleitner/facefuns/issues
 RdMacros: lifecycle

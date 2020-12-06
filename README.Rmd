@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-Miscellaneous convenience functions around geometric morphometric analyses of 2D and 3D face data.
+Miscellaneous convenience functions around geometric morphometric analyses of 2D and 3D face data. A brief intro and some tutorials can be found [here](https://iholzleitner.github.io/facefuns)!
 
 ## Installation
 
@@ -47,4 +47,3 @@ Many of the functions in this package are tweaks on existing functions written b
 * __Split violin plots__: by StackOverflow user jan-glx  
   https://stackoverflow.com/questions/35717353/split-violin-plot-with-ggplot/
 
-.
