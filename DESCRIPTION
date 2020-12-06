@@ -41,7 +41,8 @@ Imports:
     readr,
     klaR,
     MASS,
-    stats
+    stats,
+    lifecycle
 Suggests: 
     testthat,
     knitr,
@@ -52,3 +53,4 @@ Suggests:
 VignetteBuilder: knitr
 URL: https://github.com/iholzleitner/facefuns
 BugReports: https://github.com/iholzleitner/facefuns/issues
+RdMacros: lifecycle

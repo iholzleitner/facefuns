@@ -1,17 +1,63 @@
 navbar:
   structure:
-    left:  [home, intro, articles, reference]
+    left:  [home, intro, articles, reference, news]
     right: [github]
 
 articles:
 - title: Tutorials
   navbar: ~
   contents:
+  - facefuns
   - calcSD
   - calcED
   - calcAsym
-
 - title: Overview
+  desc: Summary of functions
   navbar: ~
   contents:
   - overview
+
+reference:
+- title: Basic functions
+- contents:
+  - read_lmdata
+  - quickstart
+  - selectPCs
+  - make2DPCs
+  - make3DPCs
+  - plot2DPCs
+  - mirrorTemplates
+  - symmTemplates
+- title: Shape metrics
+  desc: Functions for calculating commonly derived morphometric descriptives
+- contents:
+  - calcAVG
+  - calcED
+  - calcVS
+  - calcShapeVS
+  - calcDS
+  - calcAS
+  - calcFA
+  - calcFA_geo
+- title: Utility and helper functions
+- contents:
+  - convertArrayToMatrix
+  - convertPointsToMesh
+  - convertTEMtoTPS
+  - geom_flat_violin
+  - geom_split_violin
+  - make_id
+  - pc_pair_plot
+- title: Example data
+  desc: Data included in facefuns
+- contents:
+  - LondonSet_info
+  - LondonSet_data
+  - LondonSet_aligned
+  - LondonSet_scores
+  - mirr_lms
+  - example_3D_face
+- title: Shiny apps
+- contents: facefuns_app
+
+

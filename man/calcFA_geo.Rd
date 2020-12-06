@@ -15,6 +15,8 @@ calcFA_geo(data, mirr_lms)
 Returns tibble containing ID and asymmetry values
 }
 \description{
+\lifecycle{experimental}
+
 Function uses \link[geomorph]{bilat.symmetry} to calculate fluctuating asymmetry component for each template. FA score is calculated as distance between FA component and mean symmetric shape
 }
 \examples{

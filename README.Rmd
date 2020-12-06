@@ -46,3 +46,5 @@ Many of the functions in this package are tweaks on existing functions written b
 
 * __Split violin plots__: by StackOverflow user jan-glx  
   https://stackoverflow.com/questions/35717353/split-violin-plot-with-ggplot/
+
+.

@@ -33,6 +33,8 @@ Returns a list of the following components:
 \item{summary}{Short summary of key descriptives}
 }
 \description{
+\lifecycle{maturing}
+
 Performs some of the routine steps for getting landmark data ready for shape analyses, such as Procrustes alignment and principal component analysis. For more details see vignette:
 \code{vignette("intro", package = "facefuns")}
 }

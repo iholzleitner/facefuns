@@ -10,6 +10,7 @@
 #'
 #' @return Returns table listing specimen and their Euclidean distance
 #'
+#' @export
 #' @examples
 #' my_data <- tibble::tibble(
 #'  IDs = c(paste0("specimen_", 1:3)),
@@ -27,8 +28,6 @@
 #'
 #' calcED(my_data, pairs)
 #'
-#' @export
-
 calcED <- function(coords_matrix, pairs_table) {
 
   R <- nrow(pairs_table)

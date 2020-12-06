@@ -72,7 +72,7 @@ selectPCs <- function(pca_output, method = c("broken_stick", "kaiser_guttman", "
 #' @param ... arguments passed to or from other methods
 #'
 #' @return prints the selected PCs
-#' @export
+#' @keywords internal
 #'
 print.selected_PCs <- function(x, ...) {
   print(x$selected)

@@ -1,13 +1,16 @@
 #' Calculate fluctuating asymmetry
 #'
+#' @description
+#' \lifecycle{experimental}
+#'
 #' Function uses \link[geomorph]{bilat.symmetry} to calculate fluctuating asymmetry component for each template. FA score is calculated as distance between FA component and mean symmetric shape
 #'
 #' @param data Quickstart object or three-dimensional array of dimensions p, k, and n
 #' @param mirr_lms Vector specifying order of mirrored landmarks
 #'
 #' @return Returns tibble containing ID and asymmetry values
-#' @export
 #'
+#' @export
 #' @examples
 #' data(LondonSet_aligned)
 #' data(mirr_lms)

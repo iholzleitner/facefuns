@@ -2,7 +2,7 @@
 % Please edit documentation in R/make3DPCs.R
 \name{make3DPCs}
 \alias{make3DPCs}
-\title{Plot 3D principal components}
+\title{Make and plot 3D principal components}
 \usage{
 make3DPCs(
   pca_output,
@@ -30,5 +30,5 @@ make3DPCs(
 List of 3D meshes visualizing PCs according to requested SDs; e.g., if numberOfPCs was set to 3, six meshes will be returned - PCs 1, 2, and 3 at plus and minus visSD
 }
 \description{
-Plot 3D principal components
+\lifecycle{experimental}
 }

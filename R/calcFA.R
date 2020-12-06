@@ -1,13 +1,16 @@
 #' Calculate fluctuating asymmetry
 #'
+#' @description
+#' \lifecycle{experimental}
+#'
 #' Calculates fluctuating asymmetry (FA) of landmark templates. FA scores are calculated as Euclidean distance between original and symmetrized templates, corrected for sample directional asymmetry
 #'
 #' @param data Quickstart object or three-dimensional array of dimensions p, k, and n
 #' @param mirr_lms Vector specifying order of mirrored landmarks
 #'
 #' @return Returns tibble containing ID and FA scores
-#' @export
 #'
+#' @export
 #' @examples
 #' data(LondonSet_aligned)
 #' data(mirr_lms)

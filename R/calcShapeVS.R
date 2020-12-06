@@ -9,8 +9,8 @@
 #' @param mirr_lms Vector specifiying order of mirrored landmarks (required for symmetrizing)
 #'
 #' @return Returns tibble with columns "id" and "VS". If data contained rownames, these will be saved as ids.
-#' @export
 #'
+#'@export
 #' @examples
 #' # CALCULATE FEMALE-MALE VECTOR SCORES FROM (SYMMETRIZED) SET OF FACES
 #' # Read and prep data

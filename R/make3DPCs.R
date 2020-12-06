@@ -1,4 +1,7 @@
-#' Plot 3D principal components
+#' Make and plot 3D principal components
+#'
+#' @description
+#' \lifecycle{experimental}
 #'
 #' @param pca_output Prcomp output
 #' @param numberOfPCs How many PCs to visualize
@@ -9,6 +12,7 @@
 #'
 #' @return List of 3D meshes visualizing PCs according to requested SDs; e.g., if numberOfPCs was set to 3, six meshes will be returned - PCs 1, 2, and 3 at plus and minus visSD
 #' @export
+#'
 make3DPCs <- function(pca_output, numberOfPCs, visSD, mean_shape, plot = TRUE, return = TRUE) {
 
   shapes <- shape_names <- NULL

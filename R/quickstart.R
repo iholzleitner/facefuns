@@ -1,5 +1,8 @@
 #' Quick start to shape analyses
 #'
+#' @description
+#' \lifecycle{maturing}
+#'
 #' Performs some of the routine steps for getting landmark data ready for shape analyses, such as Procrustes alignment and principal component analysis. For more details see vignette:
 #' \code{vignette("intro", package = "facefuns")}
 #'
@@ -16,8 +19,8 @@
 #' \item{pc_scores}{Principal component scores}
 #' \item{pc_plot}{PCs for plotting. Will by default create list of coordinates for all selected PCs at +/- 3SDs. To create plots of other PCs or at different level of SD, please see \link[facefuns]{plot2DPCs}}
 #' \item{summary}{Short summary of key descriptives}
-#' @export
 #'
+#' @export
 #' @examples
 #' path_to_tem <- system.file("extdata", "tem", package="facefuns")
 #' remove_points <- c(45:50, 100:104, 116:125, 146:158, 159:164, 165:170, 171:174, 175:179, 184:185)
@@ -122,7 +125,7 @@ quickstart <- function (data, rotate = c(NA, "flipX", "flipY", "rotateC", "rotat
 #' @param ... arguments passed to or from other methods
 #'
 #' @return prints summary
-#' @export
+#' @keywords internal
 #'
 print.quickstart <- function(x, ...) {
   invisible(x)

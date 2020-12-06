@@ -15,6 +15,8 @@ calcFA(data, mirr_lms)
 Returns tibble containing ID and FA scores
 }
 \description{
+\lifecycle{experimental}
+
 Calculates fluctuating asymmetry (FA) of landmark templates. FA scores are calculated as Euclidean distance between original and symmetrized templates, corrected for sample directional asymmetry
 }
 \examples{

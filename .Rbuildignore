@@ -1,4 +1,3 @@
-..Rcheck
 ^facefuns\.Rproj$
 ^\.Rproj\.user$
 ^README\.Rmd$
@@ -9,5 +8,4 @@
 ^doc$
 ^Meta$
 ^data-raw$
-^temp.rmd
-^temp.nb.html
+
