@@ -6,9 +6,10 @@
 #' @param mirr_lms Vector specifying order of mirrored landmarks
 #'
 #' @return Returns array containing symmetrized landmark data
-#' @export
 #'
+#' @export
 #' @examples
+#'
 #' data(LondonSet_aligned)
 #' data(mirr_lms)
 #'
@@ -16,6 +17,7 @@
 #'
 #' geomorph::plotAllSpecimens(LondonSet_aligned)
 #' geomorph::plotAllSpecimens(symm)
+#'
 symmTemplates <- function(data, mirr_lms){
 
   mirr <- mirrorTemplates(data, mirr_lms)
@@ -30,3 +32,4 @@ symmTemplates <- function(data, mirr_lms){
 
   return(symm)
 }
+

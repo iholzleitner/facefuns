@@ -18,6 +18,7 @@ Returns array containing symmetrized landmark data
 Mirrors landmark templates for each specimen and calculates mean of original and mirrored template (see also \link[facefuns]{mirrorTemplates})
 }
 \examples{
+
 data(LondonSet_aligned)
 data(mirr_lms)
 
@@ -25,4 +26,5 @@ symm <- symmTemplates(LondonSet_aligned, mirr_lms)
 
 geomorph::plotAllSpecimens(LondonSet_aligned)
 geomorph::plotAllSpecimens(symm)
+
 }

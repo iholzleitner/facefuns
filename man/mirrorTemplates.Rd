@@ -25,4 +25,5 @@ mirr <- mirrorTemplates(LondonSet_aligned, mirr_lms)
 
 geomorph::plotAllSpecimens(LondonSet_aligned)
 geomorph::plotAllSpecimens(mirr)
+
 }
