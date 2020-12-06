@@ -1,0 +1,17 @@
+navbar:
+  structure:
+    left:  [home, intro, articles, reference]
+    right: [github]
+
+articles:
+- title: Tutorials
+  navbar: ~
+  contents:
+  - calcSD
+  - calcED
+  - calcAsym
+
+- title: Overview
+  navbar: ~
+  contents:
+  - overview

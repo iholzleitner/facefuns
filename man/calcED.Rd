@@ -12,7 +12,7 @@ columns correspond to x/y(/z) coordinates. Rownames need to contain IDs of speci
 
 \item{pairs_table}{Table containing IDs of specimen for which Euclidean
 distance is to be calculated; column 1: specimen A, column 2: specimen B.
-Note that IDs in the two tables need to conform; e.g., character in both coords_matrix and pairs.table.}
+Note that IDs in the two tables need to conform; e.g., character in both coords_matrix and pairs_table.}
 }
 \value{
 Returns table listing specimen and their Euclidean distance

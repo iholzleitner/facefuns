@@ -14,8 +14,24 @@ calcVS(data, anchor1, anchor2)
 \item{anchor2}{PC scores of face(s) which will constitute upper anchor point}
 }
 \value{
-Returns tibble with columns "id" and "vectorScore". If data contained rownames, these will be saved as ids.
+Returns tibble with columns "id" and "VS". If data contained rownames, these will be saved as ids.
 }
 \description{
-Function projects data onto vector from anchor one (score of 0) to anchor two (score of 1). For all three arguments, input must be two-dimensional matrix with rows = specimen, and columns = PC scores.
+Function projects data onto vector from anchor one (score of 0) to anchor two (score of 1). For all three arguments, input must be two-dimensional data frame or matrix with rows = specimens, and columns = PC scores.
+}
+\examples{
+# CALCULATE FEMALE-MALE VECTOR SCORES
+data("LondonSet_scores")
+data("LondonSet_info")
+
+fem <- LondonSet_scores \%>\%
+  dplyr::filter(row.names(LondonSet_scores) \%in\%
+  LondonSet_info$face_id[which(LondonSet_info$face_sex == "female")])
+
+mal <- LondonSet_scores \%>\%
+  dplyr::filter(row.names(LondonSet_scores) \%in\%
+  LondonSet_info$face_id[which(LondonSet_info$face_sex == "male")])
+
+calcVS(LondonSet_scores, fem, mal)
+
 }

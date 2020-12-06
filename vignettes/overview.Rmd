@@ -1,0 +1,63 @@
+---
+title: "facefuns Overview"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{facefuns Overview}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Convenience functions
+
+Function name | Brief description 
+:-------- | :---------------------------------------------------------------------- 
+`read_lmdata` | Read landmark data from TPS, webmorph_list or Webmorph template files 
+`quickstart` | Conducts GPA and PCA, selects and visualizes PCs 
+`selectPCs` | Select PCs based on *broken stick*, *Kaiser Guttman* or *total variance explained* criterion 
+`make2DPCs` | Creates 2-D coordinates for a reference face at +/- x units of standard deviations for a given (list of) principal component(s) 
+`make3DPCs` | Creates 3-D coordinates for a reference face at +/- x units of standard deviations for a given (list of) principal component(s)
+`plot2DPCs` | Create TPS grid plots for 2-D PCs
+`mirrorTemplates` | Mirror landmark templates
+`symmTemplates` | Symmetrize landmark templates
+
+## Shape metrics
+Functions for calculating commonly derived morphometric descriptives
+
+Function name | Brief description | Vignette
+:-------- | :---------------------------------------------------------------------- | :-------- 
+`calcAvg` | Calculate averageness (reversed distance between original template(s) and sample average) | [calcED](./calcSD.html)
+`calcAS` | Calculate asymmetry (distance between original and symmetrized template) | [calcAsym](./calcAsym.html)
+`calcFA` | Calculate fluctuating asymmetry (distance between FA component and symmetric average) | [calcAsym](./calcAsym.html)
+`calcED` | Calculate Euclidean distance | [calcED](./calcED.html)
+`calcDS` | Calculate group membership based on linear discriminant analysis | [calcSD](./calcSD.html)
+`calcShapeVS` | Calculate group membership based on vector projection (from quickstart object, allows for symmetrizing of templates) | [calcSD](./calcSD.html)
+`calcVS` | Calculate group membership based on vector projection (from PC scores) | [calcSD](./calcSD.html)
+
+## Utility functions
+Functions for formatting data
+
+Function name | Brief description | Vignette
+:-------- | :---------------------------------------------------------------------- | :-------- 
+`convertArrayToMatrix` | Convert 3-D array to 2-D matrix
+`convertPointsToMesh` | Convert matrix of 3-D coordinates to 3-D mesh
+`convertTEMtoTPS` | Read Webmorph template files and save as TPS
+
+## Example data
+Data included in `facefuns`
+
+Data | Content 
+:------ | :------ 
+`LondonSet_data` | FRL London set: original templates (p=132, k=2, n=102) 
+`LondonSet_aligned` | FRL London set: Procrustes-aligned templates (p=132, k=2, n=102) 
+`LondonSet_scores` | FRL London set: principal component scores (first eight PCs) 
+`LondonSet_info` | FRL London set: basic demographic data  
+`mirr_lms` | FRL London set: order of mirrored landmarks (p=132)  
+`example_3D_face` | Composite 3D face

@@ -7,18 +7,21 @@
 quickstart(
   data,
   rotate = c(NA, "flipX", "flipY", "rotateC", "rotateCC"),
+  pc_criterion = "broken_stick",
   plot_sample = TRUE,
-  pc_criterion = "broken_stick"
+  message = TRUE
 )
 }
 \arguments{
 \item{data}{Three-dimensional array of dimensions p, k, and n. p = number of landmarks, k = dimension (2D or 3D), n = number of specimens.}
 
-\item{rotate}{The type of rotation or flip to be performed (after Procrustes alignment, landmark templates might have to be rotated). Specimens can be flipped with respect to x or y axes, or rotated clockwise or counter-clockwise. See \code{geomorphs}'s \link[geomorph]{rotate.coords}}
-
-\item{plot_sample}{Plot sample to check data. See  \code{geomorphs}'s \link[geomorph]{plotAllSpecimens}}
+\item{rotate}{The type of rotation or flip to be performed (after Procrustes alignment, landmark templates might have to be rotated). Specimens can be flipped with respect to x or y axes, or rotated clockwise or counter-clockwise. See \link[geomorph]{rotate.coords}}
 
 \item{pc_criterion}{Criterion used to choose which PCs to retain. See \link[facefuns]{selectPCs}}
+
+\item{plot_sample}{Plot sample to check data. See \link[geomorph]{plotAllSpecimens}}
+
+\item{message}{Print short summary of loaded data}
 }
 \value{
 Returns a list of the following components:
@@ -27,6 +30,7 @@ Returns a list of the following components:
 \item{pc_info}{List of selected PCs (including their SD, variance explained and cumulative variance explained), number of selected PCs, criterion used to select PCs}
 \item{pc_scores}{Principal component scores}
 \item{pc_plot}{PCs for plotting. Will by default create list of coordinates for all selected PCs at +/- 3SDs. To create plots of other PCs or at different level of SD, please see \link[facefuns]{plot2DPCs}}
+\item{summary}{Short summary of key descriptives}
 }
 \description{
 Performs some of the routine steps for getting landmark data ready for shape analyses, such as Procrustes alignment and principal component analysis. For more details see vignette:
@@ -39,8 +43,11 @@ remove_points <- c(45:50, 100:104, 116:125, 146:158, 159:164, 165:170, 171:174, 
 data <- read_lmdata(lmdata = path_to_tem, remove_points = remove_points)
 shapedata <- quickstart(data = data,
 rotate = "rotateC",
-plot_sample = TRUE,
 pc_criterion = "broken_stick")
 
+# Plot sample
+shapedata$summary$plot_sample() #or geomorph::plotAllSpecimens(shapedata)
+
+# Plot PCs
 plot2DPCs(shapedata$pc_plot, shapedata$average)
 }

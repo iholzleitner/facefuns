@@ -2,22 +2,42 @@
 #'
 #' Function uses stepwise LDA to choose best predictors for group membership, and then "regular" LDA to predict discriminant scores.
 #'
-#' @param data Matrix or data frame containing PC scores of specimen (rows = specimen, cols = PCs)
-#' @param group_info Numeric index of column in data that indicates actual group membership
-#' @param acc Print accuracy of group membership prediction
+#' @param data Matrix or data frame containing PC scores of specimen (rows = specimen, cols = PCs). Can also contain an additional column that defines group membership
+#' @param group_info Numeric index of column in data that indicates actual group membership, or a dataframe with two columns (col 1 = id matching the rownames in data; col 2 = group)
 #'
 #' @details First uses \link[klaR]{greedy.wilks} to perform stepwise forward variable selection for classification, then uses selected variables in \link[MASS]{lda}
 #'
-#' @return Returns tibble with columns "id" and "discrimScore". If data contained rownames, these will be saved as ids. If acc = TRUE, output will be list, with tibble "ds" containing id and vector score, and list "acc" containing accuracy info.
+#' @return Returns tibble with columns "id" and "DS". If data contained rownames, these will be saved as ids
 #' @export
 #'
-calcDS <- function (data, group_info = 1, acc = FALSE) {
+calcDS <- function (data, group_info) {
+
+  # CHECK INPUT ----
+  if (is.vector(group_info, mode = "numeric") && length(group_info) == 1) {
+    # If group_info is single number, assume it is index of column in data containing group info
+
+    group <- colnames(data[group_info])
+    pcs <- colnames(data)[grepl("^PC", colnames(data))]
+
+  } else if (tibble::has_rownames(data) &&
+             is.data.frame(group_info) &&
+             nrow(group_info) == nrow(data)) {
+    # If group_info is dataframe, left_join it to PC scores using column 1
+
+    data <- data %>%
+      tibble::rownames_to_column("id") %>%
+      dplyr::left_join(dplyr::rename_with(group_info, .cols=1, ~"id"), by = "id") %>%
+      tibble::column_to_rownames("id")
+
+    group <- colnames(data)[!grepl("^PC", colnames(data))]
+    pcs <- colnames(data)[grepl("^PC", colnames(data))]
+
+  } else {
+    stop("There is a problem with either the data or the group info you have provided.")
+  }
 
   # STEPWISE LDA -----
   # Create formula for stepwise LDA
-  group <- colnames(data[group_info])
-  pcs <- colnames(data)[grepl("^PC", colnames(data))]
-
   steplda_form <- parse(text = paste0(group, " ~ ", paste(pcs, collapse = " + ")))
 
   steplda <- klaR::greedy.wilks(eval(steplda_form),
@@ -47,47 +67,9 @@ calcDS <- function (data, group_info = 1, acc = FALSE) {
   ds <- tibble::tibble(
     id = id,
     # maybe remove unname again? but it felt untidy to have named vector in tibble
-    discrimScore = as.vector(discrimScore)
+    DS = as.vector(discrimScore)
   )
 
+  return(ds)
 
-  if (acc == TRUE) {
-  # PRINT ACCURACY ----
-  lda <- MASS::lda(eval(lda_form),
-                   data = data,
-                   na.action = "na.omit",
-                   CV = TRUE)
-
-  acc_bygroup <- diag(prop.table(table(data[, group_info], lda$class), 1))
-  acc_total <- sum(diag(prop.table(table(data[, group_info], lda$class))))
-
-  acc <- list(bygroup = acc_bygroup,
-              total = acc_total)
-
-  to_return <- list(
-    ds = ds,
-    acc = acc
-  )
-
-  class(to_return) <- "ds_out"
-
-  } else {
-    to_return <- ds
-  }
-
-  return(to_return)
-
-}
-
-#' Print for ds_out
-#'
-#' @param x a list of class ds_out
-#' @param ... arguments passed to or from other methods
-#'
-#' @return prints ds_out
-#' @export
-#'
-print.ds_out<- function(x, ...) {
-  print(x$acc)
-  invisible(x)
 }

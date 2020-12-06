@@ -1,13 +1,28 @@
 #' Calculate vector score
 #'
-#' Function projects data onto vector from anchor one (score of 0) to anchor two (score of 1). For all three arguments, input must be two-dimensional matrix with rows = specimen, and columns = PC scores.
+#' Function projects data onto vector from anchor one (score of 0) to anchor two (score of 1). For all three arguments, input must be two-dimensional data frame or matrix with rows = specimens, and columns = PC scores.
 #'
 #' @param data PC scores of face(s) for which vector scores are to be calculated
 #' @param anchor1 PC scores of face(s) which will constitute lower anchor point
 #' @param anchor2 PC scores of face(s) which will constitute upper anchor point
 #'
-#' @return Returns tibble with columns "id" and "vectorScore". If data contained rownames, these will be saved as ids.
+#' @return Returns tibble with columns "id" and "VS". If data contained rownames, these will be saved as ids.
 #' @export
+#'
+#' @examples
+#' # CALCULATE FEMALE-MALE VECTOR SCORES
+#' data("LondonSet_scores")
+#' data("LondonSet_info")
+#'
+#' fem <- LondonSet_scores %>%
+#'   dplyr::filter(row.names(LondonSet_scores) %in%
+#'   LondonSet_info$face_id[which(LondonSet_info$face_sex == "female")])
+#'
+#' mal <- LondonSet_scores %>%
+#'   dplyr::filter(row.names(LondonSet_scores) %in%
+#'   LondonSet_info$face_id[which(LondonSet_info$face_sex == "male")])
+#'
+#' calcVS(LondonSet_scores, fem, mal)
 #'
 calcVS <- function(data, anchor1, anchor2){
 
@@ -36,20 +51,17 @@ calcVS <- function(data, anchor1, anchor2){
   norm_dist <- sqrt(sum(vec ^ 2))
   norm_vec <- vec / norm_dist
 
-  # Function to compute vector score for each row of input matrix
-  vec_score <- function(matrix) {
+  # ...
+  vec_scores <- apply(data, 1, function(matrix) {
     z1 <- matrix - anchor1_m
     z2 <- z1 / norm_dist
     z3 <- z2 * norm_vec
     sum(z3)
-  }
-
-  # Apply function to each row of data matrix
-  vec_scores <- apply(data, 1, vec_score)
+  })
 
   # Get ids. If there are none because input did not have rownames, make some.
   if(is.null(names(vec_scores))) {
-    id <- seq(1:length(vec_scores))
+    id <- seq_along(vec_scores)
   } else {
     id <- names(vec_scores)
   }
@@ -58,7 +70,7 @@ calcVS <- function(data, anchor1, anchor2){
   vs <- tibble::tibble(
     id = id,
     # maybe remove unname again? but it felt untidy to have named vector in tibble
-    vectorScore = unname(vec_scores)
+    VS = unname(vec_scores)
   )
 
   return(vs)

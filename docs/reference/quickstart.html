@@ -86,7 +86,7 @@ vignette(&quot;intro&quot;, package = &quot;facefuns&quot;)" />
   </a>
 </li>
 <li>
-  <a href="../reference/index.html">Reference</a>
+  <a href="../articles/facefuns.html">Get started</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -96,15 +96,21 @@ vignette(&quot;intro&quot;, package = &quot;facefuns&quot;)" />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/calcED.html">Calculate similarity of faces</a>
-    </li>
-    <li>
       <a href="../articles/calcSD.html">Calculate sexual dimorphism of faces</a>
     </li>
     <li>
-      <a href="../articles/intro.html">Introduction</a>
+      <a href="../articles/calcED.html">Calculate similarity of faces</a>
+    </li>
+    <li>
+      <a href="../articles/calcAsym.html">Calculate asymmetry of faces</a>
+    </li>
+    <li>
+      <a href="../articles/overview.html">facefuns Overview</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -134,14 +140,15 @@ vignette(&quot;intro&quot;, package = &quot;facefuns&quot;)" />
 
     <div class="ref-description">
     <p>Performs some of the routine steps for getting landmark data ready for shape analyses, such as Procrustes alignment and principal component analysis. For more details see vignette:
-<code><a href='../articles/intro.html'>vignette("intro", package = "facefuns")</a></code></p>
+<code>vignette("intro", package = "facefuns")</code></p>
     </div>
 
     <pre class="usage"><span class='fu'>quickstart</span><span class='op'>(</span>
   <span class='va'>data</span>,
   rotate <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='cn'>NA</span>, <span class='st'>"flipX"</span>, <span class='st'>"flipY"</span>, <span class='st'>"rotateC"</span>, <span class='st'>"rotateCC"</span><span class='op'>)</span>,
+  pc_criterion <span class='op'>=</span> <span class='st'>"broken_stick"</span>,
   plot_sample <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  pc_criterion <span class='op'>=</span> <span class='st'>"broken_stick"</span>
+  message <span class='op'>=</span> <span class='cn'>TRUE</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -153,15 +160,19 @@ vignette(&quot;intro&quot;, package = &quot;facefuns&quot;)" />
     </tr>
     <tr>
       <th>rotate</th>
-      <td><p>The type of rotation or flip to be performed (after Procrustes alignment, landmark templates might have to be rotated). Specimens can be flipped with respect to x or y axes, or rotated clockwise or counter-clockwise. See <code>geomorphs</code>'s <a href='https://rdrr.io/pkg/geomorph/man/rotate.coords.html'>rotate.coords</a></p></td>
-    </tr>
-    <tr>
-      <th>plot_sample</th>
-      <td><p>Plot sample to check data. See  <code>geomorphs</code>'s <a href='https://rdrr.io/pkg/geomorph/man/plotAllSpecimens.html'>plotAllSpecimens</a></p></td>
+      <td><p>The type of rotation or flip to be performed (after Procrustes alignment, landmark templates might have to be rotated). Specimens can be flipped with respect to x or y axes, or rotated clockwise or counter-clockwise. See <a href='https://rdrr.io/pkg/geomorph/man/rotate.coords.html'>rotate.coords</a></p></td>
     </tr>
     <tr>
       <th>pc_criterion</th>
       <td><p>Criterion used to choose which PCs to retain. See <a href='selectPCs.html'>selectPCs</a></p></td>
+    </tr>
+    <tr>
+      <th>plot_sample</th>
+      <td><p>Plot sample to check data. See <a href='https://rdrr.io/pkg/geomorph/man/plotAllSpecimens.html'>plotAllSpecimens</a></p></td>
+    </tr>
+    <tr>
+      <th>message</th>
+      <td><p>Print short summary of loaded data</p></td>
     </tr>
     </table>
 
@@ -173,6 +184,7 @@ vignette(&quot;intro&quot;, package = &quot;facefuns&quot;)" />
 <dt>pc_info</dt><dd><p>List of selected PCs (including their SD, variance explained and cumulative variance explained), number of selected PCs, criterion used to select PCs</p></dd>
 <dt>pc_scores</dt><dd><p>Principal component scores</p></dd>
 <dt>pc_plot</dt><dd><p>PCs for plotting. Will by default create list of coordinates for all selected PCs at +/- 3SDs. To create plots of other PCs or at different level of SD, please see <a href='plot2DPCs.html'>plot2DPCs</a></p></dd>
+<dt>summary</dt><dd><p>Short summary of key descriptives</p></dd>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -182,9 +194,12 @@ vignette(&quot;intro&quot;, package = &quot;facefuns&quot;)" />
 <span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='read_lmdata.html'>read_lmdata</a></span><span class='op'>(</span>lmdata <span class='op'>=</span> <span class='va'>path_to_tem</span>, remove_points <span class='op'>=</span> <span class='va'>remove_points</span><span class='op'>)</span>
 </div><div class='img'><img src='quickstart-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='va'>shapedata</span> <span class='op'>&lt;-</span> <span class='fu'>quickstart</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>data</span>,
 rotate <span class='op'>=</span> <span class='st'>"rotateC"</span>,
-plot_sample <span class='op'>=</span> <span class='cn'>TRUE</span>,
 pc_criterion <span class='op'>=</span> <span class='st'>"broken_stick"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>The loaded data set contains 102 specimen, delineated with 132 2-D landmarks. The broken_stick criterion was used to select 8 principal components.</span></div><div class='input'>
+<span class='co'># Plot sample</span>
+<span class='va'>shapedata</span><span class='op'>$</span><span class='va'>summary</span><span class='op'>$</span><span class='fu'>plot_sample</span><span class='op'>(</span><span class='op'>)</span> <span class='co'>#or geomorph::plotAllSpecimens(shapedata)</span>
 </div><div class='img'><img src='quickstart-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># Plot PCs</span>
 <span class='fu'><a href='plot2DPCs.html'>plot2DPCs</a></span><span class='op'>(</span><span class='va'>shapedata</span><span class='op'>$</span><span class='va'>pc_plot</span>, <span class='va'>shapedata</span><span class='op'>$</span><span class='va'>average</span><span class='op'>)</span>
 </div><div class='img'><img src='quickstart-3.png' alt='' width='700' height='433' /></div></pre>
   </div>

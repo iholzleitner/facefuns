@@ -85,7 +85,7 @@
   </a>
 </li>
 <li>
-  <a href="../reference/index.html">Reference</a>
+  <a href="../articles/facefuns.html">Get started</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -95,15 +95,21 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/calcED.html">Calculate similarity of faces</a>
-    </li>
-    <li>
       <a href="../articles/calcSD.html">Calculate sexual dimorphism of faces</a>
     </li>
     <li>
-      <a href="../articles/intro.html">Introduction</a>
+      <a href="../articles/calcED.html">Calculate similarity of faces</a>
+    </li>
+    <li>
+      <a href="../articles/calcAsym.html">Calculate asymmetry of faces</a>
+    </li>
+    <li>
+      <a href="../articles/overview.html">facefuns Overview</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -135,28 +141,24 @@
     <p>Function uses stepwise LDA to choose best predictors for group membership, and then "regular" LDA to predict discriminant scores.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>calcDS</span><span class='op'>(</span><span class='va'>data</span>, group_info <span class='op'>=</span> <span class='fl'>1</span>, acc <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>calcDS</span><span class='op'>(</span><span class='va'>data</span>, <span class='va'>group_info</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data</th>
-      <td><p>Matrix or data frame containing PC scores of specimen (rows = specimen, cols = PCs)</p></td>
+      <td><p>Matrix or data frame containing PC scores of specimen (rows = specimen, cols = PCs). Can also contain an additional column that defines group membership</p></td>
     </tr>
     <tr>
       <th>group_info</th>
-      <td><p>Numeric index of column in data that indicates actual group membership</p></td>
-    </tr>
-    <tr>
-      <th>acc</th>
-      <td><p>Print accuracy of group membership prediction</p></td>
+      <td><p>Numeric index of column in data that indicates actual group membership, or a dataframe with two columns (col 1 = id matching the rownames in data; col 2 = group)</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Returns tibble with columns "id" and "discrimScore". If data contained rownames, these will be saved as ids. If acc = TRUE, output will be list, with tibble "ds" containing id and vector score, and list "acc" containing accuracy info.</p>
+    <p>Returns tibble with columns "id" and "DS". If data contained rownames, these will be saved as ids</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>First uses <a href='https://rdrr.io/pkg/klaR/man/greedy.wilks.html'>greedy.wilks</a> to perform stepwise forward variable selection for classification, then uses selected variables in <a href='https://rdrr.io/pkg/MASS/man/lda.html'>lda</a></p>

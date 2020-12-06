@@ -3,3 +3,6 @@
 .RData
 .Ruserdata
 inst/doc
+temp.rmd
+temp.nb.html
+docs

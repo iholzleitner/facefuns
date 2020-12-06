@@ -44,7 +44,7 @@
   </a>
 </li>
 <li>
-  <a href="../reference/index.html">Reference</a>
+  <a href="../articles/facefuns.html">Get started</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -54,15 +54,21 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/calcED.html">Calculate similarity of faces</a>
-    </li>
-    <li>
       <a href="../articles/calcSD.html">Calculate sexual dimorphism of faces</a>
     </li>
     <li>
-      <a href="../articles/intro.html">Introduction</a>
+      <a href="../articles/calcED.html">Calculate similarity of faces</a>
+    </li>
+    <li>
+      <a href="../articles/calcAsym.html">Calculate asymmetry of faces</a>
+    </li>
+    <li>
+      <a href="../articles/overview.html">facefuns Overview</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
@@ -96,8 +102,8 @@
 
     
     
-<p><strong>WORK IN PROGRESS/needs rewriting after function changes</strong></p>
-<p>This tutorial will explain how to calculate facial (dis)similarity in a set of 2D faces. We will calculate the Euclidean distance between Procrustes-aligned landmark templates, as well as the Euclidean distance in face space (i.e. principal component space), and compare these two measures.</p>
+<p><strong>WORK IN PROGRESS</strong></p>
+<p>This tutorial will explain how to calculate facial (dis)similarity in a set of 2D faces. We will calculate the Euclidean distance between Procrustes-aligned landmark templates, as well as the Euclidean distance in face space (i.e. principal component space), and compare the two.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/iholzleitner/facefuns">facefuns</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/geomorphR/geomorph">geomorph</a></span><span class="op">)</span></code></pre></div>
@@ -115,17 +121,22 @@
 <span class="va">shapedata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/quickstart.html">quickstart</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>,
                          rotate <span class="op">=</span> <span class="st">"rotateC"</span>,
                          plot_sample <span class="op">=</span> <span class="cn">TRUE</span>,
-                         pc_criterion <span class="op">=</span> <span class="st">"broken_stick"</span><span class="op">)</span></code></pre></div>
+                         pc_criterion <span class="op">=</span> <span class="st">"broken_stick"</span><span class="op">)</span>
+<span class="co">#&gt; The loaded data set contains 102 specimen, delineated with 132 2-D landmarks. The broken_stick criterion was used to select 8 principal components.</span></code></pre></div>
 <p><img src="calcED_files/figure-html/unnamed-chunk-2-1.png" width="700"></p>
 </div>
-<div id="calculate-facial-similarity-from-landmark-templates" class="section level2">
+<div id="calculate-facial-similarity" class="section level2">
 <h2 class="hasAnchor">
-<a href="#calculate-facial-similarity-from-landmark-templates" class="anchor"></a>Calculate facial similarity from landmark templates</h2>
+<a href="#calculate-facial-similarity" class="anchor"></a>Calculate facial similarity</h2>
+<div id="from-landmarks" class="section level3">
+<h3 class="hasAnchor">
+<a href="#from-landmarks" class="anchor"></a>From landmarks</h3>
 <p>We will use <code><a href="../reference/calcED.html">facefuns::calcED</a></code> to calculate similarity. <code>calcED</code> requires two arguments:</p>
 <ol style="list-style-type: decimal">
 <li><p>Landmark coordinates in a matrix format</p></li>
 <li><p>A table specifying for which pairs of faces you would like to calculate similarity</p></li>
 </ol>
+</div>
 <div id="create-landmark-matrix" class="section level3">
 <h3 class="hasAnchor">
 <a href="#create-landmark-matrix" class="anchor"></a>Create landmark matrix</h3>
@@ -144,14 +155,14 @@
 <span class="co">#&gt;  - attr(*, "dimnames")=List of 3</span>
 <span class="co">#&gt;   ..$ : chr [1:132] "1" "2" "3" "4" ...</span>
 <span class="co">#&gt;   ..$ : chr [1:2] "X" "Y"</span>
-<span class="co">#&gt;   ..$ : chr [1:102] "ID=001" "ID=002" "ID=003" "ID=004" ...</span></code></pre></div>
+<span class="co">#&gt;   ..$ : chr [1:102] "001" "002" "003" "004" ...</span></code></pre></div>
 <p>We will use <code><a href="../reference/convertArrayToMatrix.html">facefuns::convertArrayToMatrix</a></code> to convert our array into a matrix with <em>n</em> rows and <em>p</em> x <em>k</em> columns.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">data_matrix</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/convertArrayToMatrix.html">convertArrayToMatrix</a></span><span class="op">(</span><span class="va">shapedata</span><span class="op">$</span><span class="va">array</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">data_matrix</span><span class="op">)</span>
 <span class="co">#&gt;  num [1:102, 1:264] -0.0526 -0.0515 -0.0514 -0.0474 -0.0505 ...</span>
 <span class="co">#&gt;  - attr(*, "dimnames")=List of 2</span>
-<span class="co">#&gt;   ..$ : chr [1:102] "ID=001" "ID=002" "ID=003" "ID=004" ...</span>
+<span class="co">#&gt;   ..$ : chr [1:102] "001" "002" "003" "004" ...</span>
 <span class="co">#&gt;   ..$ : chr [1:264] "X1" "Y1" "X2" "Y2" ...</span></code></pre></div>
 </div>
 <div id="create-list-of-faces" class="section level3">
@@ -178,14 +189,14 @@
 
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">sim_table</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 6 x 3</span>
-<span class="co">#&gt;   A      B      EuclideanDistance</span>
-<span class="co">#&gt;   &lt;fct&gt;  &lt;fct&gt;              &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 ID=001 ID=001            0     </span>
-<span class="co">#&gt; 2 ID=002 ID=001            0.0857</span>
-<span class="co">#&gt; 3 ID=003 ID=001            0.0663</span>
-<span class="co">#&gt; 4 ID=004 ID=001            0.129 </span>
-<span class="co">#&gt; 5 ID=005 ID=001            0.112 </span>
-<span class="co">#&gt; 6 ID=006 ID=001            0.119</span></code></pre></div>
+<span class="co">#&gt;   A     B     EuclideanDistance</span>
+<span class="co">#&gt;   &lt;fct&gt; &lt;fct&gt;             &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 001   001              0     </span>
+<span class="co">#&gt; 2 002   001              0.0857</span>
+<span class="co">#&gt; 3 003   001              0.0663</span>
+<span class="co">#&gt; 4 004   001              0.129 </span>
+<span class="co">#&gt; 5 005   001              0.112 </span>
+<span class="co">#&gt; 6 006   001              0.119</span></code></pre></div>
 <p>Let’s display our data in a wide format and round the values. It is a rather big table, so we will only print a small subset</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sim_table</span> <span class="op">%&gt;%</span>
@@ -194,25 +205,42 @@
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">9</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 9 x 10</span>
-<span class="co">#&gt;   A     `ID=001` `ID=002` `ID=003` `ID=004` `ID=005` `ID=006` `ID=007` `ID=008`</span>
-<span class="co">#&gt;   &lt;fct&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 ID=0…     0        0.09     0.07     0.13     0.11     0.12     0.08     0.14</span>
-<span class="co">#&gt; 2 ID=0…     0.09     0        0.07     0.1      0.08     0.08     0.12     0.11</span>
-<span class="co">#&gt; 3 ID=0…     0.07     0.07     0        0.1      0.09     0.1      0.09     0.11</span>
-<span class="co">#&gt; 4 ID=0…     0.13     0.1      0.1      0        0.09     0.08     0.14     0.11</span>
-<span class="co">#&gt; 5 ID=0…     0.11     0.08     0.09     0.09     0        0.1      0.13     0.1 </span>
-<span class="co">#&gt; 6 ID=0…     0.12     0.08     0.1      0.08     0.1      0        0.14     0.09</span>
-<span class="co">#&gt; 7 ID=0…     0.08     0.12     0.09     0.14     0.13     0.14     0        0.16</span>
-<span class="co">#&gt; 8 ID=0…     0.14     0.11     0.11     0.11     0.1      0.09     0.16     0   </span>
-<span class="co">#&gt; 9 ID=0…     0.07     0.11     0.09     0.14     0.12     0.13     0.06     0.15</span>
-<span class="co">#&gt; # … with 1 more variable: `ID=009` &lt;dbl&gt;</span></code></pre></div>
+<span class="co">#&gt;   A     `001` `002` `003` `004` `005` `006` `007` `008` `009`</span>
+<span class="co">#&gt;   &lt;fct&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 001    0     0.09  0.07  0.13  0.11  0.12  0.08  0.14  0.07</span>
+<span class="co">#&gt; 2 002    0.09  0     0.07  0.1   0.08  0.08  0.12  0.11  0.11</span>
+<span class="co">#&gt; 3 003    0.07  0.07  0     0.1   0.09  0.1   0.09  0.11  0.09</span>
+<span class="co">#&gt; 4 004    0.13  0.1   0.1   0     0.09  0.08  0.14  0.11  0.14</span>
+<span class="co">#&gt; 5 005    0.11  0.08  0.09  0.09  0     0.1   0.13  0.1   0.12</span>
+<span class="co">#&gt; 6 006    0.12  0.08  0.1   0.08  0.1   0     0.14  0.09  0.13</span>
+<span class="co">#&gt; 7 007    0.08  0.12  0.09  0.14  0.13  0.14  0     0.16  0.06</span>
+<span class="co">#&gt; 8 008    0.14  0.11  0.11  0.11  0.1   0.09  0.16  0     0.15</span>
+<span class="co">#&gt; 9 009    0.07  0.11  0.09  0.14  0.12  0.13  0.06  0.15  0</span></code></pre></div>
+</div>
+<div id="in-face-space" class="section level3">
+<h3 class="hasAnchor">
+<a href="#in-face-space" class="anchor"></a>In face space</h3>
+<p>[<em>Run PCA, extract scores, same as above. Compare the two.</em>]</p>
 </div>
 </div>
-<div id="calculate-facial-similarity-in-face-space" class="section level2">
+<div id="averageness" class="section level2">
 <h2 class="hasAnchor">
-<a href="#calculate-facial-similarity-in-face-space" class="anchor"></a>Calculate facial similarity in face space</h2>
-<p>Run PCA, extract scores, same as above.</p>
-<p>Comparing the two: should be extremely highly correlated (or at least they are in 3D!); the point being that it doesn’t make much difference which one you go for (well, we’ll see).</p>
+<a href="#averageness" class="anchor"></a>Averageness</h2>
+<p>Averageness can be quantified as distinctivenss from the sample average. For each face, we will calculate the Euclidean distance to the sample average, and then reverse scores, so higher scores mean “more average”.</p>
+<p>You could use <code>calcED</code>, but this will require a wee bit of data wrangling: you will need to attach the average template to the array holding the aligned templates, then convert this new array to a matrix and finally you might also want to reverse the distinctiveness scores, so higher scores mean "more average’. <code>calcAVG</code> does all of that! It only takes one argument - a <code>quickstart</code> object:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">distinctiveness</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calcAVG.html">calcAVG</a></span><span class="op">(</span><span class="va">shapedata</span><span class="op">)</span>
+
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">distinctiveness</span><span class="op">)</span>
+<span class="co">#&gt; # A tibble: 6 x 3</span>
+<span class="co">#&gt;   id      dist    avg</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 001   0.0879 0.0597</span>
+<span class="co">#&gt; 2 002   0.0650 0.0826</span>
+<span class="co">#&gt; 3 003   0.0608 0.0867</span>
+<span class="co">#&gt; 4 004   0.0701 0.0774</span>
+<span class="co">#&gt; 5 005   0.0700 0.0775</span>
+<span class="co">#&gt; 6 006   0.0631 0.0844</span></code></pre></div>
 </div>
   </div>
 

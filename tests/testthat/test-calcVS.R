@@ -16,20 +16,20 @@ mal <- LondonSet_scores %>%
 test_that("basics", {
   # all perfect
   sexdim <- calcVS(data, fem, mal)
-  expect_equal(names(sexdim), c("id", "vectorScore"))
+  expect_equal(names(sexdim), c("id", "VS"))
   expect_equal(dim(sexdim), c(102, 2))
 
   # Data only one line
   data_onerow <- LondonSet_scores %>% dplyr::slice_head()
   sexdim <- calcVS(data_onerow, fem, mal)
-  expect_equal(round(sexdim$vectorScore[[1]], 3), -1.027)
+  expect_equal(round(sexdim$VS[[1]], 3), -1.062)
 
   # Anchors only one line (as they would be if averages were entered)
   fem_avg <- t(apply(fem, 2, mean))
   mal_avg <- t(apply(mal, 2, mean))
   sexdim <- calcVS(data, fem_avg, mal_avg)
   expect_equal(dim(sexdim), c(102, 2))
-  expect_equal(round(sexdim$vectorScore[[1]], 3), -1.027)
+  expect_equal(round(sexdim$VS[[1]], 3), -1.062)
 })
 
 test_that("errors", {

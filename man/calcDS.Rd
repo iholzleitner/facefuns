@@ -4,17 +4,15 @@
 \alias{calcDS}
 \title{Calculate linear discriminant scores}
 \usage{
-calcDS(data, group_info = 1, acc = FALSE)
+calcDS(data, group_info)
 }
 \arguments{
-\item{data}{Matrix or data frame containing PC scores of specimen (rows = specimen, cols = PCs)}
+\item{data}{Matrix or data frame containing PC scores of specimen (rows = specimen, cols = PCs). Can also contain an additional column that defines group membership}
 
-\item{group_info}{Numeric index of column in data that indicates actual group membership}
-
-\item{acc}{Print accuracy of group membership prediction}
+\item{group_info}{Numeric index of column in data that indicates actual group membership, or a dataframe with two columns (col 1 = id matching the rownames in data; col 2 = group)}
 }
 \value{
-Returns tibble with columns "id" and "discrimScore". If data contained rownames, these will be saved as ids. If acc = TRUE, output will be list, with tibble "ds" containing id and vector score, and list "acc" containing accuracy info.
+Returns tibble with columns "id" and "DS". If data contained rownames, these will be saved as ids
 }
 \description{
 Function uses stepwise LDA to choose best predictors for group membership, and then "regular" LDA to predict discriminant scores.

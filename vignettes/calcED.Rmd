@@ -14,9 +14,9 @@ knitr::opts_chunk$set(
 )
 ```
 
-**WORK IN PROGRESS/needs rewriting after function changes**
+**WORK IN PROGRESS**
 
-This tutorial will explain how to calculate facial (dis)similarity in a set of 2D faces. We will calculate the Euclidean distance between Procrustes-aligned landmark templates, as well as the Euclidean distance in face space (i.e. principal component space), and compare these two measures.
+This tutorial will explain how to calculate facial (dis)similarity in a set of 2D faces. We will calculate the Euclidean distance between Procrustes-aligned landmark templates, as well as the Euclidean distance in face space (i.e. principal component space), and compare the two.
 
 ```{r setup, message=FALSE}
 library(facefuns)
@@ -40,7 +40,9 @@ shapedata <- quickstart(data = data,
 ```
 
 
-## Calculate facial similarity from landmark templates
+## Calculate facial similarity
+
+### From landmarks
 
 We will use `facefuns::calcED` to calculate similarity. `calcED` requires two arguments:
 
@@ -106,8 +108,18 @@ sim_table %>%
   dplyr::slice(1:9)
 ```
 
-## Calculate facial similarity in face space
+### In face space
 
-Run PCA, extract scores, same as above.
+[*Run PCA, extract scores, same as above. Compare the two.*]
 
-Comparing the two: should be extremely highly correlated (or at least they are in 3D!); the point being that it doesn't make much difference which one you go for (well, we'll see).
+## Averageness
+
+Averageness can be quantified as distinctivenss from the sample average. For each face, we will calculate the Euclidean distance to the sample average, and then reverse scores, so higher scores mean "more average".
+
+You could use `calcED`, but this will require a wee bit of data wrangling: you will need to attach the average template to the array holding the aligned templates, then convert this new array to a matrix and finally you might also want to reverse the distinctiveness scores, so higher scores mean "more average'. `calcAVG` does all of that! It only takes one argument - a `quickstart` object:
+
+```{r}
+distinctiveness <- calcAVG(shapedata)
+
+head(distinctiveness)
+```
