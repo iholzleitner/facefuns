@@ -30,7 +30,7 @@
 #' pc_criterion = "broken_stick")
 #'
 #'# Plot sample
-#'shapedata$summary$plot_sample() #or geomorph::plotAllSpecimens(shapedata)
+#'shapedata$summary$plot_sample() #or geomorph::plotAllSpecimens(shapedata$array)
 #'
 #'# Plot PCs
 #'plot2DPCs(shapedata$pc_plot, shapedata$average)
@@ -52,20 +52,18 @@ quickstart <- function (data, pc_criterion = "broken_stick", plot_sample = TRUE,
   dimnames(data_aligned) <- dimnames(gpa$coords)
 
   # CHECK WHETHER ALIGNED TEMPLATES NEED TO BE ROTATED ----
-  # calculate PD between first original, and first Procrustes-aligned template as well as its three rotations and check which one is smallest
+  # calculate PD between original and Procrustes-aligned and rotated averages to figure out which (if any) rotation is needed
   check_rot <- array(data = numeric(),
-                     dim = c(dim(data)[[1]],
-                             dim(data)[[2]],
-                             4))
+                     dim = c(dim(data)[[1]], dim(data)[[2]], 4))
 
   rtype <- c(NA, "rotateC", "rotateCC", "flipY")
-  check_rot[,, 1] <- gpa$coords[,, 1]
-  check_rot[,, 2] <- geomorph::rotate.coords(gpa$coords[,, 1], type = rtype[2])
-  check_rot[,, 3] <- geomorph::rotate.coords(gpa$coords[,, 1], type = rtype[3])
-  check_rot[,, 4] <- geomorph::rotate.coords(gpa$coords[,, 1], type = rtype[4])
+  check_rot[,, 1] <- apply(gpa$coords, c(1, 2), mean)
+  check_rot[,, 2] <- geomorph::rotate.coords(apply(gpa$coords, c(1, 2), mean), type = rtype[2])
+  check_rot[,, 3] <- geomorph::rotate.coords(apply(gpa$coords, c(1, 2), mean), type = rtype[3])
+  check_rot[,, 4] <- geomorph::rotate.coords(apply(gpa$coords, c(1, 2), mean), type = rtype[4])
 
   rot_min <- sapply(seq_len(dim(check_rot)[[3]]),
-                    function(i) sqrt(sum((data[,, 1] - check_rot[,, i])**2))
+                    function(i) sqrt(sum((geomorph::mshape(data) - check_rot[,, i])**2))
   )
 
   if (auto_rotate == TRUE && which.min(rot_min) != 1) {
@@ -79,20 +77,6 @@ quickstart <- function (data, pc_criterion = "broken_stick", plot_sample = TRUE,
     message_rot <- paste0("Templates were not rotated after the GPA.")
   }
 
-  # rotate coords ----
-  # deleted for now: if the new code works, get rid of entirely
-  #  #' @param rotate The type of rotation or flip to be performed (after Procrustes alignment, landmark templates might have to be rotated). Specimens can be flipped with respect to x or y axes, or rotated clockwise or counter-clockwise. See \link[geomorph]{rotate.coords}
-  # rotate = c(NA, "flipX", "flipY", "rotateC", "rotateCC"),
-
-  #rotate <- match.arg(rotate)
-
-  #if (!is.na(rotate)){
-  #  for (rtype in rotate) {
-  #    data_aligned <- geomorph::rotate.coords(data_aligned, type = rtype)
-  #    dimnames(data_aligned) <- dimnames(gpa$coords)
-  #  }}
-
-
   # PLOT ----
   plotSample <- function() {geomorph::plotAllSpecimens(data_aligned)}
 
@@ -102,20 +86,29 @@ quickstart <- function (data, pc_criterion = "broken_stick", plot_sample = TRUE,
 
 
   # PCA ----
-  pca_output <- geomorph::gm.prcomp(data_aligned)
+  # Came across a mysterious error: "Error in La.svd(x, nu, nv): error code 1 from Lapack routine 'dgesdd'"
+  # The following tries to catch and work around this error: solved the issue in the data set I encountered it with, but whether that's a reliable fix is unclear!
+  pca_output <- tryCatch({
+    geomorph::gm.prcomp(data_aligned)
+  }, error = function(e) {
+    message(paste0(e, " - The R gods seem upset with you, and sent you this message. You should be able to safely ignore it, but do check your output!"))
+
+    # Converting data to matrix, reshuffling rows, and THEN running PCA
+    matrix <- convertArrayToMatrix(data_aligned)
+    rand <- sample(nrow(matrix))
+    shuffled <- matrix[rand,]
+
+    return(stats::prcomp(shuffled))
+  })
 
   # select PCs
   pc_sel <- selectPCs(pca_output = pca_output, method = pc_criterion)
 
   # save scores
   data_scores <- pca_output$x[, 1:pc_sel$n] %>%
-    tibble::as_tibble() %>%
+    as.data.frame() %>%
     # tidy colnames
-    dplyr::rename_with(~make_id(n = pc_sel$n, "PC")) %>%
-    # re-add IDs
-    tibble::add_column(.before = 1, id = dimnames(data_aligned)[[3]]) %>%
-    tibble::column_to_rownames(var = "id")
-
+    dplyr::rename_with(~make_id(n = pc_sel$n, "PC"))
 
   # MAKE 2D PCS ----
   ref <- geomorph::mshape(data_aligned)

@@ -47,7 +47,7 @@ shapedata <- quickstart(data = data,
 pc_criterion = "broken_stick")
 
 # Plot sample
-shapedata$summary$plot_sample() #or geomorph::plotAllSpecimens(shapedata)
+shapedata$summary$plot_sample() #or geomorph::plotAllSpecimens(shapedata$array)
 
 # Plot PCs
 plot2DPCs(shapedata$pc_plot, shapedata$average)
