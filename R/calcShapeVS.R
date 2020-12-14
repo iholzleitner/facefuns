@@ -2,7 +2,7 @@
 #'
 #' Function projects data onto vector from anchor one (score of 0) to anchor two (score of 1). See \link[facefuns]{calcVS}
 #'
-#' @param quickstart_obj Output from \link[facefuns]{quickstart}
+#' @param data Output from \link[facefuns]{quickstart}
 #' @param anchor1_index Vector specifying indices of faces which will constitute lower anchor point
 #' @param anchor2_index Vector specifying indices of faces which will constitute upper anchor point
 #' @param symm Symmetrize templates prior to calculating vector scores
@@ -21,7 +21,6 @@
 #'                     remove_points = remove_points)
 #'
 #' shapedata <- quickstart(data = data,
-#'                        rotate = "rotateC",
 #'                        pc_criterion = "broken_stick",
 #'                        plot_sample = FALSE,
 #'                        message = FALSE)
@@ -42,31 +41,33 @@
 #' # Calculate vector scores
 #' calcShapeVS(shapedata, fem_i, mal_i, symm=TRUE, mirr_lms = mirr_lms)
 #'
-calcShapeVS <- function(quickstart_obj, anchor1_index, anchor2_index, symm = FALSE, mirr_lms){
+calcShapeVS <- function(data, anchor1_index, anchor2_index, symm = FALSE, mirr_lms){
 
   # ONLY WORKS FOR WITHIN-SET SCORES; I.E. PCA OF DATA AND ANCHOR FACES COMBINED
   # Also, totally redundant function - better to just pass symmetrized faces to quickstart; if symmetrized faces are used, PCs from symmetrized faces should be reported/plotted etc. But I'll keep it for now in case any of the code comes in handy for something else.
 
   # Check data is of class quickstart
-  if (class(quickstart_obj) != "quickstart") {
-    stop("This function only takes objects of class quickstart as output. Maybe try calcVS?")
+  if (class(data) != "facefuns_obj") {
+    stop("This function only takes facefuns objects as output. Maybe try calcVS?")
   }
+
+  input <- data
 
   if (symm == TRUE) {
 
     # SYMMETRIZE
-    data <- symmTemplates(quickstart_obj$array, mirr_lms)
+    data <- symmTemplates(input$array, mirr_lms)
 
     # GPA
     gpa <- geomorph::gpagen(data, print.progress = FALSE)
     data_aligned <- gpa$coords
-    if (!is.na(quickstart_obj$summary$data_r)){
-      data_aligned <- geomorph::rotate.coords(data_aligned, type = quickstart_obj$summary$data_r)
+    if (!is.na(input$summary$data_r)){
+      data_aligned <- geomorph::rotate.coords(data_aligned, type = input$summary$data_r)
       dimnames(data_aligned) <- dimnames(gpa$coords)}
 
     # PCA
     pca_output <- geomorph::gm.prcomp(data_aligned)
-    pc_sel <- selectPCs(pca_output = pca_output, method = quickstart_obj$summary$pc_crit)
+    pc_sel <- selectPCs(pca_output = pca_output, method = input$summary$pc_crit)
 
     data_scores <- pca_output$x[, 1:pc_sel$n] %>%
       tibble::as_tibble() %>%
@@ -76,7 +77,7 @@ calcShapeVS <- function(quickstart_obj, anchor1_index, anchor2_index, symm = FAL
       tibble::column_to_rownames(var = "id")
 
   } else {
-    data_scores <- quickstart_obj$pc_scores
+    data_scores <- input$pc_scores
   }
 
   data_matrix <- as.matrix(data_scores)

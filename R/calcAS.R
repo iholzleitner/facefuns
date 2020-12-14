@@ -17,12 +17,12 @@
 #'
 calcAS <- function (data, mirr_lms) {
 
-  if (class(data) == "quickstart") {
+  if (class(data) == "facefuns_obj") {
     org <- data$array
-  } else if (is.array(data)) {
+  } else if (is_shape_array(data)) {
     org <- data
   } else {
-    stop("Your data is neither a quickstart object nor an array")
+    stop("Your data is neither a facefuns object nor a three-dimensional array")
   }
 
   # SET UP
@@ -38,7 +38,7 @@ calcAS <- function (data, mirr_lms) {
   super_array[,, (n+1):(2*n)] <- mirr
 
   # CONDUCT GPA
-  # NOTE: given that we're just after scores here and correct rotation might differ depending on data set, ignore rotation is off
+  # NOTE: given that we're just after scores here and correct rotation might differ depending on data set, ignore rotation might be off
   gpa <- geomorph::gpagen(super_array, print.progress = FALSE)
   data_aligned <- gpa$coords
 

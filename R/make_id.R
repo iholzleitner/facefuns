@@ -7,7 +7,6 @@
 #' @param suffix the suffix to the number (default "")
 #'
 #' @return a vector of IDs
-#' @importFrom rlang .data
 #' @export
 #' @examples
 #' make_id(20, "SUBJECT_")

@@ -6,22 +6,22 @@
 \usage{
 quickstart(
   data,
-  rotate = c(NA, "flipX", "flipY", "rotateC", "rotateCC"),
   pc_criterion = "broken_stick",
   plot_sample = TRUE,
-  message = TRUE
+  message = TRUE,
+  auto_rotate = TRUE
 )
 }
 \arguments{
 \item{data}{Three-dimensional array of dimensions p, k, and n. p = number of landmarks, k = dimension (2D or 3D), n = number of specimens.}
-
-\item{rotate}{The type of rotation or flip to be performed (after Procrustes alignment, landmark templates might have to be rotated). Specimens can be flipped with respect to x or y axes, or rotated clockwise or counter-clockwise. See \link[geomorph]{rotate.coords}}
 
 \item{pc_criterion}{Criterion used to choose which PCs to retain. See \link[facefuns]{selectPCs}}
 
 \item{plot_sample}{Plot sample to check data. See \link[geomorph]{plotAllSpecimens}}
 
 \item{message}{Print short summary of loaded data}
+
+\item{auto_rotate}{Landmark templates are sometimes no longer upright after Procrustes-alignment. Auto-rotate uses \link[geomorph]{rotate.coords} to guess which type of rotation is required.}
 }
 \value{
 Returns a list of the following components:
@@ -44,7 +44,6 @@ remove_points <- c(45:50, 100:104, 116:125, 146:158, 159:164, 165:170, 171:174, 
 
 data <- read_lmdata(lmdata = path_to_tem, remove_points = remove_points)
 shapedata <- quickstart(data = data,
-rotate = "rotateC",
 pc_criterion = "broken_stick")
 
 # Plot sample

@@ -147,10 +147,10 @@ vignette(&quot;intro&quot;, package = &quot;facefuns&quot;)" />
 
     <pre class="usage"><span class='fu'>quickstart</span><span class='op'>(</span>
   <span class='va'>data</span>,
-  rotate <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='cn'>NA</span>, <span class='st'>"flipX"</span>, <span class='st'>"flipY"</span>, <span class='st'>"rotateC"</span>, <span class='st'>"rotateCC"</span><span class='op'>)</span>,
   pc_criterion <span class='op'>=</span> <span class='st'>"broken_stick"</span>,
   plot_sample <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  message <span class='op'>=</span> <span class='cn'>TRUE</span>
+  message <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  auto_rotate <span class='op'>=</span> <span class='cn'>TRUE</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -159,10 +159,6 @@ vignette(&quot;intro&quot;, package = &quot;facefuns&quot;)" />
     <tr>
       <th>data</th>
       <td><p>Three-dimensional array of dimensions p, k, and n. p = number of landmarks, k = dimension (2D or 3D), n = number of specimens.</p></td>
-    </tr>
-    <tr>
-      <th>rotate</th>
-      <td><p>The type of rotation or flip to be performed (after Procrustes alignment, landmark templates might have to be rotated). Specimens can be flipped with respect to x or y axes, or rotated clockwise or counter-clockwise. See <a href='https://rdrr.io/pkg/geomorph/man/rotate.coords.html'>rotate.coords</a></p></td>
     </tr>
     <tr>
       <th>pc_criterion</th>
@@ -175,6 +171,10 @@ vignette(&quot;intro&quot;, package = &quot;facefuns&quot;)" />
     <tr>
       <th>message</th>
       <td><p>Print short summary of loaded data</p></td>
+    </tr>
+    <tr>
+      <th>auto_rotate</th>
+      <td><p>Landmark templates are sometimes no longer upright after Procrustes-alignment. Auto-rotate uses <a href='https://rdrr.io/pkg/geomorph/man/rotate.coords.html'>rotate.coords</a> to guess which type of rotation is required.</p></td>
     </tr>
     </table>
 
@@ -195,9 +195,10 @@ vignette(&quot;intro&quot;, package = &quot;facefuns&quot;)" />
 
 <span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='read_lmdata.html'>read_lmdata</a></span><span class='op'>(</span>lmdata <span class='op'>=</span> <span class='va'>path_to_tem</span>, remove_points <span class='op'>=</span> <span class='va'>remove_points</span><span class='op'>)</span>
 </div><div class='img'><img src='quickstart-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='va'>shapedata</span> <span class='op'>&lt;-</span> <span class='fu'>quickstart</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>data</span>,
-rotate <span class='op'>=</span> <span class='st'>"rotateC"</span>,
 pc_criterion <span class='op'>=</span> <span class='st'>"broken_stick"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>The loaded data set contains 102 specimen, delineated with 132 2-D landmarks. The broken_stick criterion was used to select 8 principal components.</span></div><div class='input'>
+</div><div class='output co'>#&gt; The loaded data set contains 102 specimen, delineated with 132 2-D landmarks.
+#&gt; The broken_stick criterion was used to select 8 principal components.
+#&gt; Templates were rotated using "rotateC" after the GPA.</div><div class='input'>
 <span class='co'># Plot sample</span>
 <span class='va'>shapedata</span><span class='op'>$</span><span class='va'>summary</span><span class='op'>$</span><span class='fu'>plot_sample</span><span class='op'>(</span><span class='op'>)</span> <span class='co'>#or geomorph::plotAllSpecimens(shapedata)</span>
 </div><div class='img'><img src='quickstart-2.png' alt='' width='700' height='433' /></div><div class='input'>

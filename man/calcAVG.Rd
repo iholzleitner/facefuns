@@ -4,13 +4,13 @@
 \alias{calcAVG}
 \title{Calculate averageness}
 \usage{
-calcAVG(quickstart_obj)
+calcAVG(data)
 }
 \arguments{
-\item{quickstart_obj}{Quickstart object}
+\item{data}{Facefuns object or three-dimensional array of dimensions p, k (2 or 3), and n (minimum = 2)}
 }
 \value{
-Returns tibble with distinctivness and averageness (reversed distinctiveness) scores
+Returns tibble with distinctiveness and averageness (reversed distinctiveness) scores
 }
 \description{
 Functions calculates averageness/distinctiveness as each template's distance from sample average

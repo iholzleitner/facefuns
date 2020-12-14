@@ -4,16 +4,10 @@
 \alias{calcShapeVS}
 \title{Calculate vector scores from Procrustes-aligned landmark templates}
 \usage{
-calcShapeVS(
-  quickstart_obj,
-  anchor1_index,
-  anchor2_index,
-  symm = FALSE,
-  mirr_lms
-)
+calcShapeVS(data, anchor1_index, anchor2_index, symm = FALSE, mirr_lms)
 }
 \arguments{
-\item{quickstart_obj}{Output from \link[facefuns]{quickstart}}
+\item{data}{Output from \link[facefuns]{quickstart}}
 
 \item{anchor1_index}{Vector specifying indices of faces which will constitute lower anchor point}
 
@@ -39,7 +33,6 @@ data <- read_lmdata(lmdata = path_to_tem,
                     remove_points = remove_points)
 
 shapedata <- quickstart(data = data,
-                       rotate = "rotateC",
                        pc_criterion = "broken_stick",
                        plot_sample = FALSE,
                        message = FALSE)

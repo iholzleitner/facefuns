@@ -34,7 +34,6 @@ data <- read_lmdata(lmdata = path_to_tem,
                        plot = FALSE)
 
 shapedata <- quickstart(data = data,
-                         rotate = "rotateC",
                          plot_sample = TRUE,
                          pc_criterion = "broken_stick")
 ```

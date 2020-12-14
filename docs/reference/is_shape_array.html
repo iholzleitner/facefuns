@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculate asymmetry — calcAS • facefuns</title>
+<title>Helper function to check if input is array of right dimensions for shape analyses — is_shape_array • facefuns</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Calculate asymmetry — calcAS" />
-<meta property="og:description" content="Function mirrors templates and runs GPA on original plus mirrored templates. Asymmetry scores are then calculated as Euclidean distance between original template and its symmetrized version (i.e. the mean of original and mirrored template)" />
+<meta property="og:title" content="Helper function to check if input is array of right dimensions for shape analyses — is_shape_array" />
+<meta property="og:description" content="Helper function to check if input is array of right dimensions for shape analyses" />
 
 
 
@@ -132,56 +132,30 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Calculate asymmetry</h1>
-    <small class="dont-index">Source: <a href='https://github.com/iholzleitner/facefuns/blob/master/R/calcAS.R'><code>R/calcAS.R</code></a></small>
-    <div class="hidden name"><code>calcAS.Rd</code></div>
+    <h1>Helper function to check if input is array of right dimensions for shape analyses</h1>
+    <small class="dont-index">Source: <a href='https://github.com/iholzleitner/facefuns/blob/master/R/is_shape_array.R'><code>R/is_shape_array.R</code></a></small>
+    <div class="hidden name"><code>is_shape_array.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Function mirrors templates and runs GPA on original plus mirrored templates. Asymmetry scores are then calculated as Euclidean distance between original template and its symmetrized version (i.e. the mean of original and mirrored template)</p>
+    <p>Helper function to check if input is array of right dimensions for shape analyses</p>
     </div>
 
-    <pre class="usage"><span class='fu'>calcAS</span><span class='op'>(</span><span class='va'>data</span>, <span class='va'>mirr_lms</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>is_shape_array</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>data</th>
-      <td><p>Quickstart object or three-dimensional array of dimensions p, k, and n</p></td>
-    </tr>
-    <tr>
-      <th>mirr_lms</th>
-      <td><p>Vector specifying order of mirrored landmarks</p></td>
+      <th>x</th>
+      <td></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Returns tibble containing ID and asymmetry values</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <p>TRUE or FALSE</p>
 
-    <p>NOTE: does not distinguish between directional and fluctuating asymmetry</p>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>LondonSet_aligned</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>mirr_lms</span><span class='op'>)</span>
-<span class='fu'>calcAS</span><span class='op'>(</span><span class='va'>LondonSet_aligned</span>, <span class='va'>mirr_lms</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 102 x 2</span><span>
-#&gt;    id      asym
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> 001   0.036</span><span style='text-decoration: underline;'>8</span><span>
-#&gt; </span><span style='color: #555555;'> 2</span><span> 002   0.047</span><span style='text-decoration: underline;'>6</span><span>
-#&gt; </span><span style='color: #555555;'> 3</span><span> 003   0.025</span><span style='text-decoration: underline;'>6</span><span>
-#&gt; </span><span style='color: #555555;'> 4</span><span> 004   0.032</span><span style='text-decoration: underline;'>3</span><span>
-#&gt; </span><span style='color: #555555;'> 5</span><span> 005   0.022</span><span style='text-decoration: underline;'>2</span><span>
-#&gt; </span><span style='color: #555555;'> 6</span><span> 006   0.031</span><span style='text-decoration: underline;'>0</span><span>
-#&gt; </span><span style='color: #555555;'> 7</span><span> 007   0.025</span><span style='text-decoration: underline;'>5</span><span>
-#&gt; </span><span style='color: #555555;'> 8</span><span> 008   0.025</span><span style='text-decoration: underline;'>2</span><span>
-#&gt; </span><span style='color: #555555;'> 9</span><span> 009   0.029</span><span style='text-decoration: underline;'>1</span><span>
-#&gt; </span><span style='color: #555555;'>10</span><span> 010   0.033</span><span style='text-decoration: underline;'>0</span><span>
-#&gt; </span><span style='color: #555555;'># … with 92 more rows</span><span></div><div class='input'>
-</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

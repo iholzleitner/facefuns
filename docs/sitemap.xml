@@ -70,6 +70,9 @@
     <loc>https://iholzleitner.github.io/facefuns/reference/gsv_helper.html</loc>
   </url>
   <url>
+    <loc>https://iholzleitner.github.io/facefuns/reference/is_shape_array.html</loc>
+  </url>
+  <url>
     <loc>https://iholzleitner.github.io/facefuns/reference/make2DPCs.html</loc>
   </url>
   <url>
@@ -94,7 +97,7 @@
     <loc>https://iholzleitner.github.io/facefuns/reference/plot2DPCs.html</loc>
   </url>
   <url>
-    <loc>https://iholzleitner.github.io/facefuns/reference/print.quickstart.html</loc>
+    <loc>https://iholzleitner.github.io/facefuns/reference/print.facefuns_obj.html</loc>
   </url>
   <url>
     <loc>https://iholzleitner.github.io/facefuns/reference/print.selected_PCs.html</loc>

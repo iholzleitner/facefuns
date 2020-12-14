@@ -119,11 +119,12 @@
                        plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 
 <span class="va">shapedata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/quickstart.html">quickstart</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>,
-                         rotate <span class="op">=</span> <span class="st">"rotateC"</span>,
                          plot_sample <span class="op">=</span> <span class="cn">TRUE</span>,
-                         pc_criterion <span class="op">=</span> <span class="st">"broken_stick"</span><span class="op">)</span>
-<span class="co">#&gt; The loaded data set contains 102 specimen, delineated with 132 2-D landmarks. The broken_stick criterion was used to select 8 principal components.</span></code></pre></div>
+                         pc_criterion <span class="op">=</span> <span class="st">"broken_stick"</span><span class="op">)</span></code></pre></div>
 <p><img src="calcED_files/figure-html/unnamed-chunk-2-1.png" width="700"></p>
+<pre><code>#&gt; The loaded data set contains 102 specimen, delineated with 132 2-D landmarks.
+#&gt; The broken_stick criterion was used to select 8 principal components.
+#&gt; Templates were rotated using "rotateC" after the GPA.</code></pre>
 </div>
 <div id="calculate-facial-similarity" class="section level2">
 <h2 class="hasAnchor">
@@ -149,7 +150,7 @@
 <li>
 <em><strong>n</strong></em> The number of faces, here 102</li>
 </ul>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">shapedata</span><span class="op">$</span><span class="va">array</span><span class="op">)</span>
 <span class="co">#&gt;  num [1:132, 1:2, 1:102] -0.0526 0.054 -0.0522 -0.0603 -0.0622 ...</span>
 <span class="co">#&gt;  - attr(*, "dimnames")=List of 3</span>
@@ -157,7 +158,7 @@
 <span class="co">#&gt;   ..$ : chr [1:2] "X" "Y"</span>
 <span class="co">#&gt;   ..$ : chr [1:102] "001" "002" "003" "004" ...</span></code></pre></div>
 <p>We will use <code><a href="../reference/convertArrayToMatrix.html">facefuns::convertArrayToMatrix</a></code> to convert our array into a matrix with <em>n</em> rows and <em>p</em> x <em>k</em> columns.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">data_matrix</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/convertArrayToMatrix.html">convertArrayToMatrix</a></span><span class="op">(</span><span class="va">shapedata</span><span class="op">$</span><span class="va">array</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">data_matrix</span><span class="op">)</span>
 <span class="co">#&gt;  num [1:102, 1:264] -0.0526 -0.0515 -0.0514 -0.0474 -0.0505 ...</span>
@@ -171,10 +172,10 @@
 <p>Most times, you will already have a list of face pairs for which you want to calculate similarity.</p>
 <p>For this example, we will calculate the similarity between <em>all</em> possible combinations of face pairs in our data set.</p>
 <p>We start by assigning all face IDs in our sample to a variable …</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">face_names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/dimnames.html">dimnames</a></span><span class="op">(</span><span class="va">shapedata</span><span class="op">$</span><span class="va">array</span><span class="op">)</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span></code></pre></div>
 <p>… and then create a list of all possible combinations</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">pairs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/expand.grid.html">expand.grid</a></span><span class="op">(</span>A <span class="op">=</span> <span class="va">face_names</span>,
                      B <span class="op">=</span> <span class="va">face_names</span><span class="op">)</span></code></pre></div>
 </div>
@@ -183,7 +184,7 @@
 <a href="#calced" class="anchor"></a><code>calcED</code>
 </h3>
 <p>We now have everything we need to run our function</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sim_table</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calcED.html">calcED</a></span><span class="op">(</span>coords_matrix <span class="op">=</span> <span class="va">data_matrix</span>,
                     pairs_table <span class="op">=</span> <span class="va">pairs</span><span class="op">)</span>
 
@@ -198,7 +199,7 @@
 <span class="co">#&gt; 5 005   001              0.112 </span>
 <span class="co">#&gt; 6 006   001              0.119</span></code></pre></div>
 <p>Let’s display our data in a wide format and round the values. It is a rather big table, so we will only print a small subset</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sim_table</span> <span class="op">%&gt;%</span>
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>EuclideanDistance <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">EuclideanDistance</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/spread.html">spread</a></span><span class="op">(</span><span class="va">B</span>, <span class="va">EuclideanDistance</span><span class="op">)</span> <span class="op">%&gt;%</span>
@@ -228,7 +229,7 @@
 <a href="#averageness" class="anchor"></a>Averageness</h2>
 <p>Averageness can be quantified as distinctivenss from the sample average. For each face, we will calculate the Euclidean distance to the sample average, and then reverse scores, so higher scores mean “more average”.</p>
 <p>You could use <code>calcED</code>, but this will require a wee bit of data wrangling: you will need to attach the average template to the array holding the aligned templates, then convert this new array to a matrix and finally you might also want to reverse the distinctiveness scores, so higher scores mean "more average’. <code>calcAVG</code> does all of that! It only takes one argument - a <code>quickstart</code> object:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">distinctiveness</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calcAVG.html">calcAVG</a></span><span class="op">(</span><span class="va">shapedata</span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">distinctiveness</span><span class="op">)</span>

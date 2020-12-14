@@ -120,10 +120,11 @@
                     plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 
 <span class="va">shapedata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/quickstart.html">quickstart</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>,
-                        rotate <span class="op">=</span> <span class="st">"rotateC"</span>,
                         pc_criterion <span class="op">=</span> <span class="st">"broken_stick"</span>,
                         plot_sample <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="co">#&gt; The loaded data set contains 102 specimen, delineated with 132 2-D landmarks. The broken_stick criterion was used to select 8 principal components.</span></code></pre></div>
+<span class="co">#&gt; The loaded data set contains 102 specimen, delineated with 132 2-D landmarks.</span>
+<span class="co">#&gt; The broken_stick criterion was used to select 8 principal components.</span>
+<span class="co">#&gt; Templates were rotated using "rotateC" after the GPA.</span></code></pre></div>
 <p>In addition, we’ll also need to know which of the faces in our sample are female, and which are male.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">LondonSet_info</span><span class="op">)</span>

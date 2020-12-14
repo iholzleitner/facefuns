@@ -18,10 +18,10 @@
 #'
 calcFA_geo <- function (data, mirr_lms) {
 
-  if (class(data) == "quickstart") {
+  if (class(data) == "facefuns_obj") {
     data <- data$array
-  } else if (!is.array(data)) {
-    stop("Your data is neither a quickstart object nor an array")
+  } else if (!is_shape_array(data)) {
+    stop("Your data is neither a facefuns object nor a three-dimensional array")
   }
 
   # CREATE LM PAIRS TABLE ----

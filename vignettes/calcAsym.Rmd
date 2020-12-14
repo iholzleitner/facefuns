@@ -32,7 +32,6 @@ data <- read_lmdata(lmdata = path_to_tem,
                     plot = FALSE)
 
 shapedata <- quickstart(data = data,
-                        rotate = "rotateC",
                         pc_criterion = "broken_stick")
 ```
 
@@ -66,6 +65,7 @@ compare %>%
   geom_point()
 
 compare %>%
+  dplyr::mutate(fa.geo = fa.geo/2) %>%
   tidyr::pivot_longer(!c(id, fa), names_to = "other_fa_types", values_to = "score") %>%
   ggplot(aes(x = fa, y = score, colour = other_fa_types)) +
   geom_point()

@@ -167,10 +167,10 @@ plotRefToTarget(ref, pca_output$shapes$shapes.comp1$max)
 
 ```{r}
 shapedata <- quickstart(data = data,
-                        rotate = "rotateC",
                         pc_criterion = "broken_stick",
                         plot_sample = TRUE,
-                        message = TRUE)
+                        message = TRUE,
+                        auto_rotate = TRUE)
 ```
 
 `quickstart` returns a list with the following elements:

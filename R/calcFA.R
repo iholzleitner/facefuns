@@ -1,9 +1,9 @@
 #' Calculate fluctuating asymmetry
 #'
 #' @description
-#' \lifecycle{experimental}
+#' \lifecycle{maturing}
 #'
-#' Calculates fluctuating asymmetry (FA) of landmark templates. FA scores are calculated as Euclidean distance between original and symmetrized templates, corrected for sample directional asymmetry
+#' Calculates fluctuating asymmetry (FA) of landmark templates. FA scores are calculated as Euclidean distance between original and symmetrised templates, corrected for directional asymmetry of sample
 #'
 #' @param data Quickstart object or three-dimensional array of dimensions p, k, and n
 #' @param mirr_lms Vector specifying order of mirrored landmarks
@@ -18,12 +18,12 @@
 #'
 calcFA <- function (data, mirr_lms) {
 
-  if (class(data) == "quickstart") {
+  if (class(data) == "facefuns_obj") {
     org <- data$array
-  } else if (is.array(data)) {
+  } else if (is_shape_array(data)) {
     org <- data
   } else {
-    stop("Your data is neither a quickstart object nor an array")
+    stop("Your data is neither a facefuns object nor a three-dimensional array")
   }
 
   # SET UP ----
@@ -44,13 +44,14 @@ calcFA <- function (data, mirr_lms) {
   data_aligned <- gpa$coords
 
   # DIRECTIONAL ASYMMETRY ----
-  # Klingenberg 2015: the average shape of all the original templates minus the average of all the reflected and relabeled copies
-  DA <- geomorph::mshape(data_aligned[,,1:n]) - geomorph::mshape(data_aligned[,,(n+1):(n*2)])
+  # Klingenberg 2015, p. 865: the average shape of all the original templates minus the average of all the reflected and relabeled copies
+  DA <- geomorph::mshape(data_aligned[,, 1:n]) - geomorph::mshape(data_aligned[,, (n+1):(n*2)])
 
   # FLUCTUATING ASYMMETRY -----
-  # Klingenberg 2015: variation of individual asymmetries (difference between original and symmetric, i.e. mean of original and mirrored templates) around the average of directional asymmetry
+  # Klingenberg 2015, p. 865: the variation of individual asymmetries around the average of directional asymmetry
+  # individual asymmetry = diff between original and reflected templates (equivalent to difference between original and symmetrised templates divided by 2)
   FA_score <- sapply(seq_len(dim(org)[[3]]),
-                     function(i) sqrt(sum((data_aligned[,,i] - geomorph::mshape(data_aligned[,, c(i, (i+n))]) - DA)**2))
+                     function(i) sqrt(sum((data_aligned[,, i] - data_aligned[,, (i+n)] - DA)**2))
                      )
 
   fa_table <- tibble::tibble(
