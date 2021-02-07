@@ -2,6 +2,9 @@
 title: "Calculate asymmetry of faces"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
+bibliography: facefuns.bib
+csl: apa-numeric-superscript.csl
+link-citations: yes
 vignette: >
   %\VignetteIndexEntry{Calculate asymmetry of faces}
   %\VignetteEngine{knitr::rmarkdown}
@@ -15,7 +18,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-**PROCEED WITH CAUTION... VERY MUCH WORK IN PROGRESS**
+**PROCEED WITH CAUTION... WORK IN PROGRESS**
 
 ```{r setup}
 library(facefuns)
@@ -37,13 +40,13 @@ shapedata <- quickstart(data = data,
 
 ## Calculate asymmetry
 
-*Needs very much tidying up. For now we have:*
+*Needs tidying up. For now we have:*
 
-* `calcAS`: calculate asymmetry. Asymmetry scores are calculated as the Euclidean/Procrustes distance between each original template and its symmetrized counterpart (i.e. the mean of the original template and its mirrored version). Corresponds to the code I've used in the past, but does not correct for directional asymmetry (DA). 
+* `calcAS`: calculates asymmetry as the Procrustes distance between each original template and its symmetrized counterpart[@komori2009]; does not correct for directional asymmetry (DA)
 
-* `calcFA`: is me trying to correct for DA and get at fluctuating asymmetry (FA) by following what's outlined in [Klingenberg (2015)](https://morphometrics.uk/PDF_files/Symmetry2015.pdf). Asymmetry scores are calculated using the same steps as in `calcAS`, but are additionally corrected for sample DA. DA is calculated as the average of original templates minus the average of mirrored templates
+* `calcFA`: calculates fluctuating asymmetry (FA) by correcting asymmetry as calculated above for DA following Klingenberg (2015)[@klingenberg2015]; DA is calculated as the average of original templates minus the average of mirrored templates
 
-* `calcFA_geo`: is also trying to measure FA, here using `geomorph::bilat.symmetry`. I am not entirely sure I *really* get what `bilat.symmetry` is doing under the hood and hence whether I'm implementing this correctly. Resulting scores are strongly correlated with the other two, but of course that doesn't mean much - they could all be terribly wrong.
+* `calcFA_geo`: calculates FA, here using `geomorph::bilat.symmetry`. I am not entirely sure what  `bilat.symmetry` is doing under the hood and hence whether I'm implementing this correctly. Resulting scores are strongly correlated with the other two, but of course that doesn't mean much
 
 ```{r}
 as <- calcAS(shapedata, mirr_lms)
@@ -53,25 +56,28 @@ fa.geo <- calcFA_geo(shapedata, mirr_lms)
 compare <- fa %>%
   dplyr::left_join(fa.geo, by="id") %>%
   dplyr::left_join(as, by="id") %>%
-  # one picture is very asymmetric (face turned sideways); excluded, so as to not inflate correlations between different scores
-  dplyr::filter(id != "139")
+  # one picture is very asymmetric (face turned sideways) and was
+  # excluded, so as to not inflate correlations between different scores
+  dplyr::filter(id != "139") %>%
+  dplyr::mutate(fa.geo = fa.geo/2)
 
-```
-
-```{r}
-compare %>%
-  tidyr::pivot_longer(!c(id, fa.geo), names_to = "other_fa_types", values_to = "score") %>%
-  ggplot(aes(x = fa.geo, y = score, colour = other_fa_types)) +
+as <- compare %>%
+  tidyr::pivot_longer(!c(id, asym),
+                      names_to = "other_fa_types",
+                      values_to = "score") %>%
+  ggplot(aes(x = asym, y = score, colour = other_fa_types)) +
   geom_point()
 
-compare %>%
-  dplyr::mutate(fa.geo = fa.geo/2) %>%
-  tidyr::pivot_longer(!c(id, fa), names_to = "other_fa_types", values_to = "score") %>%
+fa <- compare %>%
+  tidyr::pivot_longer(!c(id, fa),
+                      names_to = "other_fa_types",
+                      values_to = "score") %>%
   ggplot(aes(x = fa, y = score, colour = other_fa_types)) +
   geom_point()
 
-compare %>%
-  tidyr::pivot_longer(!c(id, asym), names_to = "other_fa_types", values_to = "score") %>%
-  ggplot(aes(x = asym, y = score, colour = other_fa_types)) +
-  geom_point()
+cowplot::plot_grid(as, fa, ncol = 2)
 ```
+
+
+
+## References

@@ -1,6 +1,10 @@
 ---
 title: "Calculate sexual dimorphism of faces"
+date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
+bibliography: facefuns.bib
+csl: apa-numeric-superscript.csl
+link-citations: yes
 vignette: >
   %\VignetteIndexEntry{Calculate sexual dimorphism of faces}
   %\VignetteEngine{knitr::rmarkdown}
@@ -16,9 +20,7 @@ knitr::opts_chunk$set(
 
 **WORK IN PROGRESS**
 
-This tutorial will explain how to calculate facial sexual dimorphism (SD) in a set of 2D faces, using (1) a vector method (REF) and (2) linear discriminant analysis.
-
-[Explain what these are/how they differ, references etc.]
+This tutorial will explain how to calculate facial sexual dimorphism (SD) in a set of 2D faces, using a [vector method](#vs) (e.g., [@holzleitner2014; @komori2011; @valenzano2006]) and [linear discriminant analysis](#ds) (e.g., [@scott2010]).
 
 ```{r setup}
 library(facefuns)
@@ -47,7 +49,7 @@ data(LondonSet_info)
 head(LondonSet_info)
 ```
 
-## Vector scores: `calc(shape)VS`
+## 1. Vector scores: `calc(shape)VS`{#vs}
 
 `facefuns::calcVS` calculates sexual dimorphism by computing an n-dimensional vector between the average female and the average male shape, and then projecting each face onto this vector. Scores are scaled so that a score of 0 corresponds to the average female, and a score of 1 to the average male shape; a negative score, e.g., would thus indicate a hyperfeminine face.
 
@@ -90,19 +92,19 @@ LondonSet_info %>%
 
 ### Note: calculating vector scores within- and out-of-set
 
-[explain you could also do this out-of-set; if your current sample is small, but you have a larger sample at hand that was delineated with the same landmarks or a compatible sub-/superset, you could use that bigger sample to build shape PCA model and construct vector, and then project faces from smaller sample onto it]
+If your current sample is small, but you have a larger sample at hand that was delineated with the same landmarks or a compatible sub-/superset, you could use that bigger sample to build your shape PCA model and construct the sexual dimorphism vector, and then project faces from the smaller sample onto that vector. You can find an example [here](https://osf.io/s7c2z/) (to be updated and added to this vignette in the future).
 
 ### Note: calculating sexual dimorphism from symmetrized faces
 
-[References and critical notes - basically, 2D images are strongly affected by head posture, which is reflected in the fact that in 2D sets, the first two principal components usually show shape associated with heads being tilted up/down, or heads being turned left/right. We can't do much about up/down (plus shape differences associated with up/down overlaps with those of sexual dimorphism), but left/right COULD be "remedied" by symmetrizing faces.]
+Two-dimensional images are strongly affected by head posture, which is reflected in the fact that in 2D sets, the first principal components usually show shape associated with heads being tilted up/down, or heads being turned left/right. While it is not possible to "correct" for up/down head postures (plus shape differences associated with an upward-/downward-tilt overlap with those of sexual dimorphism), slight asymmetries due to a left/right tilt *could* be "remedied" by symmetrizing faces.
 
-There are two ways to go about this: either just symmetrize templates before submitting them to quickstart (which has the added benefit that it's very little fuss to plot the PCs on which the scores are based); or by using the option symmetrize in `calcShapeVS`.
+You could either symmetrize templates before submitting them to quickstart (using `facefuns::symmTemplates`) which has the added benefit that it's very little fuss to plot the PCs on which the scores are based; or you could do so by using the option `symm = TRUE` in `calcShapeVS`.
 
-Symmetrizing works by mirroring each landmark template, and calculating the mean between the original and mirrored template. After mirroring, the landmarks need to be relabeled - corresponding landmarks need to be on the same line in each template, but what used to be point 0 (right pupil) in the original template, is point 1 (the left pupil) after mirroring.
+Symmetrizing works by mirroring each landmark template, and calculating the mean between the original and mirrored template. After mirroring, the landmarks need to be relabeled - what used to be point 0 (right pupil) in the original template, is point 1 (the left pupil) after mirroring.
 
-Unfortunately, this information needs to be manually entered, and will very much depend on the landmark template you want to mirror! For the set of 132 landmarks used throughout the examples in `facefuns`, this info is stored in `mirr_lms`.
+Unfortunately, this information needs to be manually entered, and will very much depend on the landmark template you want to mirror. For the set of 132 landmarks used throughout the examples in `facefuns`, this info is stored in `mirr_lms`.
 
-If `symm=TRUE`, `calcShapeVS` will first symmetrize the faces, re-conduct a GPA and PCA on these symmetrized templates, and then run `calcVS`.
+If `symm = TRUE`, `calcShapeVS` will first symmetrize the faces, re-conduct a GPA and PCA on these symmetrized templates, and then run `calcVS`.
 
 ```{r}
 data("mirr_lms")
@@ -117,11 +119,11 @@ LondonSet_info %>%
   theme_bw()
 ```
 
-## Discriminant scores: `calcDS`
+## 2. Discriminant scores: `calcDS`{#ds}
 
 Another way to calculate sexual dimorphism is by employing a linear discriminant analyses to predict group membership.
 
-`calcVS` first conducts a (forward) stepwise variable selection and then carries out a linear discriminant analysis. It takes two arguments:
+`calcDS` first conducts a (forward) stepwise variable selection and then carries out a linear discriminant analysis. It takes two arguments:
 
 * `data`: A data frame or matrix with specimen as rows, and PCs as columns. Can also contain an additional column that defines group membership.
 * `group_info`: Either a data frame with two columns (col 1 = id matching the rownames in data; col 2 = group), or a single numeric value indexing the column in data that contains group membership info
@@ -162,11 +164,13 @@ compareSD %>%
 
 ### Visualize differences
 
-Pull lowest- and highest-scoring individuals and plot difference between them
+Plot difference between lowest-scoring (top) and highest-scoring faces (bottom) on VS (left) and DS (right)
 
-[Tidy this up!!]
+```{r, fig.width=7, fig.height=7, fig.show='hold', fig.align='center', echo=FALSE}
 
-```{r, fig.width=9, fig.height=15, fig.show='hold', fig.align='center'}
+.pardefault <- par(no.readonly = T)
+par(mar = c(0, 0, 0, 0))
+
 lo_vs <- compareSD %>%
   dplyr::slice_min(VS, n=5) %>%
   dplyr::pull(face_id)
@@ -180,23 +184,25 @@ hi_vs <- compareSD %>%
   dplyr::pull(face_id)
 
 hi_ds <- compareSD %>%
-  dplyr::slice_max(DS, n=10) %>%
+  dplyr::slice_max(DS, n=5) %>%
   dplyr::pull(face_id)
 
-lo_vs_faces <- geomorph::mshape(shapedata$array[,,lo_vs])
-lo_ds_faces <- geomorph::mshape(shapedata$array[,,lo_ds])
-hi_vs_faces <- geomorph::mshape(shapedata$array[,,hi_vs])
-hi_ds_faces <- geomorph::mshape(shapedata$array[,,hi_ds])
+plotl <- list(geomorph::mshape(shapedata$array[,,lo_vs]),
+              geomorph::mshape(shapedata$array[,,lo_ds]),
+              geomorph::mshape(shapedata$array[,,hi_vs]),
+              geomorph::mshape(shapedata$array[,,hi_ds]))
 
-plotl <- list(lo_vs_faces, lo_ds_faces, hi_vs_faces, hi_ds_faces)
 ref <- shapedata$average
 
 plot_list <- rapply(plotl, function(x) {
     function() { geomorph::plotRefToTarget(ref, x, mag=1.5) }
   }, how = "list")
 
-do.call(cowplot::plot_grid, c(plot_list, list(ncol = 2)))
+do.call(cowplot::plot_grid, c(plot_list, list(ncol = 2), scale = 1.5))
+
+par(.pardefault)
 ```
 
-Top left: low vector score, top right: low discriminant score
-Bottom left: high vector score, bottom right: high discriminant score
+
+
+## References

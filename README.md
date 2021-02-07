@@ -8,8 +8,8 @@
 <!-- badges: end -->
 
 Miscellaneous convenience functions around geometric morphometric
-analyses of 2D and 3D face data. A brief intro and some tutorials can be
-found [here](https://iholzleitner.github.io/facefuns)\!
+analyses of 2D and 3D face data. A brief intro can be found
+[here](https://iholzleitner.github.io/facefuns/articles/facefuns.html)\!
 
 ## Installation
 
