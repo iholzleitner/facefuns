@@ -39,7 +39,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -74,7 +74,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/iholzleitner/facefuns/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -88,13 +88,12 @@
 
       
 
-      </header><script src="calcAsym_files/accessible-code-block-0.0.1/empty-anchor.js"></script><link href="calcAsym_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
-<script src="calcAsym_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
+      </header><script src="calcAsym_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Calculate asymmetry of faces</h1>
             
-            <h4 class="date">2020-12-14</h4>
+            <h4 class="date">2021-02-08</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/iholzleitner/facefuns/blob/master/vignettes/calcAsym.Rmd"><code>vignettes/calcAsym.Rmd</code></a></small>
       <div class="hidden name"><code>calcAsym.Rmd</code></div>
@@ -103,7 +102,7 @@
 
     
     
-<p><strong>PROCEED WITH CAUTION… VERY MUCH WORK IN PROGRESS</strong></p>
+<p><strong>PROCEED WITH CAUTION… WORK IN PROGRESS</strong></p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/iholzleitner/facefuns">facefuns</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></code></pre></div>
@@ -128,11 +127,11 @@
 <div id="calculate-asymmetry" class="section level2">
 <h2 class="hasAnchor">
 <a href="#calculate-asymmetry" class="anchor"></a>Calculate asymmetry</h2>
-<p><em>Needs very much tidying up. For now we have:</em></p>
+<p><em>Needs tidying up. For now we have:</em></p>
 <ul>
-<li><p><code>calcAS</code>: calculate asymmetry. Asymmetry scores are calculated as the Euclidean/Procrustes distance between each original template and its symmetrized counterpart (i.e. the mean of the original template and its mirrored version). Corresponds to the code I’ve used in the past, but does not correct for directional asymmetry (DA).</p></li>
-<li><p><code>calcFA</code>: is me trying to correct for DA and get at fluctuating asymmetry (FA) by following what’s outlined in <a href="https://morphometrics.uk/PDF_files/Symmetry2015.pdf">Klingenberg (2015)</a>. Asymmetry scores are calculated using the same steps as in <code>calcAS</code>, but are additionally corrected for sample DA. DA is calculated as the average of original templates minus the average of mirrored templates</p></li>
-<li><p><code>calcFA_geo</code>: is also trying to measure FA, here using <code><a href="https://rdrr.io/pkg/geomorph/man/bilat.symmetry.html">geomorph::bilat.symmetry</a></code>. I am not entirely sure I <em>really</em> get what <code>bilat.symmetry</code> is doing under the hood and hence whether I’m implementing this correctly. Resulting scores are strongly correlated with the other two, but of course that doesn’t mean much - they could all be terribly wrong.</p></li>
+<li><p><code>calcAS</code>: calculates asymmetry as the Procrustes distance between each original template and its symmetrized counterpart<span class="citation"><sup><a href="#ref-komori2009" role="doc-biblioref">1</a></sup></span>; does not correct for directional asymmetry (DA)</p></li>
+<li><p><code>calcFA</code>: calculates fluctuating asymmetry (FA) by correcting asymmetry as calculated above for DA following Klingenberg (2015)<span class="citation"><sup><a href="#ref-klingenberg2015" role="doc-biblioref">2</a></sup></span>; DA is calculated as the average of original templates minus the average of mirrored templates</p></li>
+<li><p><code>calcFA_geo</code>: calculates FA, here using <code><a href="https://rdrr.io/pkg/geomorph/man/bilat.symmetry.html">geomorph::bilat.symmetry</a></code>. I am not entirely sure what <code>bilat.symmetry</code> is doing under the hood and hence whether I’m implementing this correctly. Resulting scores are strongly correlated with the other two, but of course that doesn’t mean much</p></li>
 </ul>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">as</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calcAS.html">calcAS</a></span><span class="op">(</span><span class="va">shapedata</span>, <span class="va">mirr_lms</span><span class="op">)</span>
@@ -142,29 +141,39 @@
 <span class="va">compare</span> <span class="op">&lt;-</span> <span class="va">fa</span> <span class="op">%&gt;%</span>
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">fa.geo</span>, by<span class="op">=</span><span class="st">"id"</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">as</span>, by<span class="op">=</span><span class="st">"id"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="co"># one picture is very asymmetric (face turned sideways); excluded, so as to not inflate correlations between different scores</span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">id</span> <span class="op">!=</span> <span class="st">"139"</span><span class="op">)</span></code></pre></div>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">compare</span> <span class="op">%&gt;%</span>
-  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">fa.geo</span><span class="op">)</span>, names_to <span class="op">=</span> <span class="st">"other_fa_types"</span>, values_to <span class="op">=</span> <span class="st">"score"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">fa.geo</span>, y <span class="op">=</span> <span class="va">score</span>, colour <span class="op">=</span> <span class="va">other_fa_types</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<p><img src="calcAsym_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="va">compare</span> <span class="op">%&gt;%</span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>fa.geo <span class="op">=</span> <span class="va">fa.geo</span><span class="op">/</span><span class="fl">2</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">fa</span><span class="op">)</span>, names_to <span class="op">=</span> <span class="st">"other_fa_types"</span>, values_to <span class="op">=</span> <span class="st">"score"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">fa</span>, y <span class="op">=</span> <span class="va">score</span>, colour <span class="op">=</span> <span class="va">other_fa_types</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<p><img src="calcAsym_files/figure-html/unnamed-chunk-4-2.png" width="700"></p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="va">compare</span> <span class="op">%&gt;%</span>
-  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">asym</span><span class="op">)</span>, names_to <span class="op">=</span> <span class="st">"other_fa_types"</span>, values_to <span class="op">=</span> <span class="st">"score"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="co"># one picture is very asymmetric (face turned sideways) and was</span>
+  <span class="co"># excluded, so as to not inflate correlations between different scores</span>
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">id</span> <span class="op">!=</span> <span class="st">"139"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>fa.geo <span class="op">=</span> <span class="va">fa.geo</span><span class="op">/</span><span class="fl">2</span><span class="op">)</span>
+
+<span class="va">as</span> <span class="op">&lt;-</span> <span class="va">compare</span> <span class="op">%&gt;%</span>
+  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">asym</span><span class="op">)</span>,
+                      names_to <span class="op">=</span> <span class="st">"other_fa_types"</span>,
+                      values_to <span class="op">=</span> <span class="st">"score"</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">asym</span>, y <span class="op">=</span> <span class="va">score</span>, colour <span class="op">=</span> <span class="va">other_fa_types</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<p><img src="calcAsym_files/figure-html/unnamed-chunk-4-3.png" width="700"></p>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span>
+
+<span class="va">fa</span> <span class="op">&lt;-</span> <span class="va">compare</span> <span class="op">%&gt;%</span>
+  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">fa</span><span class="op">)</span>,
+                      names_to <span class="op">=</span> <span class="st">"other_fa_types"</span>,
+                      values_to <span class="op">=</span> <span class="st">"score"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">fa</span>, y <span class="op">=</span> <span class="va">score</span>, colour <span class="op">=</span> <span class="va">other_fa_types</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span>
+
+<span class="fu">cowplot</span><span class="fu">::</span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html">plot_grid</a></span><span class="op">(</span><span class="va">as</span>, <span class="va">fa</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></code></pre></div>
+<p><img src="calcAsym_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
+</div>
+<div id="references" class="section level2 unnumbered">
+<h2 class="hasAnchor">
+<a href="#references" class="anchor"></a>References</h2>
+<div id="refs" class="references">
+<div id="ref-komori2009">
+<p>1. Komori, M., Kawamura, S., &amp; Ishihara, S. (2009). Averageness or symmetry: Which is more important for facial attractiveness? <em>Acta Psychologica</em>, <em>131</em>(2), 136–142. <a href="https://doi.org/10.1016/j.actpsy.2009.03.008">https://doi.org/10.1016/j.actpsy.2009.03.008</a></p>
+</div>
+<div id="ref-klingenberg2015">
+<p>2. Klingenberg, C. P. (2015). Analyzing fluctuating asymmetry with geometric morphometrics: Concepts, methods, and applications. <em>Symmetry</em>, <em>7</em>. <a href="https://doi.org/10.3390/sym7020843">https://doi.org/10.3390/sym7020843</a></p>
+</div>
+</div>
 </div>
   </div>
 

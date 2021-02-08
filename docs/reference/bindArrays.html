@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Helper function to check if input is array of right dimensions for shape analyses — is_shape_array • facefuns</title>
+<title>Bind two arrays — bindArrays • facefuns</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Helper function to check if input is array of right dimensions for shape analyses — is_shape_array" />
-<meta property="og:description" content="Helper function to check if input is array of right dimensions for shape analyses" />
+<meta property="og:title" content="Bind two arrays — bindArrays" />
+<meta property="og:description" content="Bind two arrays" />
 
 
 
@@ -132,29 +132,37 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Helper function to check if input is array of right dimensions for shape analyses</h1>
-    <small class="dont-index">Source: <a href='https://github.com/iholzleitner/facefuns/blob/master/R/is_shape_array.R'><code>R/is_shape_array.R</code></a></small>
-    <div class="hidden name"><code>is_shape_array.Rd</code></div>
+    <h1>Bind two arrays</h1>
+    <small class="dont-index">Source: <a href='https://github.com/iholzleitner/facefuns/blob/master/R/bindArrays.R'><code>R/bindArrays.R</code></a></small>
+    <div class="hidden name"><code>bindArrays.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Helper function to check if input is array of right dimensions for shape analyses</p>
+    <p>Bind two arrays</p>
     </div>
 
-    <pre class="usage"><span class='fu'>is_shape_array</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>bindArrays</span><span class='op'>(</span><span class='va'>array1</span>, <span class='va'>array2</span>, message <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td></td>
+      <th>array1</th>
+      <td><p>Three-dimensional array</p></td>
+    </tr>
+    <tr>
+      <th>array2</th>
+      <td><p>Three-dimensional array</p></td>
+    </tr>
+    <tr>
+      <th>message</th>
+      <td><p>Give warning if arrays are named inconsistently</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>TRUE or FALSE</p>
+    <p>Returns new array</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

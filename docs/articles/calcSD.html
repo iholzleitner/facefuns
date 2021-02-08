@@ -39,7 +39,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -74,7 +74,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/iholzleitner/facefuns/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -88,12 +88,12 @@
 
       
 
-      </header><script src="calcSD_files/accessible-code-block-0.0.1/empty-anchor.js"></script><link href="calcSD_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
-<script src="calcSD_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
+      </header><script src="calcSD_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Calculate sexual dimorphism of faces</h1>
             
+            <h4 class="date">2021-02-08</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/iholzleitner/facefuns/blob/master/vignettes/calcSD.Rmd"><code>vignettes/calcSD.Rmd</code></a></small>
       <div class="hidden name"><code>calcSD.Rmd</code></div>
@@ -103,8 +103,7 @@
     
     
 <p><strong>WORK IN PROGRESS</strong></p>
-<p>This tutorial will explain how to calculate facial sexual dimorphism (SD) in a set of 2D faces, using (1) a vector method (REF) and (2) linear discriminant analysis.</p>
-<p>[Explain what these are/how they differ, references etc.]</p>
+<p>This tutorial will explain how to calculate facial sexual dimorphism (SD) in a set of 2D faces, using a <a href="#vs">vector method</a> (e.g.,<span class="citation"><sup><a href="#ref-holzleitner2014" role="doc-biblioref">1</a>–<a href="#ref-valenzano2006" role="doc-biblioref">3</a></sup></span>) and <a href="#ds">linear discriminant analysis</a> (e.g.,<span class="citation"><sup><a href="#ref-scott2010" role="doc-biblioref">4</a></sup></span>).</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/iholzleitner/facefuns">facefuns</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></code></pre></div>
@@ -141,7 +140,7 @@
 </div>
 <div id="vector-scores-calcshapevs" class="section level2">
 <h2 class="hasAnchor">
-<a href="#vector-scores-calcshapevs" class="anchor"></a>Vector scores: <code>calc(shape)VS</code>
+<a href="#vector-scores-calcshapevs" class="anchor"></a>1. Vector scores: <code id="vs">calc(shape)VS</code>
 </h2>
 <p><code><a href="../reference/calcVS.html">facefuns::calcVS</a></code> calculates sexual dimorphism by computing an n-dimensional vector between the average female and the average male shape, and then projecting each face onto this vector. Scores are scaled so that a score of 0 corresponds to the average female, and a score of 1 to the average male shape; a negative score, e.g., would thus indicate a hyperfeminine face.</p>
 <p>You can use <code>calcVS</code> to calculate vector scores from a data frame or matrix of principal component scores (see <code><a href="../reference/calcVS.html">help(calcVS)</a></code>), or <code>calcShapeVS</code> to calculate them from the Procrustes-aligned templates in the quickstart output.</p>
@@ -188,16 +187,16 @@
 <div id="note-calculating-vector-scores-within--and-out-of-set" class="section level3">
 <h3 class="hasAnchor">
 <a href="#note-calculating-vector-scores-within--and-out-of-set" class="anchor"></a>Note: calculating vector scores within- and out-of-set</h3>
-<p>[explain you could also do this out-of-set; if your current sample is small, but you have a larger sample at hand that was delineated with the same landmarks or a compatible sub-/superset, you could use that bigger sample to build shape PCA model and construct vector, and then project faces from smaller sample onto it]</p>
+<p>If your current sample is small, but you have a larger sample at hand that was delineated with the same landmarks or a compatible sub-/superset, you could use that bigger sample to build your shape PCA model and construct the sexual dimorphism vector, and then project faces from the smaller sample onto that vector. You can find an example <a href="https://osf.io/s7c2z/">here</a> (to be updated and added to this vignette in the future).</p>
 </div>
 <div id="note-calculating-sexual-dimorphism-from-symmetrized-faces" class="section level3">
 <h3 class="hasAnchor">
 <a href="#note-calculating-sexual-dimorphism-from-symmetrized-faces" class="anchor"></a>Note: calculating sexual dimorphism from symmetrized faces</h3>
-<p>[References and critical notes - basically, 2D images are strongly affected by head posture, which is reflected in the fact that in 2D sets, the first two principal components usually show shape associated with heads being tilted up/down, or heads being turned left/right. We can’t do much about up/down (plus shape differences associated with up/down overlaps with those of sexual dimorphism), but left/right COULD be “remedied” by symmetrizing faces.]</p>
-<p>There are two ways to go about this: either just symmetrize templates before submitting them to quickstart (which has the added benefit that it’s very little fuss to plot the PCs on which the scores are based); or by using the option symmetrize in <code>calcShapeVS</code>.</p>
-<p>Symmetrizing works by mirroring each landmark template, and calculating the mean between the original and mirrored template. After mirroring, the landmarks need to be relabeled - corresponding landmarks need to be on the same line in each template, but what used to be point 0 (right pupil) in the original template, is point 1 (the left pupil) after mirroring.</p>
-<p>Unfortunately, this information needs to be manually entered, and will very much depend on the landmark template you want to mirror! For the set of 132 landmarks used throughout the examples in <code>facefuns</code>, this info is stored in <code>mirr_lms</code>.</p>
-<p>If <code>symm=TRUE</code>, <code>calcShapeVS</code> will first symmetrize the faces, re-conduct a GPA and PCA on these symmetrized templates, and then run <code>calcVS</code>.</p>
+<p>Two-dimensional images are strongly affected by head posture, which is reflected in the fact that in 2D sets, the first principal components usually show shape associated with heads being tilted up/down, or heads being turned left/right. While it is not possible to “correct” for up/down head postures (plus shape differences associated with an upward-/downward-tilt overlap with those of sexual dimorphism), slight asymmetries due to a left/right tilt <em>could</em> be “remedied” by symmetrizing faces.</p>
+<p>You could either symmetrize templates before submitting them to quickstart (using <code><a href="../reference/symmTemplates.html">facefuns::symmTemplates</a></code>) which has the added benefit that it’s very little fuss to plot the PCs on which the scores are based; or you could do so by using the option <code>symm = TRUE</code> in <code>calcShapeVS</code>.</p>
+<p>Symmetrizing works by mirroring each landmark template, and calculating the mean between the original and mirrored template. After mirroring, the landmarks need to be relabeled - what used to be point 0 (right pupil) in the original template, is point 1 (the left pupil) after mirroring.</p>
+<p>Unfortunately, this information needs to be manually entered, and will very much depend on the landmark template you want to mirror. For the set of 132 landmarks used throughout the examples in <code>facefuns</code>, this info is stored in <code>mirr_lms</code>.</p>
+<p>If <code>symm = TRUE</code>, <code>calcShapeVS</code> will first symmetrize the faces, re-conduct a GPA and PCA on these symmetrized templates, and then run <code>calcVS</code>.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"mirr_lms"</span><span class="op">)</span>
 
@@ -223,10 +222,10 @@
 </div>
 <div id="discriminant-scores-calcds" class="section level2">
 <h2 class="hasAnchor">
-<a href="#discriminant-scores-calcds" class="anchor"></a>Discriminant scores: <code>calcDS</code>
+<a href="#discriminant-scores-calcds" class="anchor"></a>2. Discriminant scores: <code id="ds">calcDS</code>
 </h2>
 <p>Another way to calculate sexual dimorphism is by employing a linear discriminant analyses to predict group membership.</p>
-<p><code>calcVS</code> first conducts a (forward) stepwise variable selection and then carries out a linear discriminant analysis. It takes two arguments:</p>
+<p><code>calcDS</code> first conducts a (forward) stepwise variable selection and then carries out a linear discriminant analysis. It takes two arguments:</p>
 <ul>
 <li>
 <code>data</code>: A data frame or matrix with specimen as rows, and PCs as columns. Can also contain an additional column that defines group membership.</li>
@@ -270,40 +269,26 @@
 <div id="visualize-differences" class="section level3">
 <h3 class="hasAnchor">
 <a href="#visualize-differences" class="anchor"></a>Visualize differences</h3>
-<p>Pull lowest- and highest-scoring individuals and plot difference between them</p>
-<p>[Tidy this up!!]</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">lo_vs</span> <span class="op">&lt;-</span> <span class="va">compareSD</span> <span class="op">%&gt;%</span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html">slice_min</a></span><span class="op">(</span><span class="va">VS</span>, n<span class="op">=</span><span class="fl">5</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html">pull</a></span><span class="op">(</span><span class="va">face_id</span><span class="op">)</span>
-
-<span class="va">lo_ds</span> <span class="op">&lt;-</span> <span class="va">compareSD</span> <span class="op">%&gt;%</span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html">slice_min</a></span><span class="op">(</span><span class="va">DS</span>, n<span class="op">=</span><span class="fl">5</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html">pull</a></span><span class="op">(</span><span class="va">face_id</span><span class="op">)</span>
-
-<span class="va">hi_vs</span> <span class="op">&lt;-</span> <span class="va">compareSD</span> <span class="op">%&gt;%</span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html">slice_max</a></span><span class="op">(</span><span class="va">VS</span>, n<span class="op">=</span><span class="fl">5</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html">pull</a></span><span class="op">(</span><span class="va">face_id</span><span class="op">)</span>
-
-<span class="va">hi_ds</span> <span class="op">&lt;-</span> <span class="va">compareSD</span> <span class="op">%&gt;%</span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html">slice_max</a></span><span class="op">(</span><span class="va">DS</span>, n<span class="op">=</span><span class="fl">10</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html">pull</a></span><span class="op">(</span><span class="va">face_id</span><span class="op">)</span>
-
-<span class="va">lo_vs_faces</span> <span class="op">&lt;-</span> <span class="fu">geomorph</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/geomorph/man/mshape.html">mshape</a></span><span class="op">(</span><span class="va">shapedata</span><span class="op">$</span><span class="va">array</span><span class="op">[</span>,,<span class="va">lo_vs</span><span class="op">]</span><span class="op">)</span>
-<span class="va">lo_ds_faces</span> <span class="op">&lt;-</span> <span class="fu">geomorph</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/geomorph/man/mshape.html">mshape</a></span><span class="op">(</span><span class="va">shapedata</span><span class="op">$</span><span class="va">array</span><span class="op">[</span>,,<span class="va">lo_ds</span><span class="op">]</span><span class="op">)</span>
-<span class="va">hi_vs_faces</span> <span class="op">&lt;-</span> <span class="fu">geomorph</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/geomorph/man/mshape.html">mshape</a></span><span class="op">(</span><span class="va">shapedata</span><span class="op">$</span><span class="va">array</span><span class="op">[</span>,,<span class="va">hi_vs</span><span class="op">]</span><span class="op">)</span>
-<span class="va">hi_ds_faces</span> <span class="op">&lt;-</span> <span class="fu">geomorph</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/geomorph/man/mshape.html">mshape</a></span><span class="op">(</span><span class="va">shapedata</span><span class="op">$</span><span class="va">array</span><span class="op">[</span>,,<span class="va">hi_ds</span><span class="op">]</span><span class="op">)</span>
-
-<span class="va">plotl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">lo_vs_faces</span>, <span class="va">lo_ds_faces</span>, <span class="va">hi_vs_faces</span>, <span class="va">hi_ds_faces</span><span class="op">)</span>
-<span class="va">ref</span> <span class="op">&lt;-</span> <span class="va">shapedata</span><span class="op">$</span><span class="va">average</span>
-
-<span class="va">plot_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rapply.html">rapply</a></span><span class="op">(</span><span class="va">plotl</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span>
-    <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span> <span class="fu">geomorph</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/geomorph/man/plotRefToTarget.html">plotRefToTarget</a></span><span class="op">(</span><span class="va">ref</span>, <span class="va">x</span>, mag<span class="op">=</span><span class="fl">1.5</span><span class="op">)</span> <span class="op">}</span>
-  <span class="op">}</span>, how <span class="op">=</span> <span class="st">"list"</span><span class="op">)</span>
-
-<span class="fu"><a href="https://rdrr.io/r/base/do.call.html">do.call</a></span><span class="op">(</span><span class="fu">cowplot</span><span class="fu">::</span><span class="va"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html">plot_grid</a></span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">plot_list</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p><img src="calcSD_files/figure-html/unnamed-chunk-12-1.png" width="864" style="display: block; margin: auto;"></p>
-<p>Top left: low vector score, top right: low discriminant score Bottom left: high vector score, bottom right: high discriminant score</p>
+<p>Plot difference between lowest-scoring (top) and highest-scoring faces (bottom) on VS (left) and DS (right)</p>
+<p><img src="calcSD_files/figure-html/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;"></p>
+</div>
+</div>
+<div id="references" class="section level2 unnumbered">
+<h2 class="hasAnchor">
+<a href="#references" class="anchor"></a>References</h2>
+<div id="refs" class="references">
+<div id="ref-holzleitner2014">
+<p>1. Holzleitner, I. J., Hunter, D. W., Tiddeman, B. P., Seck, A., Re, D. E., &amp; Perrett, D. I. (2014). Men’s facial masculinity: When (body) size matters. <em>Perception</em>, <em>43</em>, 1191–1202. <a href="https://doi.org/10.1068/P7673">https://doi.org/10.1068/P7673</a></p>
+</div>
+<div id="ref-komori2011">
+<p>2. Komori, M., Kawamura, S., &amp; Ishihara, S. (2011). Multiple mechanisms in the perception of face gender: Effect of sex-irrelevant features. <em>Journal of Experimental Psychology-Human Perception and Performance</em>, <em>37</em>, 626–633. <a href="https://doi.org/10.1037/A0020369">https://doi.org/10.1037/A0020369</a></p>
+</div>
+<div id="ref-valenzano2006">
+<p>3. Valenzano, D. R., Mennucci, A., Tartarelli, G., &amp; Cellerino, A. (2006). Shape analysis of female facial attractiveness. <em>Vision Research</em>, <em>46</em>, 1282–1291. <a href="https://doi.org/10.1016/j.visres.2005.10.024">https://doi.org/10.1016/j.visres.2005.10.024</a></p>
+</div>
+<div id="ref-scott2010">
+<p>4. Scott, I. M. L., Pound, N., Stephen, I. D., Clark, A. P., &amp; Penton-Voak, I. S. (2010). Does masculinity matter? The contribution of masculine face shape to male attractiveness in humans. <em>PLoS ONE</em>, <em>5</em>. <a href="https://doi.org/10.1371/journal.pone.0013585">https://doi.org/10.1371/journal.pone.0013585</a></p>
+</div>
 </div>
 </div>
   </div>
