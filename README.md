@@ -11,6 +11,8 @@ Miscellaneous convenience functions around geometric morphometric
 analyses of 2D and 3D face data. A brief intro can be found
 [here](https://iholzleitner.github.io/facefuns/articles/facefuns.html)\!
 
+Last update: 2021-02-09
+
 ## Installation
 
 You can install the development version of `facefuns` from
@@ -18,7 +20,13 @@ You can install the development version of `facefuns` from
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("iholzleitner/facefuns", build_vignettes = TRUE)
+devtools::install_github("iholzleitner/facefuns")
+```
+
+If you get a 404 error, try this instead:
+
+``` r
+devtools::install_github("iholzleitner/facefuns", ref = "main")
 ```
 
 ## Credits

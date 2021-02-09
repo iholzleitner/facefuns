@@ -93,7 +93,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Calculate sexual dimorphism of faces</h1>
             
-            <h4 class="date">2021-02-08</h4>
+            <h4 class="date">2021-02-09</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/iholzleitner/facefuns/blob/master/vignettes/calcSD.Rmd"><code>vignettes/calcSD.Rmd</code></a></small>
       <div class="hidden name"><code>calcSD.Rmd</code></div>
@@ -106,7 +106,7 @@
 <p>This tutorial will explain how to calculate facial sexual dimorphism (SD) in a set of 2D faces, using a <a href="#vs">vector method</a> (e.g.,<span class="citation"><sup><a href="#ref-holzleitner2014" role="doc-biblioref">1</a>–<a href="#ref-valenzano2006" role="doc-biblioref">3</a></sup></span>) and <a href="#ds">linear discriminant analysis</a> (e.g.,<span class="citation"><sup><a href="#ref-scott2010" role="doc-biblioref">4</a></sup></span>).</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/iholzleitner/facefuns">facefuns</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></code></pre></div>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></code></pre></div>
 <div id="read-and-prep-landmark-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#read-and-prep-landmark-data" class="anchor"></a>Read and prep landmark data</h2>
@@ -256,7 +256,7 @@
                    mean_ds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">DS</span><span class="op">)</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 2 x 3</span>
 <span class="co">#&gt;   face_sex mean_vs mean_ds</span>
-<span class="co">#&gt;   &lt;chr&gt;      &lt;dbl&gt;   &lt;dbl&gt;</span>
+<span class="co">#&gt; * &lt;chr&gt;      &lt;dbl&gt;   &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 female         0   -1.45</span>
 <span class="co">#&gt; 2 male           1    1.34</span>
 
