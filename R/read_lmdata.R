@@ -20,10 +20,10 @@ read_lmdata <- function(lmdata, specID = "None", remove_points = NA, path_to_tps
 
   if (class(lmdata) == "webmorph_list") {
   # Check if path is webmorph_list
-    data <- webmorph::tems_to_array(lmdata)
+    data <- convertStimlistToArray(lmdata)
 
     if (!is.na(path_to_tps)){
-      webmorph::write_tps(lmdata, path_to_tps = path_to_tps)
+      writeStimlistToTPS(lmdata, path_to_tps = path_to_tps)
     }
 
 

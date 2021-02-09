@@ -35,7 +35,6 @@ Imports:
     cowplot,
     gridGraphics,
     purrr,
-    webmorph,
     readr,
     klaR,
     MASS,
