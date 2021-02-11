@@ -63,6 +63,9 @@
       <a href="../articles/calcAsym.html">Calculate asymmetry of faces</a>
     </li>
     <li>
+      <a href="../articles/intro3d.html">Working with 3D meshes</a>
+    </li>
+    <li>
       <a href="../articles/overview.html">facefuns Overview</a>
     </li>
   </ul>
@@ -93,7 +96,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Calculate sexual dimorphism of faces</h1>
             
-            <h4 class="date">2021-02-09</h4>
+            <h4 class="date">2021-02-11</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/iholzleitner/facefuns/blob/master/vignettes/calcSD.Rmd"><code>vignettes/calcSD.Rmd</code></a></small>
       <div class="hidden name"><code>calcSD.Rmd</code></div>
@@ -118,7 +121,7 @@
                     remove_points <span class="op">=</span> <span class="va">remove_points</span>,
                     plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 
-<span class="va">shapedata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/quickstart.html">quickstart</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>,
+<span class="va">shapedata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/facefuns2d.html">facefuns2d</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>,
                         pc_criterion <span class="op">=</span> <span class="st">"broken_stick"</span>,
                         plot_sample <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 <span class="co">#&gt; The loaded data set contains 102 specimen, delineated with 132 2-D landmarks.</span>
@@ -138,16 +141,16 @@
 <span class="co">#&gt; 5 005           28 male     east_asian</span>
 <span class="co">#&gt; 6 006           31 female   west_asian</span></code></pre></div>
 </div>
-<div id="vector-scores-calcshapevs" class="section level2">
+<div id="vector-scores-calc_shapevs" class="section level2">
 <h2 class="hasAnchor">
-<a href="#vector-scores-calcshapevs" class="anchor"></a>1. Vector scores: <code id="vs">calc(shape)VS</code>
+<a href="#vector-scores-calc_shapevs" class="anchor"></a>1. Vector scores: <code id="vs">calc_(shape)vs</code>
 </h2>
-<p><code><a href="../reference/calcVS.html">facefuns::calcVS</a></code> calculates sexual dimorphism by computing an n-dimensional vector between the average female and the average male shape, and then projecting each face onto this vector. Scores are scaled so that a score of 0 corresponds to the average female, and a score of 1 to the average male shape; a negative score, e.g., would thus indicate a hyperfeminine face.</p>
-<p>You can use <code>calcVS</code> to calculate vector scores from a data frame or matrix of principal component scores (see <code><a href="../reference/calcVS.html">help(calcVS)</a></code>), or <code>calcShapeVS</code> to calculate them from the Procrustes-aligned templates in the quickstart output.</p>
-<p><code>calcShapeVS</code> takes three arguments, all of which should be a data frame or matrix with specimen as rows, and PC scores as columns:</p>
+<p><code><a href="../reference/calc_vs.html">facefuns::calc_vs</a></code> calculates sexual dimorphism by computing an n-dimensional vector between the average female and the average male shape, and then projecting each face onto this vector. Scores are scaled so that a score of 0 corresponds to the average female, and a score of 1 to the average male shape; a negative score, e.g., would thus indicate a hyperfeminine face.</p>
+<p>You can use <code>calc_vs</code> to calculate vector scores from a data frame or matrix of principal component scores (see <code><a href="../reference/calc_vs.html">help(calc_vs)</a></code>), or <code>calc_shapevs</code> to calculate them from the Procrustes-aligned templates in the facefuns2d output.</p>
+<p><code>calc_shapevs</code> takes three arguments, all of which should be a data frame or matrix with specimen as rows, and PC scores as columns:</p>
 <ul>
 <li>
-<code>quickstart_obj</code>: Output from <code><a href="../reference/quickstart.html">facefuns::quickstart</a></code>
+<code>facefuns2d_obj</code>: Output from <code><a href="../reference/facefuns2d.html">facefuns::facefuns2d</a></code>
 </li>
 <li>
 <code>anchor1_index</code>: Vector specifying indices of faces that will constitute lower anchor point<br>
@@ -164,8 +167,8 @@
   <span class="va">LondonSet_info</span><span class="op">$</span><span class="va">face_id</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="va">LondonSet_info</span><span class="op">$</span><span class="va">face_sex</span> <span class="op">==</span> <span class="st">"male"</span><span class="op">)</span><span class="op">]</span></code></pre></div>
 <p>Now, we can run our function:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">sd_vector</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calcShapeVS.html">calcShapeVS</a></span><span class="op">(</span><span class="va">shapedata</span>, <span class="va">fem_i</span>, <span class="va">mal_i</span><span class="op">)</span></code></pre></div>
-<p><code>calc(Shape)VS</code> will return a tibble that has two columns, <code>id</code> and <code>VS</code>:</p>
+<code class="sourceCode R"><span class="va">sd_vector</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_shapevs.html">calc_shapevs</a></span><span class="op">(</span><span class="va">shapedata</span>, <span class="va">fem_i</span>, <span class="va">mal_i</span><span class="op">)</span></code></pre></div>
+<p><code>calc_(shape)vs</code> will return a tibble that has two columns, <code>id</code> and <code>VS</code>:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">sd_vector</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 6 x 2</span>
@@ -193,14 +196,14 @@
 <h3 class="hasAnchor">
 <a href="#note-calculating-sexual-dimorphism-from-symmetrized-faces" class="anchor"></a>Note: calculating sexual dimorphism from symmetrized faces</h3>
 <p>Two-dimensional images are strongly affected by head posture, which is reflected in the fact that in 2D sets, the first principal components usually show shape associated with heads being tilted up/down, or heads being turned left/right. While it is not possible to “correct” for up/down head postures (plus shape differences associated with an upward-/downward-tilt overlap with those of sexual dimorphism), slight asymmetries due to a left/right tilt <em>could</em> be “remedied” by symmetrizing faces.</p>
-<p>You could either symmetrize templates before submitting them to quickstart (using <code><a href="../reference/symmTemplates.html">facefuns::symmTemplates</a></code>) which has the added benefit that it’s very little fuss to plot the PCs on which the scores are based; or you could do so by using the option <code>symm = TRUE</code> in <code>calcShapeVS</code>.</p>
+<p>You could either symmetrize templates before submitting them to facefuns2d (using <code><a href="../reference/symm_templates.html">facefuns::symm_templates</a></code>) which has the added benefit that it’s very little fuss to plot the PCs on which the scores are based; or you could do so by using the option <code>symm = TRUE</code> in <code>calc_shapevs</code>.</p>
 <p>Symmetrizing works by mirroring each landmark template, and calculating the mean between the original and mirrored template. After mirroring, the landmarks need to be relabeled - what used to be point 0 (right pupil) in the original template, is point 1 (the left pupil) after mirroring.</p>
-<p>Unfortunately, this information needs to be manually entered, and will very much depend on the landmark template you want to mirror. For the set of 132 landmarks used throughout the examples in <code>facefuns</code>, this info is stored in <code>mirr_lms</code>.</p>
-<p>If <code>symm = TRUE</code>, <code>calcShapeVS</code> will first symmetrize the faces, re-conduct a GPA and PCA on these symmetrized templates, and then run <code>calcVS</code>.</p>
+<p>Unfortunately, this information needs to be manually entered, and will very much depend on the landmark template you want to mirror. For the set of 132 landmarks used throughout the examples in <code>facefuns</code>, this info is stored in <code>mirroredlandmarks</code>.</p>
+<p>If <code>symm = TRUE</code>, <code>calc_shapevs</code> will first symmetrize the faces, re-conduct a GPA and PCA on these symmetrized templates, and then run <code>calc_vs</code>.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"mirr_lms"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"mirroredlandmarks"</span><span class="op">)</span>
 
-<span class="va">sd_vector_symm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calcShapeVS.html">calcShapeVS</a></span><span class="op">(</span><span class="va">shapedata</span>, <span class="va">fem_i</span>, <span class="va">mal_i</span>, symm <span class="op">=</span> <span class="cn">TRUE</span>, mirr_lms <span class="op">=</span> <span class="va">mirr_lms</span><span class="op">)</span>
+<span class="va">sd_vector_symm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_shapevs.html">calc_shapevs</a></span><span class="op">(</span><span class="va">shapedata</span>, <span class="va">fem_i</span>, <span class="va">mal_i</span>, symm <span class="op">=</span> <span class="cn">TRUE</span>, mirroredlandmarks <span class="op">=</span> <span class="va">mirroredlandmarks</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">sd_vector_symm</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 6 x 2</span>
 <span class="co">#&gt;   id        VS</span>
@@ -220,12 +223,12 @@
 <p><img src="calcSD_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
 </div>
 </div>
-<div id="discriminant-scores-calcds" class="section level2">
+<div id="discriminant-scores-calc_ds" class="section level2">
 <h2 class="hasAnchor">
-<a href="#discriminant-scores-calcds" class="anchor"></a>2. Discriminant scores: <code id="ds">calcDS</code>
+<a href="#discriminant-scores-calc_ds" class="anchor"></a>2. Discriminant scores: <code id="ds">calc_ds</code>
 </h2>
 <p>Another way to calculate sexual dimorphism is by employing a linear discriminant analyses to predict group membership.</p>
-<p><code>calcDS</code> first conducts a (forward) stepwise variable selection and then carries out a linear discriminant analysis. It takes two arguments:</p>
+<p><code>calc_ds</code> first conducts a (forward) stepwise variable selection and then carries out a linear discriminant analysis. It takes two arguments:</p>
 <ul>
 <li>
 <code>data</code>: A data frame or matrix with specimen as rows, and PCs as columns. Can also contain an additional column that defines group membership.</li>
@@ -237,8 +240,8 @@
 <code class="sourceCode R"><span class="va">group_info</span> <span class="op">&lt;-</span> <span class="va">LondonSet_info</span> <span class="op">%&gt;%</span>
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">face_id</span>, <span class="va">face_sex</span><span class="op">)</span>
 
-<span class="va">sd_discrim</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calcDS.html">calcDS</a></span><span class="op">(</span><span class="va">shapedata</span><span class="op">$</span><span class="va">pc_scores</span>, group_info <span class="op">=</span> <span class="va">group_info</span><span class="op">)</span></code></pre></div>
-<p>Like <code>calcVS</code>, <code>calcDS</code> will return a tibble that has two columns, in this case <code>id</code> and <code>DS</code>:</p>
+<span class="va">sd_discrim</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_ds.html">calc_ds</a></span><span class="op">(</span><span class="va">shapedata</span><span class="op">$</span><span class="va">pc_scores</span>, group_info <span class="op">=</span> <span class="va">group_info</span><span class="op">)</span></code></pre></div>
+<p>Like <code>calc_vs</code>, <code>calc_ds</code> will return a tibble that has two columns, in this case <code>id</code> and <code>DS</code>:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">sd_discrim</span><span class="op">)</span></code></pre></div>
 </div>

@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 
 **WORK IN PROGRESS**
 
-This tutorial will explain how to calculate facial (dis)similarity in a set of 2D faces. We will calculate the Euclidean distance between Procrustes-aligned landmark templates, as well as the Euclidean distance in face space (i.e. principal component space), and compare the two.
+This tutorial will explain how to calculate facial (dis)similarity in a set of 2D faces. We will calculate the Euclidean distance between Procrustes-aligned landmark templates, as well as the Euclidean distance in face space (i.e. principal component space).
 
 ```{r setup, message=FALSE}
 library(facefuns)
@@ -33,7 +33,7 @@ data <- read_lmdata(lmdata = path_to_tem,
                        remove_points = remove_points,
                        plot = FALSE)
 
-shapedata <- quickstart(data = data,
+shapedata <- facefuns2d(data = data,
                          plot_sample = TRUE,
                          pc_criterion = "broken_stick")
 ```
@@ -43,7 +43,7 @@ shapedata <- quickstart(data = data,
 
 ### From landmarks
 
-We will use `facefuns::calcED` to calculate similarity. `calcED` requires two arguments:
+We will use `facefuns::calc_ed` to calculate similarity. `calc_ed` requires two arguments:
 
 1. Landmark coordinates in a matrix format
 
@@ -61,10 +61,10 @@ Currently, our landmark templates are stored in a three-dimensional array: a lis
 str(shapedata$array)
 ```
 
-We will use `facefuns::convertArrayToMatrix` to convert our array into a matrix with *n* rows and *p* x *k* columns.
+We will use `facefuns::convert_array_to_matrix` to convert our array into a matrix with *n* rows and *p* x *k* columns.
 
 ```{r}
-data_matrix <- convertArrayToMatrix(shapedata$array)
+data_matrix <- convert_array_to_matrix(shapedata$array)
 str(data_matrix)
 ```
 
@@ -87,12 +87,12 @@ pairs <- expand.grid(A = face_names,
                      B = face_names)
 ```
 
-### `calcED`
+### `calc_ed`
 
 We now have everything we need to run our function
 
 ```{r}
-sim_table <- calcED(coords_matrix = data_matrix,
+sim_table <- calc_ed(coords_matrix = data_matrix,
                     pairs_table = pairs)
 
 head(sim_table)
@@ -109,16 +109,16 @@ sim_table %>%
 
 ### In face space
 
-[*Run PCA, extract scores, same as above. Compare the two.*]
+[to be filled in]
 
 ## Averageness
 
 Averageness can be quantified as distinctivenss from the sample average. For each face, we will calculate the Euclidean distance to the sample average, and then reverse scores, so higher scores mean "more average".
 
-You could use `calcED`, but this will require a wee bit of data wrangling: you will need to attach the average template to the array holding the aligned templates, then convert this new array to a matrix and finally you might also want to reverse the distinctiveness scores, so higher scores mean "more average'. `calcAVG` does all of that! It only takes one argument - a `quickstart` object:
+You could use `calc_ed`, but this will require a wee bit of data wrangling: you will need to attach the average template to the array holding the aligned templates, then convert this new array to a matrix and finally you might also want to reverse the distinctiveness scores, so higher scores mean "more average'. `calc_avg` does all of that! It only takes one argument - a `facefuns2d` object:
 
 ```{r}
-distinctiveness <- calcAVG(shapedata)
+distinctiveness <- calc_avg(shapedata)
 
 head(distinctiveness)
 ```

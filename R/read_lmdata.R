@@ -20,10 +20,10 @@ read_lmdata <- function(lmdata, specID = "None", remove_points = NA, path_to_tps
 
   if (class(lmdata) == "webmorph_list") {
   # Check if path is webmorph_list
-    data <- convertStimlistToArray(lmdata)
+    data <- convert_stimlist_to_array(lmdata)
 
     if (!is.na(path_to_tps)){
-      writeStimlistToTPS(lmdata, path_to_tps = path_to_tps)
+      write_stimlist_to_tps(lmdata, path_to_tps = path_to_tps)
     }
 
 
@@ -36,7 +36,7 @@ read_lmdata <- function(lmdata, specID = "None", remove_points = NA, path_to_tps
   } else if (((dir.exists(lmdata) & grepl("\\.tem$", list.files(lmdata)[1])) ||
               file.exists(lmdata) & grepl("\\.tem$", lmdata))){
     # Check if path is directory containing tems or a single tem file
-    data <- convertTEMtoTPS(path_to_tem = lmdata,
+    data <- convert_tem_to_tps(path_to_tem = lmdata,
                             remove_points = remove_points,
                             path_to_tps = path_to_tps)
 

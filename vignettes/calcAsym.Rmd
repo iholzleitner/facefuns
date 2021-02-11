@@ -34,7 +34,7 @@ data <- read_lmdata(lmdata = path_to_tem,
                     remove_points = remove_points,
                     plot = FALSE)
 
-shapedata <- quickstart(data = data,
+shapedata <- facefuns2d(data = data,
                         pc_criterion = "broken_stick")
 ```
 
@@ -42,16 +42,16 @@ shapedata <- quickstart(data = data,
 
 *Needs tidying up. For now we have:*
 
-* `calcAS`: calculates asymmetry as the Procrustes distance between each original template and its symmetrized counterpart[@komori2009]; does not correct for directional asymmetry (DA)
+* `calc_as`: calculates asymmetry as the Procrustes distance between each original template and its symmetrized counterpart[@komori2009]; does not correct for directional asymmetry (DA)
 
-* `calcFA`: calculates fluctuating asymmetry (FA) by correcting asymmetry as calculated above for DA following Klingenberg (2015)[@klingenberg2015]; DA is calculated as the average of original templates minus the average of mirrored templates
+* `calc_fa`: calculates fluctuating asymmetry (FA) by correcting asymmetry as calculated above for DA following Klingenberg (2015)[@klingenberg2015]; DA is calculated as the average of original templates minus the average of mirrored templates
 
-* `calcFA_geo`: calculates FA, here using `geomorph::bilat.symmetry`. I am not entirely sure what  `bilat.symmetry` is doing under the hood and hence whether I'm implementing this correctly. Resulting scores are strongly correlated with the other two, but of course that doesn't mean much
+* `calc_fageo`: calculates FA, here using `geomorph::bilat.symmetry`. I am not entirely sure what  `bilat.symmetry` is doing under the hood and hence whether I'm implementing this correctly. Resulting scores are strongly correlated with the other two, but of course that doesn't mean much
 
 ```{r}
-as <- calcAS(shapedata, mirr_lms)
-fa <- calcFA(shapedata, mirr_lms)
-fa.geo <- calcFA_geo(shapedata, mirr_lms)
+as <- calc_as(shapedata, mirroredlandmarks)
+fa <- calc_fa(shapedata, mirroredlandmarks)
+fa.geo <- calc_fageo(shapedata, mirroredlandmarks)
 
 compare <- fa %>%
   dplyr::left_join(fa.geo, by="id") %>%

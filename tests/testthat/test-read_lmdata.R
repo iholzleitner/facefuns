@@ -2,7 +2,7 @@ data("LondonSet_info")
 path_to_tem <- system.file("extdata/tem", package = "facefuns")
 path_to_tps <- tempfile(fileext = ".tps")
 path_to_fail <- system.file("extdata", "LondonSet_info.csv", package = "facefuns")
-tempdata <- convertTEMtoTPS(path_to_tem = path_to_tem,
+tempdata <- convert_tem_to_tps(path_to_tem = path_to_tem,
                             path_to_tps = path_to_tps)
 
 test_that("different_inputs", {

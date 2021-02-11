@@ -13,6 +13,7 @@ articles:
   - calcSD
   - calcED
   - calcAsym
+  - intro3d
 - title: Overview
   desc: Summary of functions
   navbar: ~
@@ -22,30 +23,32 @@ articles:
 reference:
 - title: Basic functions
 - contents:
+  - facefuns2d
   - read_lmdata
-  - quickstart
-  - selectPCs
-  - make2DPCs
-  - make3DPCs
-  - plot2DPCs
-  - mirrorTemplates
-  - symmTemplates
+  - read_ply
+  - select_pcs
+  - make_2dpcs
+  - make_3dpcs
+  - plot_2dpcs
+  - mirror_templates
+  - symm_templates
 - title: Shape metrics
   desc: Functions for calculating commonly derived morphometric descriptives
 - contents:
-  - calcAVG
-  - calcED
-  - calcVS
-  - calcShapeVS
-  - calcDS
-  - calcAS
-  - calcFA
-  - calcFA_geo
+  - calc_avg
+  - calc_ed
+  - calc_vs
+  - calc_shapevs
+  - calc_ds
+  - calc_as
+  - calc_fa
+  - calc_fageo
 - title: Utility and helper functions
 - contents:
-  - convertArrayToMatrix
-  - convertPointsToMesh
-  - convertTEMtoTPS
+  - bind_arrays
+  - convert_array_to_matrix
+  - convert_points_to_mesh
+  - convert_tem_to_tps
   - geom_flat_violin
   - geom_split_violin
   - make_id
@@ -57,7 +60,6 @@ reference:
   - LondonSet_data
   - LondonSet_aligned
   - LondonSet_scores
-  - mirr_lms
-  - example_3D_face
+  - mirroredlandmarks
 - title: Shiny apps
 - contents: facefuns_app

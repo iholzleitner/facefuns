@@ -1,7 +1,6 @@
 ## code to prepare `DATASET` dataset goes here
 
 ## LondonSet_data ----
-
 remove_points <- c(45:50, 100:104, 116:125, 146:158, 159:164,
                    165:170, 171:174, 175:179, 184:185)
 
@@ -18,7 +17,6 @@ usethis::use_data(LondonSet_data, overwrite = TRUE)
 
 
 ### LondonSet_aligned ----
-
 gpa <- geomorph::gpagen(LondonSet_data, print.progress = FALSE)
 dimnames(gpa$coords)[[3]] <- gsub("^ID=", "", dimnames(gpa$coords)[[3]])
 
@@ -54,7 +52,7 @@ usethis::use_data(LondonSet_info, overwrite = TRUE)
 
 
 ## Mirrrored landmarks ----
-mirr_lms <- as.matrix(utils::read.table("inst/extdata/mirr_lms.txt",
+mirroredlandmarks <- as.matrix(utils::read.table("inst/extdata/mirr_lms.txt",
                                  header = F))
 
-usethis::use_data(mirr_lms, overwrite = TRUE)
+usethis::use_data(mirroredlandmarks, overwrite = TRUE)

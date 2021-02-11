@@ -1,19 +1,19 @@
 test_that("errors", {
-  expect_error(selectPCs(), "argument \"pca_output\" is missing, with no default")
+  expect_error(select_pcs(), "argument \"pca_output\" is missing, with no default")
 
-  expect_error(suppressWarnings(selectPCs(list())),
+  expect_error(suppressWarnings(select_pcs(list())),
                "pca_output must be a prcomp object")
 })
 
 test_that("basic works", {
   # unnamed arguments
   pca_output <- geomorph::gm.prcomp(LondonSet_aligned)
-  london_pcs <- selectPCs(pca_output)
+  london_pcs <- select_pcs(pca_output)
 
   expect_equal(names(london_pcs), c("selected", "n", "method"))
 
   # with named arguments
-  london_pcs_named <- selectPCs(pca_output = pca_output)
+  london_pcs_named <- select_pcs(pca_output = pca_output)
   expect_equal(london_pcs, london_pcs_named)
 
   #skip("takes too long")
@@ -39,5 +39,5 @@ test_that("basic works", {
    #expect_equal(trimws(x[[2]]), "SD Variance Cum Var")
 
   # error when PCA_output doesn't have sdev item
-  expect_error(selectPCs(data_aligned), ".*")
+  expect_error(select_pcs(data_aligned), ".*")
 })

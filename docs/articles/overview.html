@@ -63,6 +63,9 @@
       <a href="../articles/calcAsym.html">Calculate asymmetry of faces</a>
     </li>
     <li>
+      <a href="../articles/intro3d.html">Working with 3D meshes</a>
+    </li>
+    <li>
       <a href="../articles/overview.html">facefuns Overview</a>
     </li>
   </ul>
@@ -93,7 +96,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>facefuns Overview</h1>
             
-            <h4 class="date">2021-02-09</h4>
+            <h4 class="date">2021-02-11</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/iholzleitner/facefuns/blob/master/vignettes/overview.Rmd"><code>vignettes/overview.Rmd</code></a></small>
       <div class="hidden name"><code>overview.Rmd</code></div>
@@ -116,35 +119,39 @@
 </tr></thead>
 <tbody>
 <tr class="odd">
+<td align="left"><code>facefuns2d</code></td>
+<td align="left">Conducts GPA and PCA, selects and visualizes PCs</td>
+</tr>
+<tr class="even">
 <td align="left"><code>read_lmdata</code></td>
 <td align="left">Read landmark data from TPS, webmorph_list or Webmorph template files</td>
 </tr>
-<tr class="even">
-<td align="left"><code>quickstart</code></td>
-<td align="left">Conducts GPA and PCA, selects and visualizes PCs</td>
-</tr>
 <tr class="odd">
-<td align="left"><code>selectPCs</code></td>
+<td align="left"><code>read_ply</code></td>
+<td align="left">Read vertex data from binary PLY files</td>
+</tr>
+<tr class="even">
+<td align="left"><code>select_pcs</code></td>
 <td align="left">Select PCs based on <em>broken stick</em>, <em>Kaiser Guttman</em> or <em>total variance explained</em> criterion</td>
 </tr>
-<tr class="even">
-<td align="left"><code>make2DPCs</code></td>
+<tr class="odd">
+<td align="left"><code>make_2dpcs</code></td>
 <td align="left">Creates 2-D coordinates for a reference face at +/- x units of standard deviations for a given (list of) principal component(s)</td>
 </tr>
-<tr class="odd">
-<td align="left"><code>make3DPCs</code></td>
+<tr class="even">
+<td align="left"><code>make_3dpcs</code></td>
 <td align="left">Creates 3-D coordinates for a reference face at +/- x units of standard deviations for a given (list of) principal component(s)</td>
 </tr>
-<tr class="even">
-<td align="left"><code>plot2DPCs</code></td>
+<tr class="odd">
+<td align="left"><code>plot_2dpcs</code></td>
 <td align="left">Create TPS grid plots for 2-D PCs</td>
 </tr>
-<tr class="odd">
-<td align="left"><code>mirrorTemplates</code></td>
+<tr class="even">
+<td align="left"><code>mirror_templates</code></td>
 <td align="left">Mirror landmark templates</td>
 </tr>
-<tr class="even">
-<td align="left"><code>symmTemplates</code></td>
+<tr class="odd">
+<td align="left"><code>symm_templates</code></td>
 <td align="left">Symmetrize landmark templates</td>
 </tr>
 </tbody>
@@ -167,37 +174,37 @@
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left"><code>calcAvg</code></td>
+<td align="left"><code>calc_avg</code></td>
 <td align="left">Calculate averageness (reversed distance between original template(s) and sample average)</td>
 <td align="left"><a href="./calcSD.html">calcED</a></td>
 </tr>
 <tr class="even">
-<td align="left"><code>calcAS</code></td>
+<td align="left"><code>calc_as</code></td>
 <td align="left">Calculate asymmetry (distance between original and symmetrized template)</td>
 <td align="left"><a href="./calcAsym.html">calcAsym</a></td>
 </tr>
 <tr class="odd">
-<td align="left"><code>calcFA</code></td>
+<td align="left"><code>calc_fa</code></td>
 <td align="left">Calculate fluctuating asymmetry (distance between FA component and symmetric average)</td>
 <td align="left"><a href="./calcAsym.html">calcAsym</a></td>
 </tr>
 <tr class="even">
-<td align="left"><code>calcED</code></td>
+<td align="left"><code>calc_ed</code></td>
 <td align="left">Calculate Euclidean distance</td>
 <td align="left"><a href="./calcED.html">calcED</a></td>
 </tr>
 <tr class="odd">
-<td align="left"><code>calcDS</code></td>
+<td align="left"><code>calc_ds</code></td>
 <td align="left">Calculate group membership based on linear discriminant analysis</td>
 <td align="left"><a href="./calcSD.html">calcSD</a></td>
 </tr>
 <tr class="even">
-<td align="left"><code>calcShapeVS</code></td>
-<td align="left">Calculate group membership based on vector projection (from quickstart object, allows for symmetrizing of templates)</td>
+<td align="left"><code>calc_shapevs</code></td>
+<td align="left">Calculate group membership based on vector projection (from facefuns2d object, allows for symmetrizing of templates)</td>
 <td align="left"><a href="./calcSD.html">calcSD</a></td>
 </tr>
 <tr class="odd">
-<td align="left"><code>calcVS</code></td>
+<td align="left"><code>calc_vs</code></td>
 <td align="left">Calculate group membership based on vector projection (from PC scores)</td>
 <td align="left"><a href="./calcSD.html">calcSD</a></td>
 </tr>
@@ -216,17 +223,22 @@
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left"><code>convertArrayToMatrix</code></td>
-<td align="left">Convert 3-D array to 2-D matrix</td>
+<td align="left"><code>bind_arrays</code></td>
+<td align="left">Bind two 3-D arrays</td>
 <td align="left"></td>
 </tr>
 <tr class="even">
-<td align="left"><code>convertPointsToMesh</code></td>
-<td align="left">Convert matrix of 3-D coordinates to 3-D mesh</td>
+<td align="left"><code>convert_array_to_matrix</code></td>
+<td align="left">Convert 3-D array to 2-D matrix</td>
 <td align="left"></td>
 </tr>
 <tr class="odd">
-<td align="left"><code>convertTEMtoTPS</code></td>
+<td align="left"><code>convert_points_to_mesh</code></td>
+<td align="left">Convert matrix of 3-D coordinates to 3-D mesh</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left"><code>convert_tem_to_tps</code></td>
 <td align="left">Read Webmorph template files and save as TPS</td>
 <td align="left"></td>
 </tr>
@@ -264,12 +276,8 @@
 <td align="left">FRL London set: basic demographic data</td>
 </tr>
 <tr class="odd">
-<td align="left"><code>mirr_lms</code></td>
+<td align="left"><code>mirroredlandmarks</code></td>
 <td align="left">FRL London set: order of mirrored landmarks (p=132)</td>
-</tr>
-<tr class="even">
-<td align="left"><code>example_3D_face</code></td>
-<td align="left">Composite 3D face</td>
 </tr>
 </tbody>
 </table>

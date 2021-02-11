@@ -1,0 +1,82 @@
+---
+title: "Working with 3D meshes"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+bibliography: facefuns.bib
+csl: apa-numeric-superscript.csl
+link-citations: yes
+vignette: >
+  %\VignetteIndexEntry{Working with 3D meshes}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, message=FALSE}
+library(facefuns)
+library(Morpho)
+library(rgl)
+```
+
+**WORK IN PROGRESS**
+
+This tutorial covers basic steps in working with 3D meshes. There are multiple ways to get your 3D data into `R` - the workflow outlined here is just one of many options!
+
+## Importing 3D data into R
+
+To conduct a GPA and shape PCA, you'll need your shape data in a three-dimensional array, just as for 2D data. In the Face Research Lab, we're using a [DI3D system](https://www.di4d.com) (you can find more info on our specific setup [here](https://osf.io/gs5wm/)). 3D meshes are exported as OBJs and  extraneous parts of the meshes manually removed (using [MeshLab](https://www.meshlab.net)), before meshes are delineated and warped to a standard face in [MorphAnalyser](https://cherry.dcs.aber.ac.uk/morphanalyser/version2.4/launch2.4.html)[@tiddeman2000].
+
+### OBJ vs PLY
+OBJs can be read directly into R using `rgl::readOBJ`. `readOBJ` imports the OBJ as an object of class "mesh3d". Our OBJs and resulting mesh objects are fairly big (~10MB), which makes them a wee bit unwieldy.
+
+Instead of working with OBJs, you can also convert them into smaller PLY files. PLYs come in different flavours: ASCII, binary_little_endian or binary_big_endian. `geomorph` has a dedicated `read.ply` function, which reads PLY files of the ASCII type. If you only have a couple of files, you could use MeshLab to manually convert your OBJs into ASCII PLYs.
+
+If you have a bigger number of files, you might be looking for a batch solution. I'm using MeshLab's command line interface (MeshLabServer) to do so. If you've not much used the command line before, don't be put off - while setting everything up *can* be a bit tedious initially, the actual running of commands is very little fuss. *[write extra tutorial on that?]*
+
+The only catch here is that other than the MeshLab GUI, MeshLabServer can only export binary PLY files (or at least that was the case in 2018). Instead of using `geomorph`, we'll thus be using the package `Morpho` to import our data.
+
+### Read PLYs
+
+First, we'll specify the path to our data
+```{r}
+path_to_ply <- system.file("extdata", "ply", package="facefuns")
+  
+path_to_example <- list.files(path = path_to_ply,
+                          pattern = "\\.ply$",
+                          full.names = TRUE)[1]
+```
+
+Now, we can use `Morpho::file2mesh` to import the first of the 3D example faces included in `facefuns`
+```{r}
+plyexample <- Morpho::file2mesh(path_to_example)
+```
+
+You can use the package `rgl` to plot the face
+```{r message=FALSE}
+open3d()
+plot3d(plyexample,
+       type = "wire", col = "gray",
+       box = FALSE, axes = FALSE,
+       xlab = "", ylab = "", zlab = "",
+       specular = "black")
+aspect3d("iso")
+rglwidget()
+close3d()
+```
+
+As you can see in the environment, this mesh3d object is still very large (6.7MB). All we really need at this point are the vertex coordinates. `facefuns::read_ply` reads PLYs using `Morpho::file2mesh`, extracts only the vertex data and saves it into an array that we can then use for subsequent analyses.
+
+```{r}
+plydata <- read_ply(path_to_ply)
+str(plydata)
+```
+
+
+## References
+

@@ -63,6 +63,9 @@
       <a href="../articles/calcAsym.html">Calculate asymmetry of faces</a>
     </li>
     <li>
+      <a href="../articles/intro3d.html">Working with 3D meshes</a>
+    </li>
+    <li>
       <a href="../articles/overview.html">facefuns Overview</a>
     </li>
   </ul>
@@ -93,7 +96,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Calculate asymmetry of faces</h1>
             
-            <h4 class="date">2021-02-09</h4>
+            <h4 class="date">2021-02-11</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/iholzleitner/facefuns/blob/master/vignettes/calcAsym.Rmd"><code>vignettes/calcAsym.Rmd</code></a></small>
       <div class="hidden name"><code>calcAsym.Rmd</code></div>
@@ -117,7 +120,7 @@
                     remove_points <span class="op">=</span> <span class="va">remove_points</span>,
                     plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 
-<span class="va">shapedata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/quickstart.html">quickstart</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>,
+<span class="va">shapedata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/facefuns2d.html">facefuns2d</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>,
                         pc_criterion <span class="op">=</span> <span class="st">"broken_stick"</span><span class="op">)</span></code></pre></div>
 <p><img src="calcAsym_files/figure-html/unnamed-chunk-2-1.png" width="700"></p>
 <pre><code>#&gt; The loaded data set contains 102 specimen, delineated with 132 2-D landmarks.
@@ -129,14 +132,14 @@
 <a href="#calculate-asymmetry" class="anchor"></a>Calculate asymmetry</h2>
 <p><em>Needs tidying up. For now we have:</em></p>
 <ul>
-<li><p><code>calcAS</code>: calculates asymmetry as the Procrustes distance between each original template and its symmetrized counterpart<span class="citation"><sup><a href="#ref-komori2009" role="doc-biblioref">1</a></sup></span>; does not correct for directional asymmetry (DA)</p></li>
-<li><p><code>calcFA</code>: calculates fluctuating asymmetry (FA) by correcting asymmetry as calculated above for DA following Klingenberg (2015)<span class="citation"><sup><a href="#ref-klingenberg2015" role="doc-biblioref">2</a></sup></span>; DA is calculated as the average of original templates minus the average of mirrored templates</p></li>
-<li><p><code>calcFA_geo</code>: calculates FA, here using <code><a href="https://rdrr.io/pkg/geomorph/man/bilat.symmetry.html">geomorph::bilat.symmetry</a></code>. I am not entirely sure what <code>bilat.symmetry</code> is doing under the hood and hence whether I’m implementing this correctly. Resulting scores are strongly correlated with the other two, but of course that doesn’t mean much</p></li>
+<li><p><code>calc_as</code>: calculates asymmetry as the Procrustes distance between each original template and its symmetrized counterpart<span class="citation"><sup><a href="#ref-komori2009" role="doc-biblioref">1</a></sup></span>; does not correct for directional asymmetry (DA)</p></li>
+<li><p><code>calc_fa</code>: calculates fluctuating asymmetry (FA) by correcting asymmetry as calculated above for DA following Klingenberg (2015)<span class="citation"><sup><a href="#ref-klingenberg2015" role="doc-biblioref">2</a></sup></span>; DA is calculated as the average of original templates minus the average of mirrored templates</p></li>
+<li><p><code>calc_fageo</code>: calculates FA, here using <code><a href="https://rdrr.io/pkg/geomorph/man/bilat.symmetry.html">geomorph::bilat.symmetry</a></code>. I am not entirely sure what <code>bilat.symmetry</code> is doing under the hood and hence whether I’m implementing this correctly. Resulting scores are strongly correlated with the other two, but of course that doesn’t mean much</p></li>
 </ul>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">as</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calcAS.html">calcAS</a></span><span class="op">(</span><span class="va">shapedata</span>, <span class="va">mirr_lms</span><span class="op">)</span>
-<span class="va">fa</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calcFA.html">calcFA</a></span><span class="op">(</span><span class="va">shapedata</span>, <span class="va">mirr_lms</span><span class="op">)</span>
-<span class="va">fa.geo</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calcFA_geo.html">calcFA_geo</a></span><span class="op">(</span><span class="va">shapedata</span>, <span class="va">mirr_lms</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">as</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_as.html">calc_as</a></span><span class="op">(</span><span class="va">shapedata</span>, <span class="va">mirroredlandmarks</span><span class="op">)</span>
+<span class="va">fa</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_fa.html">calc_fa</a></span><span class="op">(</span><span class="va">shapedata</span>, <span class="va">mirroredlandmarks</span><span class="op">)</span>
+<span class="va">fa.geo</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_fageo.html">calc_fageo</a></span><span class="op">(</span><span class="va">shapedata</span>, <span class="va">mirroredlandmarks</span><span class="op">)</span>
 
 <span class="va">compare</span> <span class="op">&lt;-</span> <span class="va">fa</span> <span class="op">%&gt;%</span>
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">fa.geo</span>, by<span class="op">=</span><span class="st">"id"</span><span class="op">)</span> <span class="op">%&gt;%</span>

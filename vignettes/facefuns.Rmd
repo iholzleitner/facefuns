@@ -19,12 +19,11 @@ knitr::opts_chunk$set(
 
 This package contains convenience functions for doing shape analyses of 2D and 3D face images in `R` (see also [here](./overview.html)), as well as tutorials for some common analyses: calculating [sexual dimorphism](./calcSD.html), [facial similarity and averageness](./calcED.html), and [asymmetry](./calcAsym.html).
 
-The following tutorial will provide a brief guide to loading 2D face data into `R`, Procrustes-aligning landmark templates and conducting a principal component analysis of shape using the package `geomorph`. It will conclude by introducing  the function `facefuns::quickstart`, which will automatically conduct these steps and create outputs for use in subsequent analyses.
+The following tutorial will provide a brief guide to loading 2D face data into `R`, Procrustes-aligning landmark templates and conducting a principal component analysis of shape using the package `geomorph`. It will conclude by introducing  the function `facefuns::facefuns2d`, which will automatically conduct these steps and create outputs for use in subsequent analyses.
 
 ```{r setup, message=FALSE}
 library(facefuns)
 library(geomorph)
-library(webmorph)
 library(tibble)
 library(dplyr)
 ```
@@ -124,13 +123,13 @@ pca_output <- gm.prcomp(data_aligned)
 # summary(pca_output)
 ```
 
-`summary(pca_output)` will return a list of _all_ principal components. That is usually not what we want. Instead, we will use `facefuns::selectPCs` to decide which PCs we would like to retain for subsequent analyses.
+`summary(pca_output)` will return a list of _all_ principal components. That is usually not what we want. Instead, we will use `facefuns::select_pcs` to decide which PCs we would like to retain for subsequent analyses.
 
 ```{r}
-london_pcs <- selectPCs(pca_output)
+london_pcs <- select_pcs(pca_output)
 ```
 
-`selectPCs` returns a list of principal components as chosen by one of three methods. It defaults to the most conservative "broken_stick" method. Other methods are "Kaiser_Guttman" (retains PCs with eigenvalues greater than the mean eigenvalue) and "total_variance" (retains PCs explaining at least total_var variance). It returns three items: the number of selected PCs (`london_pcs$n`), their importance (`london_pcs$selected`) and the criterion that was used to choose PCs (`london_pcs$method`). The London Set has `r london_pcs$n` selected PCs; the first three PCs explain `r london_pcs$selected$Variance[1]*100`%, `r london_pcs$selected$Variance[2]*100`% and `r london_pcs$selected$Variance[3]*100`% of variance, respectively.
+`select_pcs` returns a list of principal components as chosen by one of three methods. It defaults to the most conservative "broken_stick" method. Other methods are "Kaiser_Guttman" (retains PCs with eigenvalues greater than the mean eigenvalue) and "total_variance" (retains PCs explaining at least total_var variance). It returns three items: the number of selected PCs (`london_pcs$n`), their importance (`london_pcs$selected`) and the criterion that was used to choose PCs (`london_pcs$method`). The London Set has `r london_pcs$n` selected PCs; the first three PCs explain `r london_pcs$selected$Variance[1]*100`%, `r london_pcs$selected$Variance[2]*100`% and `r london_pcs$selected$Variance[3]*100`% of variance, respectively.
 
 ```{r}
 london_pcs$selected
@@ -161,19 +160,19 @@ plotRefToTarget(ref, pca_output$shapes$shapes.comp1$min)
 plotRefToTarget(ref, pca_output$shapes$shapes.comp1$max)
 ```
 
-## `quickstart`
+## `facefuns2d`
 
-`quickstart` is a convenience function for doing all of the above in one step.
+`facefuns2d` is a convenience function for doing all of the above in one step.
 
 ```{r}
-shapedata <- quickstart(data = data,
+shapedata <- facefuns2d(data = data,
                         pc_criterion = "broken_stick",
                         plot_sample = TRUE,
                         message = TRUE,
                         auto_rotate = TRUE)
 ```
 
-`quickstart` returns a list with the following elements:
+`facefuns2d` returns a list with the following elements:
 
 * `array`: Procrustes-aligned data as three-dimensional array     
 * `matrix`: Procrustes-aligned data as two-dimensional matrix [MAKE OPTIONAL?]     
@@ -186,12 +185,12 @@ shapedata <- quickstart(data = data,
 * `pc_plot`: PCs for plotting
 * `summary`: List of key descriptives
 
-### `plot2DPCs`
+### `plot_2dpcs`
 
-By default, `quickstart` will create all selected PCs at plus and minus 3 standard deviations. These can again be plotted using `plotRefToTarget` or using `plot2DPCs`. Note that while `plotRefToTarget` is based on the sample range of a specific PC, `plot2DPCs` is based on units of standard deviation (see also `help(plot2DPCs)`).
+By default, `facefuns2d` will create all selected PCs at plus and minus 3 standard deviations. These can again be plotted using `plotRefToTarget` or using `plot_2dpcs`. Note that while `plotRefToTarget` is based on the sample range of a specific PC, `plot_2dpcs` is based on units of standard deviation (see also `help(plot_2dpcs)`).
 
 ```{r, fig.width=9, fig.height=15, fig.show='hold', fig.align='center'}
-plot2DPCs(input = shapedata$pc_plot,
+plot_2dpcs(input = shapedata$pc_plot,
           ref = shapedata$average,
           which_pcs = 1:2)
 ```

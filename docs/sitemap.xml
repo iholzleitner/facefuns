@@ -16,43 +16,46 @@
     <loc>https://iholzleitner.github.io/facefuns/reference/LondonSet_scores.html</loc>
   </url>
   <url>
-    <loc>https://iholzleitner.github.io/facefuns/reference/bindArrays.html</loc>
+    <loc>https://iholzleitner.github.io/facefuns/reference/bind_arrays.html</loc>
   </url>
   <url>
-    <loc>https://iholzleitner.github.io/facefuns/reference/calcAS.html</loc>
+    <loc>https://iholzleitner.github.io/facefuns/reference/calc_as.html</loc>
   </url>
   <url>
-    <loc>https://iholzleitner.github.io/facefuns/reference/calcAVG.html</loc>
+    <loc>https://iholzleitner.github.io/facefuns/reference/calc_avg.html</loc>
   </url>
   <url>
-    <loc>https://iholzleitner.github.io/facefuns/reference/calcDS.html</loc>
+    <loc>https://iholzleitner.github.io/facefuns/reference/calc_ds.html</loc>
   </url>
   <url>
-    <loc>https://iholzleitner.github.io/facefuns/reference/calcED.html</loc>
+    <loc>https://iholzleitner.github.io/facefuns/reference/calc_ed.html</loc>
   </url>
   <url>
-    <loc>https://iholzleitner.github.io/facefuns/reference/calcFA.html</loc>
+    <loc>https://iholzleitner.github.io/facefuns/reference/calc_fa.html</loc>
   </url>
   <url>
-    <loc>https://iholzleitner.github.io/facefuns/reference/calcFA_geo.html</loc>
+    <loc>https://iholzleitner.github.io/facefuns/reference/calc_fageo.html</loc>
   </url>
   <url>
-    <loc>https://iholzleitner.github.io/facefuns/reference/calcShapeVS.html</loc>
+    <loc>https://iholzleitner.github.io/facefuns/reference/calc_shapevs.html</loc>
   </url>
   <url>
-    <loc>https://iholzleitner.github.io/facefuns/reference/calcVS.html</loc>
+    <loc>https://iholzleitner.github.io/facefuns/reference/calc_vs.html</loc>
   </url>
   <url>
-    <loc>https://iholzleitner.github.io/facefuns/reference/convertArrayToMatrix.html</loc>
+    <loc>https://iholzleitner.github.io/facefuns/reference/convert_array_to_matrix.html</loc>
   </url>
   <url>
-    <loc>https://iholzleitner.github.io/facefuns/reference/convertPointsToMesh.html</loc>
+    <loc>https://iholzleitner.github.io/facefuns/reference/convert_points_to_mesh.html</loc>
   </url>
   <url>
-    <loc>https://iholzleitner.github.io/facefuns/reference/convertTEMtoTPS.html</loc>
+    <loc>https://iholzleitner.github.io/facefuns/reference/convert_stimlist_to_array.html</loc>
   </url>
   <url>
-    <loc>https://iholzleitner.github.io/facefuns/reference/example_3D_face.html</loc>
+    <loc>https://iholzleitner.github.io/facefuns/reference/convert_tem_to_tps.html</loc>
+  </url>
+  <url>
+    <loc>https://iholzleitner.github.io/facefuns/reference/facefuns2d.html</loc>
   </url>
   <url>
     <loc>https://iholzleitner.github.io/facefuns/reference/facefuns_app.html</loc>
@@ -76,19 +79,19 @@
     <loc>https://iholzleitner.github.io/facefuns/reference/is_shape_array.html</loc>
   </url>
   <url>
-    <loc>https://iholzleitner.github.io/facefuns/reference/make2DPCs.html</loc>
+    <loc>https://iholzleitner.github.io/facefuns/reference/make_2dpcs.html</loc>
   </url>
   <url>
-    <loc>https://iholzleitner.github.io/facefuns/reference/make3DPCs.html</loc>
+    <loc>https://iholzleitner.github.io/facefuns/reference/make_3dpcs.html</loc>
   </url>
   <url>
     <loc>https://iholzleitner.github.io/facefuns/reference/make_id.html</loc>
   </url>
   <url>
-    <loc>https://iholzleitner.github.io/facefuns/reference/mirr_lms.html</loc>
+    <loc>https://iholzleitner.github.io/facefuns/reference/mirror_templates.html</loc>
   </url>
   <url>
-    <loc>https://iholzleitner.github.io/facefuns/reference/mirrorTemplates.html</loc>
+    <loc>https://iholzleitner.github.io/facefuns/reference/mirroredlandmarks.html</loc>
   </url>
   <url>
     <loc>https://iholzleitner.github.io/facefuns/reference/pc_pair_plot.html</loc>
@@ -97,7 +100,7 @@
     <loc>https://iholzleitner.github.io/facefuns/reference/pipe.html</loc>
   </url>
   <url>
-    <loc>https://iholzleitner.github.io/facefuns/reference/plot2DPCs.html</loc>
+    <loc>https://iholzleitner.github.io/facefuns/reference/plot_2dpcs.html</loc>
   </url>
   <url>
     <loc>https://iholzleitner.github.io/facefuns/reference/print.facefuns_obj.html</loc>
@@ -106,16 +109,19 @@
     <loc>https://iholzleitner.github.io/facefuns/reference/print.selected_PCs.html</loc>
   </url>
   <url>
-    <loc>https://iholzleitner.github.io/facefuns/reference/quickstart.html</loc>
-  </url>
-  <url>
     <loc>https://iholzleitner.github.io/facefuns/reference/read_lmdata.html</loc>
   </url>
   <url>
-    <loc>https://iholzleitner.github.io/facefuns/reference/selectPCs.html</loc>
+    <loc>https://iholzleitner.github.io/facefuns/reference/read_ply.html</loc>
   </url>
   <url>
-    <loc>https://iholzleitner.github.io/facefuns/reference/symmTemplates.html</loc>
+    <loc>https://iholzleitner.github.io/facefuns/reference/select_pcs.html</loc>
+  </url>
+  <url>
+    <loc>https://iholzleitner.github.io/facefuns/reference/symm_templates.html</loc>
+  </url>
+  <url>
+    <loc>https://iholzleitner.github.io/facefuns/reference/write_stimlist_to_tps.html</loc>
   </url>
   <url>
     <loc>https://iholzleitner.github.io/facefuns/articles/calcAsym.html</loc>
@@ -128,6 +134,9 @@
   </url>
   <url>
     <loc>https://iholzleitner.github.io/facefuns/articles/facefuns.html</loc>
+  </url>
+  <url>
+    <loc>https://iholzleitner.github.io/facefuns/articles/intro3d.html</loc>
   </url>
   <url>
     <loc>https://iholzleitner.github.io/facefuns/articles/overview.html</loc>

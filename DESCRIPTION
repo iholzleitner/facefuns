@@ -39,7 +39,8 @@ Imports:
     klaR,
     MASS,
     stats,
-    lifecycle
+    lifecycle,
+    Morpho
 Suggests: 
     testthat,
     knitr,

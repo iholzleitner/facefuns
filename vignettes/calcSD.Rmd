@@ -37,7 +37,7 @@ data <- read_lmdata(lmdata = path_to_tem,
                     remove_points = remove_points,
                     plot = FALSE)
 
-shapedata <- quickstart(data = data,
+shapedata <- facefuns2d(data = data,
                         pc_criterion = "broken_stick",
                         plot_sample = FALSE)
 ```
@@ -49,15 +49,15 @@ data(LondonSet_info)
 head(LondonSet_info)
 ```
 
-## 1. Vector scores: `calc(shape)VS`{#vs}
+## 1. Vector scores: `calc_(shape)vs`{#vs}
 
-`facefuns::calcVS` calculates sexual dimorphism by computing an n-dimensional vector between the average female and the average male shape, and then projecting each face onto this vector. Scores are scaled so that a score of 0 corresponds to the average female, and a score of 1 to the average male shape; a negative score, e.g., would thus indicate a hyperfeminine face.
+`facefuns::calc_vs` calculates sexual dimorphism by computing an n-dimensional vector between the average female and the average male shape, and then projecting each face onto this vector. Scores are scaled so that a score of 0 corresponds to the average female, and a score of 1 to the average male shape; a negative score, e.g., would thus indicate a hyperfeminine face.
 
-You can use `calcVS` to calculate vector scores from a data frame or matrix of principal component scores (see `help(calcVS)`), or `calcShapeVS` to calculate them from the Procrustes-aligned templates in the quickstart output.
+You can use `calc_vs` to calculate vector scores from a data frame or matrix of principal component scores (see `help(calc_vs)`), or `calc_shapevs` to calculate them from the Procrustes-aligned templates in the facefuns2d output.
 
-`calcShapeVS` takes three arguments, all of which should be a data frame or matrix with specimen as rows, and PC scores as columns:
+`calc_shapevs` takes three arguments, all of which should be a data frame or matrix with specimen as rows, and PC scores as columns:
 
-* `quickstart_obj`: Output from `facefuns::quickstart`
+* `facefuns2d_obj`: Output from `facefuns::facefuns2d`
 * `anchor1_index`: Vector specifying indices of faces that will constitute lower anchor point     
 * `anchor2_index`: Vector specifying indices of faces that will constitute upper anchor point    
 
@@ -73,10 +73,10 @@ mal_i <- gsub("^ID=", "", dimnames(shapedata$array)[[3]]) %in%
 
 Now, we can run our function:
 ```{r}
-sd_vector <- calcShapeVS(shapedata, fem_i, mal_i)
+sd_vector <- calc_shapevs(shapedata, fem_i, mal_i)
 ```
 
-`calc(Shape)VS` will return a tibble that has two columns, `id` and `VS`:
+`calc_(shape)vs` will return a tibble that has two columns, `id` and `VS`:
 
 ```{r}
 head(sd_vector)
@@ -98,18 +98,18 @@ If your current sample is small, but you have a larger sample at hand that was d
 
 Two-dimensional images are strongly affected by head posture, which is reflected in the fact that in 2D sets, the first principal components usually show shape associated with heads being tilted up/down, or heads being turned left/right. While it is not possible to "correct" for up/down head postures (plus shape differences associated with an upward-/downward-tilt overlap with those of sexual dimorphism), slight asymmetries due to a left/right tilt *could* be "remedied" by symmetrizing faces.
 
-You could either symmetrize templates before submitting them to quickstart (using `facefuns::symmTemplates`) which has the added benefit that it's very little fuss to plot the PCs on which the scores are based; or you could do so by using the option `symm = TRUE` in `calcShapeVS`.
+You could either symmetrize templates before submitting them to facefuns2d (using `facefuns::symm_templates`) which has the added benefit that it's very little fuss to plot the PCs on which the scores are based; or you could do so by using the option `symm = TRUE` in `calc_shapevs`.
 
 Symmetrizing works by mirroring each landmark template, and calculating the mean between the original and mirrored template. After mirroring, the landmarks need to be relabeled - what used to be point 0 (right pupil) in the original template, is point 1 (the left pupil) after mirroring.
 
-Unfortunately, this information needs to be manually entered, and will very much depend on the landmark template you want to mirror. For the set of 132 landmarks used throughout the examples in `facefuns`, this info is stored in `mirr_lms`.
+Unfortunately, this information needs to be manually entered, and will very much depend on the landmark template you want to mirror. For the set of 132 landmarks used throughout the examples in `facefuns`, this info is stored in `mirroredlandmarks`.
 
-If `symm = TRUE`, `calcShapeVS` will first symmetrize the faces, re-conduct a GPA and PCA on these symmetrized templates, and then run `calcVS`.
+If `symm = TRUE`, `calc_shapevs` will first symmetrize the faces, re-conduct a GPA and PCA on these symmetrized templates, and then run `calc_vs`.
 
 ```{r}
-data("mirr_lms")
+data("mirroredlandmarks")
 
-sd_vector_symm <- calcShapeVS(shapedata, fem_i, mal_i, symm = TRUE, mirr_lms = mirr_lms)
+sd_vector_symm <- calc_shapevs(shapedata, fem_i, mal_i, symm = TRUE, mirroredlandmarks = mirroredlandmarks)
 head(sd_vector_symm)
 
 LondonSet_info %>%
@@ -119,11 +119,11 @@ LondonSet_info %>%
   theme_bw()
 ```
 
-## 2. Discriminant scores: `calcDS`{#ds}
+## 2. Discriminant scores: `calc_ds`{#ds}
 
 Another way to calculate sexual dimorphism is by employing a linear discriminant analyses to predict group membership.
 
-`calcDS` first conducts a (forward) stepwise variable selection and then carries out a linear discriminant analysis. It takes two arguments:
+`calc_ds` first conducts a (forward) stepwise variable selection and then carries out a linear discriminant analysis. It takes two arguments:
 
 * `data`: A data frame or matrix with specimen as rows, and PCs as columns. Can also contain an additional column that defines group membership.
 * `group_info`: Either a data frame with two columns (col 1 = id matching the rownames in data; col 2 = group), or a single numeric value indexing the column in data that contains group membership info
@@ -134,10 +134,10 @@ For this example, we'll specify group membership with a separate data frame.
 group_info <- LondonSet_info %>%
   dplyr::select(face_id, face_sex)
 
-sd_discrim <- calcDS(shapedata$pc_scores, group_info = group_info)
+sd_discrim <- calc_ds(shapedata$pc_scores, group_info = group_info)
 ```
 
-Like `calcVS`, `calcDS` will return a tibble that has two columns, in this case `id` and `DS`:
+Like `calc_vs`, `calc_ds` will return a tibble that has two columns, in this case `id` and `DS`:
 
 ```{r eval=FALSE}
 head(sd_discrim)
