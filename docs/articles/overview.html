@@ -96,7 +96,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>facefuns Overview</h1>
             
-            <h4 class="date">2021-02-11</h4>
+            <h4 class="date">2021-02-13</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/iholzleitner/facefuns/blob/master/vignettes/overview.Rmd"><code>vignettes/overview.Rmd</code></a></small>
       <div class="hidden name"><code>overview.Rmd</code></div>
@@ -120,37 +120,41 @@
 <tbody>
 <tr class="odd">
 <td align="left"><code>facefuns2d</code></td>
-<td align="left">Conducts GPA and PCA, selects and visualizes PCs</td>
+<td align="left">Conducts GPA and PCA, selects and visualizes PCs for 2-D data</td>
 </tr>
 <tr class="even">
+<td align="left"><code>facefuns3d</code></td>
+<td align="left">Conducts GPA and PCA, selects and visualizes PCs for 3-D data</td>
+</tr>
+<tr class="odd">
 <td align="left"><code>read_lmdata</code></td>
 <td align="left">Read landmark data from TPS, webmorph_list or Webmorph template files</td>
 </tr>
-<tr class="odd">
-<td align="left"><code>read_ply</code></td>
-<td align="left">Read vertex data from binary PLY files</td>
-</tr>
 <tr class="even">
+<td align="left"><code>read_vertices</code></td>
+<td align="left">Read vertex data from PLY and OBJ files</td>
+</tr>
+<tr class="odd">
 <td align="left"><code>select_pcs</code></td>
 <td align="left">Select PCs based on <em>broken stick</em>, <em>Kaiser Guttman</em> or <em>total variance explained</em> criterion</td>
 </tr>
-<tr class="odd">
-<td align="left"><code>make_2dpcs</code></td>
-<td align="left">Creates 2-D coordinates for a reference face at +/- x units of standard deviations for a given (list of) principal component(s)</td>
-</tr>
 <tr class="even">
-<td align="left"><code>make_3dpcs</code></td>
-<td align="left">Creates 3-D coordinates for a reference face at +/- x units of standard deviations for a given (list of) principal component(s)</td>
+<td align="left"><code>make_pcs</code></td>
+<td align="left">Creates coordinates for a reference face at +/- x units of standard deviations for a given (list of) principal component(s)</td>
 </tr>
 <tr class="odd">
 <td align="left"><code>plot_2dpcs</code></td>
 <td align="left">Create TPS grid plots for 2-D PCs</td>
 </tr>
 <tr class="even">
+<td align="left"><code>plot_3dpcs</code></td>
+<td align="left">Create plots for 3-D PCs</td>
+</tr>
+<tr class="odd">
 <td align="left"><code>mirror_templates</code></td>
 <td align="left">Mirror landmark templates</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><code>symm_templates</code></td>
 <td align="left">Symmetrize landmark templates</td>
 </tr>

@@ -24,12 +24,13 @@ reference:
 - title: Basic functions
 - contents:
   - facefuns2d
+  - facefuns3d
   - read_lmdata
-  - read_ply
+  - read_vertices
   - select_pcs
-  - make_2dpcs
-  - make_3dpcs
+  - make_pcs
   - plot_2dpcs
+  - plot_3dpcs
   - mirror_templates
   - symm_templates
 - title: Shape metrics

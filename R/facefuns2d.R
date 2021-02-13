@@ -1,4 +1,4 @@
-#' Quick start to shape analyses
+#' Quick start to shape analyses of 2-D data
 #'
 #' @description
 #' \lifecycle{maturing}
@@ -112,7 +112,7 @@ facefuns2d <- function (data, pc_criterion = "broken_stick", plot_sample = TRUE,
 
   # MAKE 2D PCS ----
   ref <- geomorph::mshape(data_aligned)
-  vis_pcs <- make_2dpcs(pca_output = pca_output, ref = ref, which_pcs = 1:pc_sel$n, vis_sd = 3)
+  vis_pcs <- make_pcs(pca_output = pca_output, ref = ref, which_pcs = 1:pc_sel$n, vis_sd = 3)
 
 
   # SUMMARY
@@ -149,7 +149,7 @@ facefuns2d <- function (data, pc_criterion = "broken_stick", plot_sample = TRUE,
 
 #' Print for facefuns_obj
 #'
-#' @param x a list of class facefuns2d
+#' @param x a list of class facefuns_obj
 #' @param ... arguments passed to or from other methods
 #'
 #' @return prints summary

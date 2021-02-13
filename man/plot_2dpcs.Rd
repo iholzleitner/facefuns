@@ -7,7 +7,7 @@
 plot_2dpcs(input, ref, which_pcs = 1:3, vis_sd = 3)
 }
 \arguments{
-\item{input}{Output from \code{gm.prcomp} or list of PC coordinates}
+\item{input}{Object of class \code{prcomp}, \code{gm.prcomp} or PC_list (see \code{make_pcs})}
 
 \item{ref}{Reference face (sample average is recommended)}
 

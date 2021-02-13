@@ -3,7 +3,7 @@ title: "Working with 3D meshes"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 bibliography: facefuns.bib
-csl: apa-numeric-superscript.csl
+csl: apa.csl
 link-citations: yes
 vignette: >
   %\VignetteIndexEntry{Working with 3D meshes}
@@ -18,47 +18,74 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup, message=FALSE}
+
+```{r setup}
 library(facefuns)
-library(Morpho)
 library(rgl)
+library(Morpho)
 ```
 
 **WORK IN PROGRESS**
 
-This tutorial covers basic steps in working with 3D meshes. There are multiple ways to get your 3D data into `R` - the workflow outlined here is just one of many options!
+This tutorial covers basic steps in working with 3D meshes that have been delineated and resampled according to a "standard" mesh, i.e. each mesh's tesselations are homologous across the entire sample.
 
-## Importing 3D data into R
+The 3D faces included in `facefuns` are 12 composite faces that show average white female and male faces from 6 different age groups (18-25, 26-35, 36-45, 46-55, 56-65, 66-75). Each composite comprises of 10 individual faces that were collected as part of the ERC-funded KINSHIP project (#647910). Corresponding texture files were created in Psychomorph by averaging individual texture maps.[^frl]
 
-To conduct a GPA and shape PCA, you'll need your shape data in a three-dimensional array, just as for 2D data. In the Face Research Lab, we're using a [DI3D system](https://www.di4d.com) (you can find more info on our specific setup [here](https://osf.io/gs5wm/)). 3D meshes are exported as OBJs and  extraneous parts of the meshes manually removed (using [MeshLab](https://www.meshlab.net)), before meshes are delineated and warped to a standard face in [MorphAnalyser](https://cherry.dcs.aber.ac.uk/morphanalyser/version2.4/launch2.4.html)[@tiddeman2000].
+[^frl]: 3-D models were delineated and warped in [MorphAnalyser](https://cherry.dcs.aber.ac.uk/morphanalyser/version2.4/launch2.4.html) [@tiddeman2000]. The Face Research Lab uses a [DI3D system](https://www.di4d.com) to capture 3-D images; see [here](https://osf.io/gs5wm/) for more info.
+
+## Importing 3-D data into R
 
 ### OBJ vs PLY
-OBJs can be read directly into R using `rgl::readOBJ`. `readOBJ` imports the OBJ as an object of class "mesh3d". Our OBJs and resulting mesh objects are fairly big (~10MB), which makes them a wee bit unwieldy.
 
-Instead of working with OBJs, you can also convert them into smaller PLY files. PLYs come in different flavours: ASCII, binary_little_endian or binary_big_endian. `geomorph` has a dedicated `read.ply` function, which reads PLY files of the ASCII type. If you only have a couple of files, you could use MeshLab to manually convert your OBJs into ASCII PLYs.
+For shape analyses, all we really need are the vertex coordinates of each mesh. We will discuss a couple of different functions for reading OBJ and PLY files, but all of these will store the results in an object of class "mesh3d", from which we can then extract the vertex data.
 
-If you have a bigger number of files, you might be looking for a batch solution. I'm using MeshLab's command line interface (MeshLabServer) to do so. If you've not much used the command line before, don't be put off - while setting everything up *can* be a bit tedious initially, the actual running of commands is very little fuss. *[write extra tutorial on that?]*
+If shape analyses are all you are after, and you are conscious of file size, you might want to convert your OBJs to PLYs.[^msl] PLYs come in different flavours: ASCII, binary_little_endian or binary_big_endian. To give you a rough idea, a 12MB OBJ is around 4MB after being converted to an ASCII PLY, and around 2MB after being converted to a binary PLY. They also load much faster; that said, I found the resulting mesh3d objects to be approximately the same size no matter the initial format.
 
-The only catch here is that other than the MeshLab GUI, MeshLabServer can only export binary PLY files (or at least that was the case in 2018). Instead of using `geomorph`, we'll thus be using the package `Morpho` to import our data.
+If you want to render your meshes with textures, specific file formats become more important. It's easy enough to read all the info you need from OBJs, but I have not yet managed to read UV coordinates from PLY files. However, if you *have* been warping all your meshes to a standard face in [MorphAnalyser](https://cherry.dcs.aber.ac.uk/morphanalyser/version2.4/launch2.4.html), not only will all of the 3D models have homologous vertices; they will also have the same UV map - the texture coordinates for any mesh will be the same, which means you can plot any mesh with any (accordingly mapped) texture.
 
-### Read PLYs
+[^msl]: You can batch convert files using [MeshLab's](https://www.meshlab.net) command line interface, MeshLabServer. MeshLabServer can export both binary and ASCII PLYs; the corresponding commands on Mac are: <br />* for conversion to PLY/binary_little_endian : `for FILE in *.obj; do /Applications/meshlab.app/Contents/MacOS/meshlabserver -i "$FILE" -o "${FILE%.obj}.ply"; done`<br />* for conversion to PLY/ASCII: `for FILE in *.obj; do /Applications/meshlab.app/Contents/MacOS/meshlabserver -i "$FILE" -o "${FILE%.obj}.ply" -m sa; done`
 
-First, we'll specify the path to our data
+### Read OBJ
+
+To load and plot an OBJ[^obj] with texture, you could use
+```{r readobj, warning = FALSE}
+path_to_obj <- system.file("extdata", "obj", package="facefuns")
+
+objexample <- rgl::readOBJ(paste0(path_to_obj, "/example.wavefront"),
+                           material = list(color = "white",
+                                           texture = paste0(path_to_obj,"/example.png")))
+
+open3d()
+shade3d(objexample, col="white",
+        box=FALSE, axes=FALSE,
+        xlab="", ylab="", zlab="",
+        specular="black")
+rglwidget()
+```
+
+```{r echo=FALSE}
+close3d()
+```
+
+Click and drag the face to move it. Note that the texture file needs to be a PNG to load successfully. If you get a `Instructions "usemtl" ignored` error, you can either ignore it or remove the offending line from the OBJ in a text editor.
+
+`readOBJ` can be fairly slow - the package `readobj` [@readobj] promises faster reading of OBJ files!
+
+[^obj]: The example file has the file extension .wavefront because ".obj" triggers a false positive R CMD check NOTE
+
+### Read PLY
+
+You can use `geomorph::read.ply` to import ASCII PLYs, or `Morpho::file2mesh` to import both ASCII and binary PLYs. The example faces included in `facefuns` are binary PLYs, so we use the package `Morpho` [@morpho] to read them:
+
 ```{r}
 path_to_ply <- system.file("extdata", "ply", package="facefuns")
-  
-path_to_example <- list.files(path = path_to_ply,
+files <- list.files(path = path_to_ply,
                           pattern = "\\.ply$",
-                          full.names = TRUE)[1]
-```
+                          full.names = TRUE)
 
-Now, we can use `Morpho::file2mesh` to import the first of the 3D example faces included in `facefuns`
-```{r}
-plyexample <- Morpho::file2mesh(path_to_example)
-```
+plyexample <- Morpho::file2mesh(files[1],
+                                clean = FALSE)
 
-You can use the package `rgl` to plot the face
-```{r message=FALSE}
 open3d()
 plot3d(plyexample,
        type = "wire", col = "gray",
@@ -67,16 +94,42 @@ plot3d(plyexample,
        specular = "black")
 aspect3d("iso")
 rglwidget()
+```
+
+```{r echo=FALSE}
 close3d()
 ```
 
-As you can see in the environment, this mesh3d object is still very large (6.7MB). All we really need at this point are the vertex coordinates. `facefuns::read_ply` reads PLYs using `Morpho::file2mesh`, extracts only the vertex data and saves it into an array that we can then use for subsequent analyses.
+As you can see in the environment, the mesh3d object is quite large (>3MB). But, as we said, all we *really* need at this point are the vertex coordinates.
+
+### `read_vertices`
+
+`facefuns::read_vertices` uses `rgl::readOBJ` and `Morpho::file2mesh` to import meshes, extract only vertex coordinates and save them into an array
 
 ```{r}
-plydata <- read_ply(path_to_ply)
-str(plydata)
+data <- read_vertices(path_to_ply)
+str(data)
 ```
 
+## `facefuns3d`
+
+```{r}
+shapedata <- facefuns3d(data = data,
+                        pc_criterion = "broken_stick",
+                        message = TRUE)
+```
+
+## `plot_3dpcs`
+
+```{r eval=FALSE}
+plot_3dpcs(input = shapedata$pc_plot, which_pcs = 1, ref = shapedata$average, alpha = 2)
+```
+
+```{r echo=FALSE}
+close3d()
+```
+
+*NOTE TO SELF* - when using simplified meshes (I broke them down by 50% to keep package installation small), convert_points_to_mesh is no longer doing a very nice job - needs incredibly high alpha, there are still holes and the faces look squishy. FIX THAT!
 
 ## References
 

@@ -58,6 +58,9 @@
     <loc>https://iholzleitner.github.io/facefuns/reference/facefuns2d.html</loc>
   </url>
   <url>
+    <loc>https://iholzleitner.github.io/facefuns/reference/facefuns3d.html</loc>
+  </url>
+  <url>
     <loc>https://iholzleitner.github.io/facefuns/reference/facefuns_app.html</loc>
   </url>
   <url>
@@ -79,13 +82,10 @@
     <loc>https://iholzleitner.github.io/facefuns/reference/is_shape_array.html</loc>
   </url>
   <url>
-    <loc>https://iholzleitner.github.io/facefuns/reference/make_2dpcs.html</loc>
-  </url>
-  <url>
-    <loc>https://iholzleitner.github.io/facefuns/reference/make_3dpcs.html</loc>
-  </url>
-  <url>
     <loc>https://iholzleitner.github.io/facefuns/reference/make_id.html</loc>
+  </url>
+  <url>
+    <loc>https://iholzleitner.github.io/facefuns/reference/make_pcs.html</loc>
   </url>
   <url>
     <loc>https://iholzleitner.github.io/facefuns/reference/mirror_templates.html</loc>
@@ -103,6 +103,9 @@
     <loc>https://iholzleitner.github.io/facefuns/reference/plot_2dpcs.html</loc>
   </url>
   <url>
+    <loc>https://iholzleitner.github.io/facefuns/reference/plot_3dpcs.html</loc>
+  </url>
+  <url>
     <loc>https://iholzleitner.github.io/facefuns/reference/print.facefuns_obj.html</loc>
   </url>
   <url>
@@ -112,7 +115,7 @@
     <loc>https://iholzleitner.github.io/facefuns/reference/read_lmdata.html</loc>
   </url>
   <url>
-    <loc>https://iholzleitner.github.io/facefuns/reference/read_ply.html</loc>
+    <loc>https://iholzleitner.github.io/facefuns/reference/read_vertices.html</loc>
   </url>
   <url>
     <loc>https://iholzleitner.github.io/facefuns/reference/select_pcs.html</loc>

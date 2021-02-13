@@ -19,13 +19,14 @@ knitr::opts_chunk$set(
 
 Function name | Brief description 
 :-------- | :---------------------------------------------------------------------- 
-`facefuns2d` | Conducts GPA and PCA, selects and visualizes PCs 
+`facefuns2d` | Conducts GPA and PCA, selects and visualizes PCs for 2-D data
+`facefuns3d` | Conducts GPA and PCA, selects and visualizes PCs for 3-D data
 `read_lmdata` | Read landmark data from TPS, webmorph_list or Webmorph template files
-`read_ply` | Read vertex data from binary PLY files
+`read_vertices` | Read vertex data from PLY and OBJ files
 `select_pcs` | Select PCs based on *broken stick*, *Kaiser Guttman* or *total variance explained* criterion 
-`make_2dpcs` | Creates 2-D coordinates for a reference face at +/- x units of standard deviations for a given (list of) principal component(s) 
-`make_3dpcs` | Creates 3-D coordinates for a reference face at +/- x units of standard deviations for a given (list of) principal component(s)
+`make_pcs` | Creates coordinates for a reference face at +/- x units of standard deviations for a given (list of) principal component(s) 
 `plot_2dpcs` | Create TPS grid plots for 2-D PCs
+`plot_3dpcs` | Create plots for 3-D PCs
 `mirror_templates` | Mirror landmark templates
 `symm_templates` | Symmetrize landmark templates
 

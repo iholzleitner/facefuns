@@ -2,7 +2,7 @@
 % Please edit documentation in R/facefuns2d.R
 \name{facefuns2d}
 \alias{facefuns2d}
-\title{Quick start to shape analyses}
+\title{Quick start to shape analyses of 2-D data}
 \usage{
 facefuns2d(
   data,

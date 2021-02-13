@@ -79,11 +79,11 @@ The black dots show the sample average, the gray points represent individual fac
 
 * and their **rotation**, e.g., some people might have been tilting their face slightly to the left or right
 
-We are not interested in that sort of variation, but seek to eliminate it - Generalized Procrustes alignment does exactly that!
+We are not interested in that sort of variation, but seek to eliminate it - Generalized Procrustes Analysis does exactly that!
 
 ## GPA
 
-We'll use `geomporph::gpagen` to Procrustes-align our data.
+We'll use `geomporph::gpagen` to Procrustes-align our data. Check out `help(gpagen)` for details and plenty of references!
 
 ```{r}
 data_gpa <- gpagen(data, print.progress = FALSE)

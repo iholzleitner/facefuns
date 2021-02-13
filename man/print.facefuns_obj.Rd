@@ -7,7 +7,7 @@
 \method{print}{facefuns_obj}(x, ...)
 }
 \arguments{
-\item{x}{a list of class facefuns2d}
+\item{x}{a list of class facefuns_obj}
 
 \item{...}{arguments passed to or from other methods}
 }

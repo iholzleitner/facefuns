@@ -96,7 +96,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Calculate asymmetry of faces</h1>
             
-            <h4 class="date">2021-02-11</h4>
+            <h4 class="date">2021-02-13</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/iholzleitner/facefuns/blob/master/vignettes/calcAsym.Rmd"><code>vignettes/calcAsym.Rmd</code></a></small>
       <div class="hidden name"><code>calcAsym.Rmd</code></div>
@@ -132,8 +132,8 @@
 <a href="#calculate-asymmetry" class="anchor"></a>Calculate asymmetry</h2>
 <p><em>Needs tidying up. For now we have:</em></p>
 <ul>
-<li><p><code>calc_as</code>: calculates asymmetry as the Procrustes distance between each original template and its symmetrized counterpart<span class="citation"><sup><a href="#ref-komori2009" role="doc-biblioref">1</a></sup></span>; does not correct for directional asymmetry (DA)</p></li>
-<li><p><code>calc_fa</code>: calculates fluctuating asymmetry (FA) by correcting asymmetry as calculated above for DA following Klingenberg (2015)<span class="citation"><sup><a href="#ref-klingenberg2015" role="doc-biblioref">2</a></sup></span>; DA is calculated as the average of original templates minus the average of mirrored templates</p></li>
+<li><p><code>calc_as</code>: calculates asymmetry as the Procrustes distance between each original template and its symmetrized counterpart<span class="citation"><sup>[<a href="#ref-komori2009" role="doc-biblioref">1</a>]</sup></span>; does not correct for directional asymmetry (DA)</p></li>
+<li><p><code>calc_fa</code>: calculates fluctuating asymmetry (FA) by correcting asymmetry as calculated above for DA following Klingenberg (2015)<span class="citation"><sup>[<a href="#ref-klingenberg2015" role="doc-biblioref">2</a>]</sup></span>; DA is calculated as the average of original templates minus the average of mirrored templates</p></li>
 <li><p><code>calc_fageo</code>: calculates FA, here using <code><a href="https://rdrr.io/pkg/geomorph/man/bilat.symmetry.html">geomorph::bilat.symmetry</a></code>. I am not entirely sure what <code>bilat.symmetry</code> is doing under the hood and hence whether I’m implementing this correctly. Resulting scores are strongly correlated with the other two, but of course that doesn’t mean much</p></li>
 </ul>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">

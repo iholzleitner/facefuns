@@ -3,7 +3,7 @@ title: "Calculate asymmetry of faces"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 bibliography: facefuns.bib
-csl: apa-numeric-superscript.csl
+csl: apa-numeric-superscript-brackets.csl
 link-citations: yes
 vignette: >
   %\VignetteIndexEntry{Calculate asymmetry of faces}

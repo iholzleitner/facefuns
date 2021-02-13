@@ -96,7 +96,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Introduction to facefuns</h1>
             
-            <h4 class="date">2021-02-11</h4>
+            <h4 class="date">2021-02-13</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/iholzleitner/facefuns/blob/master/vignettes/facefuns.Rmd"><code>vignettes/facefuns.Rmd</code></a></small>
       <div class="hidden name"><code>facefuns.Rmd</code></div>
@@ -185,12 +185,12 @@
 <li><p>their <strong>position</strong> on screen, e.g., some people’s faces might have been a bit more in the center of the captured image than others;</p></li>
 <li><p>and their <strong>rotation</strong>, e.g., some people might have been tilting their face slightly to the left or right</p></li>
 </ul>
-<p>We are not interested in that sort of variation, but seek to eliminate it - Generalized Procrustes alignment does exactly that!</p>
+<p>We are not interested in that sort of variation, but seek to eliminate it - Generalized Procrustes Analysis does exactly that!</p>
 </div>
 <div id="gpa" class="section level2">
 <h2 class="hasAnchor">
 <a href="#gpa" class="anchor"></a>GPA</h2>
-<p>We’ll use <code>geomporph::gpagen</code> to Procrustes-align our data.</p>
+<p>We’ll use <code>geomporph::gpagen</code> to Procrustes-align our data. Check out <code><a href="https://rdrr.io/pkg/geomorph/man/gpagen.html">help(gpagen)</a></code> for details and plenty of references!</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">data_gpa</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/geomorph/man/gpagen.html">gpagen</a></span><span class="op">(</span><span class="va">data</span>, print.progress <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
 <p>The aligned coordinates are stored in <code>data_gpa$coords</code>. Let’s plot one of the aligned faces.</p>

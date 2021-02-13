@@ -2,7 +2,7 @@
 #'
 #' Convenience function for plotting shape PCs based on \code{geomorph::plotRefToTarget()}. Other than \code{plotRefToTarget}, magnitude of visualized difference in shape between reference face at average and low/high levels of the respective PC is based on standard deviations (instead of range).
 #'
-#' @param input Output from \code{gm.prcomp} or list of PC coordinates
+#' @param input Object of class \code{prcomp}, \code{gm.prcomp} or PC_list (see \code{make_pcs})
 #' @param ref Reference face (sample average is recommended)
 #' @param which_pcs Which PCs are to be created. Single number or vector, maximum allowed is 5
 #' @param vis_sd Extent of desired manipulation in units of standard deviation
@@ -26,7 +26,7 @@ plot_2dpcs <- function (input, ref, which_pcs = 1:3, vis_sd = 3){
   # CHECK INPUT ----
   if ("sdev" %in% names(input)) {
 
-    shapes_list <- make_2dpcs(input, ref, which_pcs, vis_sd)
+    shapes_list <- make_pcs(input, ref, which_pcs, vis_sd)
 
   } else if (is.list(input) && "PC_list" %in% class(input)) {
 
