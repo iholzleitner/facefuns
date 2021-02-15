@@ -19,7 +19,8 @@ knitr::opts_chunk$set(
 ```
 
 
-```{r setup}
+```{r setup, message=FALSE}
+options(rgl.useNULL = TRUE) # suppress rgl opening separate windows
 library(facefuns)
 library(rgl)
 library(Morpho)
@@ -27,11 +28,9 @@ library(Morpho)
 
 **WORK IN PROGRESS**
 
-This tutorial covers basic steps in working with 3D meshes that have been delineated and resampled according to a "standard" mesh, i.e. each mesh's tesselations are homologous across the entire sample.
+This tutorial covers basic steps in working with 3D meshes. `facefuns` includes an example of a 3-D face in OBJ format, as well as 12 3-D faces in PLY format. The latter are composite faces that show average white female and male faces from 6 different age groups (18-25, 26-35, 36-45, 46-55, 56-65, 66-75). Each composite comprises 10 individual faces that were collected as part of the ERC-funded KINSHIP project (#647910) using a [DI3D system](https://www.di4d.com)[^osf]. 3-D models were delineated and warped to a standard face in [MorphAnalyser](https://cherry.dcs.aber.ac.uk/morphanalyser/version2.4/launch2.4.html) [@tiddeman2000]. This means that all 3-D faces were were resampled according to a "standard" mesh, i.e. each mesh's tesselations are homologous across the entire sample.
 
-The 3D faces included in `facefuns` are 12 composite faces that show average white female and male faces from 6 different age groups (18-25, 26-35, 36-45, 46-55, 56-65, 66-75). Each composite comprises of 10 individual faces that were collected as part of the ERC-funded KINSHIP project (#647910). Corresponding texture files were created in Psychomorph by averaging individual texture maps.[^frl]
-
-[^frl]: 3-D models were delineated and warped in [MorphAnalyser](https://cherry.dcs.aber.ac.uk/morphanalyser/version2.4/launch2.4.html) [@tiddeman2000]. The Face Research Lab uses a [DI3D system](https://www.di4d.com) to capture 3-D images; see [here](https://osf.io/gs5wm/) for more info.
+[^osf]: See [here](https://osf.io/gs5wm/) for more details on the capturing setup
 
 ## Importing 3-D data into R
 
@@ -39,9 +38,9 @@ The 3D faces included in `facefuns` are 12 composite faces that show average whi
 
 For shape analyses, all we really need are the vertex coordinates of each mesh. We will discuss a couple of different functions for reading OBJ and PLY files, but all of these will store the results in an object of class "mesh3d", from which we can then extract the vertex data.
 
-If shape analyses are all you are after, and you are conscious of file size, you might want to convert your OBJs to PLYs.[^msl] PLYs come in different flavours: ASCII, binary_little_endian or binary_big_endian. To give you a rough idea, a 12MB OBJ is around 4MB after being converted to an ASCII PLY, and around 2MB after being converted to a binary PLY. They also load much faster; that said, I found the resulting mesh3d objects to be approximately the same size no matter the initial format.
+If shape analyses are all you are after, and you are conscious of file size, you might want to convert your OBJs to PLYs.[^msl] PLYs come in different flavours: ASCII, binary_little_endian or binary_big_endian. To give you a rough idea, a 12MB OBJ is around 4MB after being converted to an ASCII PLY, and around 2MB after being converted to a binary PLY. They also load much faster; that said, I found the resulting mesh3d objects are about the same size no matter the initial format.
 
-If you want to render your meshes with textures, specific file formats become more important. It's easy enough to read all the info you need from OBJs, but I have not yet managed to read UV coordinates from PLY files. However, if you *have* been warping all your meshes to a standard face in [MorphAnalyser](https://cherry.dcs.aber.ac.uk/morphanalyser/version2.4/launch2.4.html), not only will all of the 3D models have homologous vertices; they will also have the same UV map - the texture coordinates for any mesh will be the same, which means you can plot any mesh with any (accordingly mapped) texture.
+If you want to render your meshes with textures, specific file formats become more important. It's easy enough to read all the info you need from OBJs, but I have not yet managed to read UV coordinates from PLY files. However, if you *have* been warping your meshes in [MorphAnalyser](https://cherry.dcs.aber.ac.uk/morphanalyser/version2.4/launch2.4.html), not only will all of the 3D models have homologous vertices; they will also have the same UV map - the texture coordinates for any mesh will be the same, which means you can plot any mesh with any (accordingly mapped) texture.
 
 [^msl]: You can batch convert files using [MeshLab's](https://www.meshlab.net) command line interface, MeshLabServer. MeshLabServer can export both binary and ASCII PLYs; the corresponding commands on Mac are: <br />* for conversion to PLY/binary_little_endian : `for FILE in *.obj; do /Applications/meshlab.app/Contents/MacOS/meshlabserver -i "$FILE" -o "${FILE%.obj}.ply"; done`<br />* for conversion to PLY/ASCII: `for FILE in *.obj; do /Applications/meshlab.app/Contents/MacOS/meshlabserver -i "$FILE" -o "${FILE%.obj}.ply" -m sa; done`
 
@@ -55,19 +54,15 @@ objexample <- rgl::readOBJ(paste0(path_to_obj, "/example.wavefront"),
                            material = list(color = "white",
                                            texture = paste0(path_to_obj,"/example.png")))
 
-open3d()
-shade3d(objexample, col="white",
+clear3d(type = c("shapes", "lights"))
+shade3d(objexample,
         box=FALSE, axes=FALSE,
         xlab="", ylab="", zlab="",
-        specular="black")
+        col="white", specular="black")
 rglwidget()
 ```
 
-```{r echo=FALSE}
-close3d()
-```
-
-Click and drag the face to move it. Note that the texture file needs to be a PNG to load successfully. If you get a `Instructions "usemtl" ignored` error, you can either ignore it or remove the offending line from the OBJ in a text editor.
+Click and drag the face to move it. Note that the texture file needs to be a PNG to load successfully. If you get a `Instructions "usemtl" ignored` warning, you can either ignore it or remove the offending line from the OBJ in a text editor.
 
 `readOBJ` can be fairly slow - the package `readobj` [@readobj] promises faster reading of OBJ files!
 
@@ -75,7 +70,7 @@ Click and drag the face to move it. Note that the texture file needs to be a PNG
 
 ### Read PLY
 
-You can use `geomorph::read.ply` to import ASCII PLYs, or `Morpho::file2mesh` to import both ASCII and binary PLYs. The example faces included in `facefuns` are binary PLYs, so we use the package `Morpho` [@morpho] to read them:
+You can use `geomorph::read.ply` to import ASCII PLYs, or `Morpho::file2mesh` [@morpho] to import both ASCII and binary PLYs. The example faces included in `facefuns` are binary PLYs, so we use the `Morpho`to read them:
 
 ```{r}
 path_to_ply <- system.file("extdata", "ply", package="facefuns")
@@ -86,20 +81,16 @@ files <- list.files(path = path_to_ply,
 plyexample <- Morpho::file2mesh(files[1],
                                 clean = FALSE)
 
-open3d()
+clear3d(type = c("shapes", "lights"))
+light3d()
 plot3d(plyexample,
-       type = "wire", col = "gray",
+       type = "wire",
        box = FALSE, axes = FALSE,
        xlab = "", ylab = "", zlab = "",
-       specular = "black")
+       col = "gray", specular = "black")
 aspect3d("iso")
 rglwidget()
 ```
-
-```{r echo=FALSE}
-close3d()
-```
-
 As you can see in the environment, the mesh3d object is quite large (>3MB). But, as we said, all we *really* need at this point are the vertex coordinates.
 
 ### `read_vertices`
@@ -113,7 +104,7 @@ str(data)
 
 ## `facefuns3d`
 
-```{r}
+```{r message=FALSE}
 shapedata <- facefuns3d(data = data,
                         pc_criterion = "broken_stick",
                         message = TRUE)
@@ -123,13 +114,9 @@ shapedata <- facefuns3d(data = data,
 
 ```{r eval=FALSE}
 plot_3dpcs(input = shapedata$pc_plot, which_pcs = 1, ref = shapedata$average, alpha = 2)
+aspect3d("iso")
+rglwidget()
 ```
-
-```{r echo=FALSE}
-close3d()
-```
-
-*NOTE TO SELF* - when using simplified meshes (I broke them down by 50% to keep package installation small), convert_points_to_mesh is no longer doing a very nice job - needs incredibly high alpha, there are still holes and the faces look squishy. FIX THAT!
 
 ## References
 

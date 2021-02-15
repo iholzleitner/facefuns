@@ -7,11 +7,11 @@
 
 <!-- badges: end -->
 
-Miscellaneous convenience functions around geometric morphometric
-analyses of 2D and 3D face data. A brief intro can be found
+Miscellaneous convenience/wrapper functions around geometric
+morphometric analyses of 2D and 3D face data. A brief intro can be found
 [here](https://iholzleitner.github.io/facefuns/articles/facefuns.html)\!
 
-Last update: 2021-02-09
+Last update: 2021-02-15
 
 ## Installation
 
@@ -23,7 +23,7 @@ You can install the development version of `facefuns` from
 devtools::install_github("iholzleitner/facefuns")
 ```
 
-If you get a 404 error, try this instead:
+If you get a 404 error, try:
 
 ``` r
 devtools::install_github("iholzleitner/facefuns", ref = "main")
