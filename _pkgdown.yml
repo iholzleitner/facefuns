@@ -23,8 +23,7 @@ articles:
 reference:
 - title: Basic functions
 - contents:
-  - facefuns2d
-  - facefuns3d
+  - facefuns
   - read_lmdata
   - read_vertices
   - select_pcs

@@ -8,20 +8,20 @@ facefuns2d(
   data,
   pc_criterion = "broken_stick",
   plot_sample = TRUE,
-  message = TRUE,
-  auto_rotate = TRUE
+  auto_rotate = TRUE,
+  quiet = FALSE
 )
 }
 \arguments{
-\item{data}{Three-dimensional array of dimensions p, k, and n. p = number of landmarks, k = dimension (2D or 3D), n = number of specimens.}
+\item{data}{Three-dimensional array of dimensions p, k, and n. p = number of landmarks, k = dimension (2D or 3D), n = number of specimens}
 
 \item{pc_criterion}{Criterion used to choose which PCs to retain. See \link[facefuns]{select_pcs}}
 
 \item{plot_sample}{Plot sample to check data. See \link[geomorph]{plotAllSpecimens}}
 
-\item{message}{Print short summary of loaded data}
+\item{auto_rotate}{Landmark templates are sometimes no longer upright after Procrustes-alignment. Auto-rotate uses \link[geomorph]{rotate.coords} to guess which type of rotation is required}
 
-\item{auto_rotate}{Landmark templates are sometimes no longer upright after Procrustes-alignment. Auto-rotate uses \link[geomorph]{rotate.coords} to guess which type of rotation is required.}
+\item{quiet}{Print short summary of loaded data}
 }
 \value{
 Returns a list of the following components:
@@ -38,17 +38,4 @@ Returns a list of the following components:
 Performs some of the routine steps for getting landmark data ready for shape analyses, such as Procrustes alignment and principal component analysis. For more details see vignette:
 \code{vignette("intro", package = "facefuns")}
 }
-\examples{
-path_to_tem <- system.file("extdata", "tem", package="facefuns")
-remove_points <- c(45:50, 100:104, 116:125, 146:158, 159:164, 165:170, 171:174, 175:179, 184:185)
-
-data <- read_lmdata(lmdata = path_to_tem, remove_points = remove_points)
-shapedata <- facefuns2d(data = data,
-pc_criterion = "broken_stick")
-
-# Plot sample
-shapedata$summary$plot_sample() #or geomorph::plotAllSpecimens(shapedata$array)
-
-# Plot PCs
-plot_2dpcs(shapedata$pc_plot, shapedata$average)
-}
+\keyword{internal}

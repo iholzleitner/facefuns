@@ -17,7 +17,7 @@
 #'
 calc_as <- function (data, mirroredlandmarks) {
 
-  if (class(data) == "facefuns_obj") {
+  if (any(class(data) == "facefuns_obj")) {
     org <- data$array
   } else if (is_shape_array(data)) {
     org <- data

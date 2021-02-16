@@ -33,7 +33,7 @@ data <- read_lmdata(lmdata = path_to_tem,
                        remove_points = remove_points,
                        plot = FALSE)
 
-shapedata <- facefuns2d(data = data,
+shapedata <- facefuns(data = data,
                          plot_sample = TRUE,
                          pc_criterion = "broken_stick")
 ```
@@ -115,7 +115,7 @@ sim_table %>%
 
 Averageness can be quantified as distinctivenss from the sample average. For each face, we will calculate the Euclidean distance to the sample average, and then reverse scores, so higher scores mean "more average".
 
-You could use `calc_ed`, but this will require a wee bit of data wrangling: you will need to attach the average template to the array holding the aligned templates, then convert this new array to a matrix and finally you might also want to reverse the distinctiveness scores, so higher scores mean "more average'. `calc_avg` does all of that! It only takes one argument - a `facefuns2d` object:
+You could use `calc_ed`, but this will require a wee bit of data wrangling: you will need to attach the average template to the array holding the aligned templates, then convert this new array to a matrix and finally you might also want to reverse the distinctiveness scores, so higher scores mean "more average'. `calc_avg` does all of that! It only takes one argument - a `facefuns` object:
 
 ```{r}
 distinctiveness <- calc_avg(shapedata)

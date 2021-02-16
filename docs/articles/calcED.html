@@ -120,7 +120,7 @@
                        remove_points <span class="op">=</span> <span class="va">remove_points</span>,
                        plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 
-<span class="va">shapedata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/facefuns2d.html">facefuns2d</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>,
+<span class="va">shapedata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/facefuns.html">facefuns</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>,
                          plot_sample <span class="op">=</span> <span class="cn">TRUE</span>,
                          pc_criterion <span class="op">=</span> <span class="st">"broken_stick"</span><span class="op">)</span></code></pre></div>
 <p><img src="calcED_files/figure-html/unnamed-chunk-2-1.png" width="700"></p>
@@ -230,7 +230,7 @@
 <h2 class="hasAnchor">
 <a href="#averageness" class="anchor"></a>Averageness</h2>
 <p>Averageness can be quantified as distinctivenss from the sample average. For each face, we will calculate the Euclidean distance to the sample average, and then reverse scores, so higher scores mean “more average”.</p>
-<p>You could use <code>calc_ed</code>, but this will require a wee bit of data wrangling: you will need to attach the average template to the array holding the aligned templates, then convert this new array to a matrix and finally you might also want to reverse the distinctiveness scores, so higher scores mean "more average’. <code>calc_avg</code> does all of that! It only takes one argument - a <code>facefuns2d</code> object:</p>
+<p>You could use <code>calc_ed</code>, but this will require a wee bit of data wrangling: you will need to attach the average template to the array holding the aligned templates, then convert this new array to a matrix and finally you might also want to reverse the distinctiveness scores, so higher scores mean "more average’. <code>calc_avg</code> does all of that! It only takes one argument - a <code>facefuns</code> object:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">distinctiveness</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_avg.html">calc_avg</a></span><span class="op">(</span><span class="va">shapedata</span><span class="op">)</span>
 

@@ -13,7 +13,7 @@ calc_shapevs(
 )
 }
 \arguments{
-\item{data}{Output from \link[facefuns]{facefuns2d}}
+\item{data}{Output from \link[facefuns]{facefuns}}
 
 \item{anchor1_index}{Vector specifying indices of faces which will constitute lower anchor point}
 
@@ -38,10 +38,10 @@ remove_points <- c(45:50, 100:104, 116:125, 146:158, 159:164, 165:170, 171:174, 
 data <- read_lmdata(lmdata = path_to_tem,
                     remove_points = remove_points)
 
-shapedata <- facefuns2d(data = data,
+shapedata <- facefuns(data = data,
                        pc_criterion = "broken_stick",
                        plot_sample = FALSE,
-                       message = FALSE)
+                       quiet = TRUE)
 
 # Load info on sex of faces
 data("LondonSet_info")

@@ -8,7 +8,7 @@
 #'
 #' @param data Three-dimensional array of dimensions p, k, and n. p = number of landmarks, k = dimension (2D or 3D), n = number of specimens
 #' @param pc_criterion Criterion used to choose which PCs to retain. See \link[facefuns]{select_pcs}
-#' @param message Print short summary of loaded data
+#' @param quiet If false prints short summary of loaded data
 #'
 #' @return Returns a list of the following components:
 #' \item{array}{Three-dimensional array containing Procrustes-aligned data}
@@ -18,15 +18,9 @@
 #' \item{pc_plot}{PCs for plotting. Will by default create list of coordinates for all selected PCs at +/- 3SDs. To create plots of other PCs or at different level of SD, please see \link[facefuns]{plot_2dpcs}}
 #' \item{summary}{Short summary of key descriptives}
 #'
-#' @export
+#' @keywords internal
 #'
-#' @examples
-#' path_to_ply <- system.file("extdata", "ply", package="facefuns")
-#' data <- read_vertices(path_to_ply)
-#' shapedata <- facefuns3d(data = data,
-#' pc_criterion = "broken_stick")
-#'
-facefuns3d <- function (data, pc_criterion = "broken_stick", message = TRUE){
+facefuns3d <- function (data, pc_criterion = "broken_stick", quiet = FALSE){
 
   # CHECK DATA ----
   # add code to check data is of appropriate dimensions
@@ -61,7 +55,7 @@ facefuns3d <- function (data, pc_criterion = "broken_stick", message = TRUE){
     pc_nPCs = pc_sel$n
   )
 
-  if (message == TRUE) {
+  if (quiet == FALSE) {
     cat(paste0("The loaded data set contains ", summary$data_n, " specimen, containing ", summary$data_lm, " vertices.", "\n",
                "The ", summary$pc_crit, " criterion was used to select ", summary$pc_nPCs, " principal components."))}
 
@@ -75,7 +69,19 @@ facefuns3d <- function (data, pc_criterion = "broken_stick", message = TRUE){
     summary = summary
   ))
 
-  class(to_return) <- "facefuns_obj"
+  class(to_return) <- c("facefuns_obj", "list")
   return(to_return)
 
+}
+
+#' Print for facefuns_obj
+#'
+#' @param x a list of class facefuns_obj
+#' @param ... arguments passed to or from other methods
+#'
+#' @return prints summary
+#' @keywords internal
+#'
+print.facefuns_obj <- function(x, ...) {
+  invisible(x)
 }

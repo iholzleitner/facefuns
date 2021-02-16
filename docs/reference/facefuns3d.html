@@ -148,7 +148,7 @@ vignette(&quot;facefuns&quot;, package = &quot;facefuns&quot;) and vignette(&quo
 <code><a href='../articles/facefuns.html'>vignette("facefuns", package = "facefuns")</a></code> and <code><a href='../articles/intro3d.html'>vignette("intro3d", package = "facefuns")</a></code></p>
     </div>
 
-    <pre class="usage"><span class='fu'>facefuns3d</span><span class='op'>(</span><span class='va'>data</span>, pc_criterion <span class='op'>=</span> <span class='st'>"broken_stick"</span>, message <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>facefuns3d</span><span class='op'>(</span><span class='va'>data</span>, pc_criterion <span class='op'>=</span> <span class='st'>"broken_stick"</span>, quiet <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -162,8 +162,8 @@ vignette(&quot;facefuns&quot;, package = &quot;facefuns&quot;) and vignette(&quo
       <td><p>Criterion used to choose which PCs to retain. See <a href='select_pcs.html'>select_pcs</a></p></td>
     </tr>
     <tr>
-      <th>message</th>
-      <td><p>Print short summary of loaded data</p></td>
+      <th>quiet</th>
+      <td><p>If false prints short summary of loaded data</p></td>
     </tr>
     </table>
 
@@ -178,16 +178,6 @@ vignette(&quot;facefuns&quot;, package = &quot;facefuns&quot;) and vignette(&quo
 <dt>summary</dt><dd><p>Short summary of key descriptives</p></dd>
 
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>path_to_ply</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata"</span>, <span class='st'>"ply"</span>, package<span class='op'>=</span><span class='st'>"facefuns"</span><span class='op'>)</span>
-<span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='read_vertices.html'>read_vertices</a></span><span class='op'>(</span><span class='va'>path_to_ply</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Registered S3 method overwritten by 'Morpho':</span>
-#&gt; <span class='message'>  method         from</span>
-#&gt; <span class='message'>  print.classify RRPP</span></div><div class='input'><span class='va'>shapedata</span> <span class='op'>&lt;-</span> <span class='fu'>facefuns3d</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>data</span>,
-pc_criterion <span class='op'>=</span> <span class='st'>"broken_stick"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; The loaded data set contains 12 specimen, containing 30204 vertices.
-#&gt; The broken_stick criterion was used to select 2 principal components.</div><div class='input'>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -18,7 +18,7 @@
 #'
 calc_fageo <- function (data, mirroredlandmarks) {
 
-  if (class(data) == "facefuns_obj") {
+  if (any(class(data) == "facefuns_obj")) {
     data <- data$array
   } else if (!is_shape_array(data)) {
     stop("Your data is neither a facefuns object nor a three-dimensional array")

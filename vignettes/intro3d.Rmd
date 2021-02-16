@@ -5,10 +5,6 @@ output: rmarkdown::html_vignette
 bibliography: facefuns.bib
 csl: apa.csl
 link-citations: yes
-vignette: >
-  %\VignetteIndexEntry{Working with 3D meshes}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r, include = FALSE}
@@ -105,9 +101,9 @@ str(data)
 ## `facefuns3d`
 
 ```{r message=FALSE}
-shapedata <- facefuns3d(data = data,
+shapedata <- facefuns(data = data,
                         pc_criterion = "broken_stick",
-                        message = TRUE)
+                        quiet = FALSE)
 ```
 
 ## `plot_3dpcs`

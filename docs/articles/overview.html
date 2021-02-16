@@ -96,7 +96,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>facefuns Overview</h1>
             
-            <h4 class="date">2021-02-15</h4>
+            <h4 class="date">2021-02-16</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/iholzleitner/facefuns/blob/master/vignettes/overview.Rmd"><code>vignettes/overview.Rmd</code></a></small>
       <div class="hidden name"><code>overview.Rmd</code></div>
@@ -119,44 +119,40 @@
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td align="left"><code>facefuns2d</code></td>
-<td align="left">Conducts GPA and PCA, selects and visualizes PCs for 2-D data</td>
+<td align="left"><code>facefuns</code></td>
+<td align="left">Conducts GPA and PCA, selects and creates PCs for plotting of 2-D and 3-D data</td>
 </tr>
 <tr class="even">
-<td align="left"><code>facefuns3d</code></td>
-<td align="left">Conducts GPA and PCA, selects and visualizes PCs for 3-D data</td>
-</tr>
-<tr class="odd">
 <td align="left"><code>read_lmdata</code></td>
 <td align="left">Read landmark data from TPS, webmorph_list or Webmorph template files</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><code>read_vertices</code></td>
 <td align="left">Read vertex data from PLY and OBJ files</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><code>select_pcs</code></td>
 <td align="left">Select PCs based on <em>broken stick</em>, <em>Kaiser Guttman</em> or <em>total variance explained</em> criterion</td>
 </tr>
-<tr class="even">
-<td align="left"><code>make_pcs</code></td>
-<td align="left">Creates coordinates for a reference face at +/- x units of standard deviations for a given (list of) principal component(s)</td>
-</tr>
 <tr class="odd">
+<td align="left"><code>make_pcs</code></td>
+<td align="left">Creates coordinates for a reference face at +/- x units of standard deviations for a (list of) given principal component(s)</td>
+</tr>
+<tr class="even">
 <td align="left"><code>plot_2dpcs</code></td>
 <td align="left">Create TPS grid plots for 2-D PCs</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><code>plot_3dpcs</code></td>
 <td align="left">Create plots for 3-D PCs</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><code>mirror_templates</code></td>
 <td align="left">Mirror landmark templates</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><code>symm_templates</code></td>
-<td align="left">Symmetrize landmark templates</td>
+<td align="left">Symmetrise landmark templates</td>
 </tr>
 </tbody>
 </table>
@@ -204,7 +200,7 @@
 </tr>
 <tr class="even">
 <td align="left"><code>calc_shapevs</code></td>
-<td align="left">Calculate group membership based on vector projection (from facefuns2d object, allows for symmetrizing of templates)</td>
+<td align="left">Calculate group membership based on vector projection (from facefuns object, allows for symmetrizing of templates)</td>
 <td align="left"><a href="./calcSD.html">calcSD</a></td>
 </tr>
 <tr class="odd">

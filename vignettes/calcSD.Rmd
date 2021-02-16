@@ -37,7 +37,7 @@ data <- read_lmdata(lmdata = path_to_tem,
                     remove_points = remove_points,
                     plot = FALSE)
 
-shapedata <- facefuns2d(data = data,
+shapedata <- facefuns(data = data,
                         pc_criterion = "broken_stick",
                         plot_sample = FALSE)
 ```
@@ -53,11 +53,11 @@ head(LondonSet_info)
 
 `facefuns::calc_vs` calculates sexual dimorphism by computing an n-dimensional vector between the average female and the average male shape, and then projecting each face onto this vector. Scores are scaled so that a score of 0 corresponds to the average female, and a score of 1 to the average male shape; a negative score, e.g., would thus indicate a hyperfeminine face.
 
-You can use `calc_vs` to calculate vector scores from a data frame or matrix of principal component scores (see `help(calc_vs)`), or `calc_shapevs` to calculate them from the Procrustes-aligned templates in the facefuns2d output.
+You can use `calc_vs` to calculate vector scores from a data frame or matrix of principal component scores (see `help(calc_vs)`), or `calc_shapevs` to calculate them from the Procrustes-aligned templates in the facefuns output.
 
 `calc_shapevs` takes three arguments, all of which should be a data frame or matrix with specimen as rows, and PC scores as columns:
 
-* `facefuns2d_obj`: Output from `facefuns::facefuns2d`
+* `facefuns_obj`: Output from `facefuns::facefuns`
 * `anchor1_index`: Vector specifying indices of faces that will constitute lower anchor point     
 * `anchor2_index`: Vector specifying indices of faces that will constitute upper anchor point    
 
@@ -98,7 +98,7 @@ If your current sample is small, but you have a larger sample at hand that was d
 
 Two-dimensional images are strongly affected by head posture, which is reflected in the fact that in 2D sets, the first principal components usually show shape associated with heads being tilted up/down, or heads being turned left/right. While it is not possible to "correct" for up/down head postures (plus shape differences associated with an upward-/downward-tilt overlap with those of sexual dimorphism), slight asymmetries due to a left/right tilt *could* be "remedied" by symmetrizing faces.
 
-You could either symmetrize templates before submitting them to facefuns2d (using `facefuns::symm_templates`) which has the added benefit that it's very little fuss to plot the PCs on which the scores are based; or you could do so by using the option `symm = TRUE` in `calc_shapevs`.
+You could either symmetrize templates before submitting them to facefuns (using `facefuns::symm_templates`) which has the added benefit that it's very little fuss to plot the PCs on which the scores are based; or you could do so by using the option `symm = TRUE` in `calc_shapevs`.
 
 Symmetrizing works by mirroring each landmark template, and calculating the mean between the original and mirrored template. After mirroring, the landmarks need to be relabeled - what used to be point 0 (right pupil) in the original template, is point 1 (the left pupil) after mirroring.
 

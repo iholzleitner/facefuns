@@ -2,7 +2,7 @@
 #'
 #' Function projects data onto vector from anchor one (score of 0) to anchor two (score of 1). See \link[facefuns]{calc_vs}
 #'
-#' @param data Output from \link[facefuns]{facefuns2d}
+#' @param data Output from \link[facefuns]{facefuns}
 #' @param anchor1_index Vector specifying indices of faces which will constitute lower anchor point
 #' @param anchor2_index Vector specifying indices of faces which will constitute upper anchor point
 #' @param symm Symmetrize templates prior to calculating vector scores
@@ -20,10 +20,10 @@
 #' data <- read_lmdata(lmdata = path_to_tem,
 #'                     remove_points = remove_points)
 #'
-#' shapedata <- facefuns2d(data = data,
+#' shapedata <- facefuns(data = data,
 #'                        pc_criterion = "broken_stick",
 #'                        plot_sample = FALSE,
-#'                        message = FALSE)
+#'                        quiet = TRUE)
 #'
 #' # Load info on sex of faces
 #' data("LondonSet_info")
@@ -44,11 +44,11 @@
 calc_shapevs <- function(data, anchor1_index, anchor2_index, symm = FALSE, mirroredlandmarks){
 
   # ONLY WORKS FOR WITHIN-SET SCORES; I.E. PCA OF DATA AND ANCHOR FACES COMBINED
-  # Also, totally redundant function - better to just pass symmetrized faces to facefuns2d; if symmetrized faces are used, PCs from symmetrized faces should be reported/plotted etc. But I'll keep it for now in case any of the code comes in handy for something else.
+  # Also, totally redundant function - better to just pass symmetrized faces to facefuns; if symmetrized faces are used, PCs from symmetrized faces should be reported/plotted etc. But I'll keep it for now in case any of the code comes in handy for something else.
 
-  # Check data is of class facefuns2d
-  if (class(data) != "facefuns_obj") {
-    stop("This function only takes facefuns objects as output. Maybe try calc_vs?")
+  # Check data is of class facefuns
+  if (!any(class(data) == "facefuns_obj")) {
+    stop("This function only takes facefuns objects as input. Maybe try calc_vs?")
   }
 
   input <- data

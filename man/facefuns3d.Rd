@@ -4,14 +4,14 @@
 \alias{facefuns3d}
 \title{Quick start to shape analyses of 3-D data}
 \usage{
-facefuns3d(data, pc_criterion = "broken_stick", message = TRUE)
+facefuns3d(data, pc_criterion = "broken_stick", quiet = FALSE)
 }
 \arguments{
 \item{data}{Three-dimensional array of dimensions p, k, and n. p = number of landmarks, k = dimension (2D or 3D), n = number of specimens}
 
 \item{pc_criterion}{Criterion used to choose which PCs to retain. See \link[facefuns]{select_pcs}}
 
-\item{message}{Print short summary of loaded data}
+\item{quiet}{If false prints short summary of loaded data}
 }
 \value{
 Returns a list of the following components:
@@ -28,10 +28,4 @@ Returns a list of the following components:
 Performs some of the routine steps for getting landmark data ready for shape analyses, such as Procrustes alignment and principal component analysis. For more details see vignettes
 \code{vignette("facefuns", package = "facefuns")} and \code{vignette("intro3d", package = "facefuns")}
 }
-\examples{
-path_to_ply <- system.file("extdata", "ply", package="facefuns")
-data <- read_vertices(path_to_ply)
-shapedata <- facefuns3d(data = data,
-pc_criterion = "broken_stick")
-
-}
+\keyword{internal}

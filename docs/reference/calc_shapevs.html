@@ -157,7 +157,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data</th>
-      <td><p>Output from <a href='facefuns2d.html'>facefuns2d</a></p></td>
+      <td><p>Output from <a href='facefuns.html'>facefuns</a></p></td>
     </tr>
     <tr>
       <th>anchor1_index</th>
@@ -190,10 +190,10 @@
 <span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='read_lmdata.html'>read_lmdata</a></span><span class='op'>(</span>lmdata <span class='op'>=</span> <span class='va'>path_to_tem</span>,
                     remove_points <span class='op'>=</span> <span class='va'>remove_points</span><span class='op'>)</span>
 </div><div class='img'><img src='calc_shapevs-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='va'>shapedata</span> <span class='op'>&lt;-</span> <span class='fu'><a href='facefuns2d.html'>facefuns2d</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>data</span>,
+<span class='va'>shapedata</span> <span class='op'>&lt;-</span> <span class='fu'><a href='facefuns.html'>facefuns</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>data</span>,
                        pc_criterion <span class='op'>=</span> <span class='st'>"broken_stick"</span>,
                        plot_sample <span class='op'>=</span> <span class='cn'>FALSE</span>,
-                       message <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+                       quiet <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
 <span class='co'># Load info on sex of faces</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"LondonSet_info"</span><span class='op'>)</span>

@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 
 This package contains convenience functions for doing shape analyses of 2D and 3D face images in `R` (see also [here](./overview.html)), as well as tutorials for some common analyses: calculating [sexual dimorphism](./calcSD.html), [facial similarity and averageness](./calcED.html), and [asymmetry](./calcAsym.html).
 
-The following tutorial will provide a brief guide to loading 2D face data into `R`, Procrustes-aligning landmark templates and conducting a principal component analysis of shape using the package `geomorph`. It will conclude by introducing  the function `facefuns::facefuns2d`, which will automatically conduct these steps and create outputs for use in subsequent analyses.
+The following tutorial will provide a brief guide to loading 2D face data into `R`, Procrustes-aligning landmark templates and conducting a principal component analysis of shape using the package `geomorph`. It will conclude by introducing  the function `facefuns::facefuns`, which will automatically conduct these steps and create outputs for use in subsequent analyses.
 
 ```{r setup, message=FALSE}
 library(facefuns)
@@ -160,19 +160,19 @@ plotRefToTarget(ref, pca_output$shapes$shapes.comp1$min)
 plotRefToTarget(ref, pca_output$shapes$shapes.comp1$max)
 ```
 
-## `facefuns2d`
+## `facefuns`
 
-`facefuns2d` is a convenience function for doing all of the above in one step.
+`facefuns` is a convenience function for doing all of the above in one step.
 
 ```{r}
-shapedata <- facefuns2d(data = data,
+shapedata <- facefuns(data = data,
                         pc_criterion = "broken_stick",
                         plot_sample = TRUE,
-                        message = TRUE,
-                        auto_rotate = TRUE)
+                        auto_rotate = TRUE,
+                        quiet = FALSE)
 ```
 
-`facefuns2d` returns a list with the following elements:
+`facefuns` returns a list with the following elements:
 
 * `array`: Procrustes-aligned data as three-dimensional array     
 * `matrix`: Procrustes-aligned data as two-dimensional matrix [MAKE OPTIONAL?]     
@@ -187,7 +187,7 @@ shapedata <- facefuns2d(data = data,
 
 ### `plot_2dpcs`
 
-By default, `facefuns2d` will create all selected PCs at plus and minus 3 standard deviations. These can again be plotted using `plotRefToTarget` or using `plot_2dpcs`. Note that while `plotRefToTarget` is based on the sample range of a specific PC, `plot_2dpcs` is based on units of standard deviation (see also `help(plot_2dpcs)`).
+By default, `facefuns` will create all selected PCs at plus and minus 3 standard deviations. These can again be plotted using `plotRefToTarget` or using `plot_2dpcs`. Note that while `plotRefToTarget` is based on the sample range of a specific PC, `plot_2dpcs` is based on units of standard deviation (see also `help(plot_2dpcs)`).
 
 ```{r, fig.width=9, fig.height=15, fig.show='hold', fig.align='center'}
 plot_2dpcs(input = shapedata$pc_plot,

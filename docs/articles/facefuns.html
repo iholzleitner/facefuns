@@ -96,7 +96,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Introduction to facefuns</h1>
             
-            <h4 class="date">2021-02-15</h4>
+            <h4 class="date">2021-02-16</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/iholzleitner/facefuns/blob/master/vignettes/facefuns.Rmd"><code>vignettes/facefuns.Rmd</code></a></small>
       <div class="hidden name"><code>facefuns.Rmd</code></div>
@@ -107,7 +107,7 @@
     
 <p><strong>WORK IN PROGRESS</strong></p>
 <p>This package contains convenience functions for doing shape analyses of 2D and 3D face images in <code>R</code> (see also <a href="./overview.html">here</a>), as well as tutorials for some common analyses: calculating <a href="./calcSD.html">sexual dimorphism</a>, <a href="./calcED.html">facial similarity and averageness</a>, and <a href="./calcAsym.html">asymmetry</a>.</p>
-<p>The following tutorial will provide a brief guide to loading 2D face data into <code>R</code>, Procrustes-aligning landmark templates and conducting a principal component analysis of shape using the package <code>geomorph</code>. It will conclude by introducing the function <code><a href="../reference/facefuns2d.html">facefuns::facefuns2d</a></code>, which will automatically conduct these steps and create outputs for use in subsequent analyses.</p>
+<p>The following tutorial will provide a brief guide to loading 2D face data into <code>R</code>, Procrustes-aligning landmark templates and conducting a principal component analysis of shape using the package <code>geomorph</code>. It will conclude by introducing the function <code><a href="../reference/facefuns.html">facefuns::facefuns</a></code>, which will automatically conduct these steps and create outputs for use in subsequent analyses.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/iholzleitner/facefuns">facefuns</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/geomorphR/geomorph">geomorph</a></span><span class="op">)</span>
@@ -254,22 +254,22 @@
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/geomorph/man/plotRefToTarget.html">plotRefToTarget</a></span><span class="op">(</span><span class="va">ref</span>, <span class="va">pca_output</span><span class="op">$</span><span class="va">shapes</span><span class="op">$</span><span class="va">shapes.comp1</span><span class="op">$</span><span class="va">max</span><span class="op">)</span></code></pre></div>
 <p><img src="facefuns_files/figure-html/unnamed-chunk-13-2.png" width="700"></p>
 </div>
-<div id="facefuns2d" class="section level2">
+<div id="facefuns" class="section level2">
 <h2 class="hasAnchor">
-<a href="#facefuns2d" class="anchor"></a><code>facefuns2d</code>
+<a href="#facefuns" class="anchor"></a><code>facefuns</code>
 </h2>
-<p><code>facefuns2d</code> is a convenience function for doing all of the above in one step.</p>
+<p><code>facefuns</code> is a convenience function for doing all of the above in one step.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">shapedata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/facefuns2d.html">facefuns2d</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>,
+<code class="sourceCode R"><span class="va">shapedata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/facefuns.html">facefuns</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>,
                         pc_criterion <span class="op">=</span> <span class="st">"broken_stick"</span>,
                         plot_sample <span class="op">=</span> <span class="cn">TRUE</span>,
-                        message <span class="op">=</span> <span class="cn">TRUE</span>,
-                        auto_rotate <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+                        auto_rotate <span class="op">=</span> <span class="cn">TRUE</span>,
+                        quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
 <p><img src="facefuns_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
 <pre><code>#&gt; The loaded data set contains 102 specimen, delineated with 132 2-D landmarks.
 #&gt; The broken_stick criterion was used to select 8 principal components.
 #&gt; Templates were rotated using "rotateC" after the GPA.</code></pre>
-<p><code>facefuns2d</code> returns a list with the following elements:</p>
+<p><code>facefuns</code> returns a list with the following elements:</p>
 <ul>
 <li>
 <code>array</code>: Procrustes-aligned data as three-dimensional array<br>
@@ -305,7 +305,7 @@
 <h3 class="hasAnchor">
 <a href="#plot_2dpcs" class="anchor"></a><code>plot_2dpcs</code>
 </h3>
-<p>By default, <code>facefuns2d</code> will create all selected PCs at plus and minus 3 standard deviations. These can again be plotted using <code>plotRefToTarget</code> or using <code>plot_2dpcs</code>. Note that while <code>plotRefToTarget</code> is based on the sample range of a specific PC, <code>plot_2dpcs</code> is based on units of standard deviation (see also <code><a href="../reference/plot_2dpcs.html">help(plot_2dpcs)</a></code>).</p>
+<p>By default, <code>facefuns</code> will create all selected PCs at plus and minus 3 standard deviations. These can again be plotted using <code>plotRefToTarget</code> or using <code>plot_2dpcs</code>. Note that while <code>plotRefToTarget</code> is based on the sample range of a specific PC, <code>plot_2dpcs</code> is based on units of standard deviation (see also <code><a href="../reference/plot_2dpcs.html">help(plot_2dpcs)</a></code>).</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/plot_2dpcs.html">plot_2dpcs</a></span><span class="op">(</span>input <span class="op">=</span> <span class="va">shapedata</span><span class="op">$</span><span class="va">pc_plot</span>,
           ref <span class="op">=</span> <span class="va">shapedata</span><span class="op">$</span><span class="va">average</span>,

@@ -6,11 +6,11 @@
 #' Performs some of the routine steps for getting landmark data ready for shape analyses, such as Procrustes alignment and principal component analysis. For more details see vignette:
 #' \code{vignette("intro", package = "facefuns")}
 #'
-#' @param data Three-dimensional array of dimensions p, k, and n. p = number of landmarks, k = dimension (2D or 3D), n = number of specimens.
+#' @param data Three-dimensional array of dimensions p, k, and n. p = number of landmarks, k = dimension (2D or 3D), n = number of specimens
 #' @param pc_criterion Criterion used to choose which PCs to retain. See \link[facefuns]{select_pcs}
 #' @param plot_sample Plot sample to check data. See \link[geomorph]{plotAllSpecimens}
-#' @param message Print short summary of loaded data
-#' @param auto_rotate Landmark templates are sometimes no longer upright after Procrustes-alignment. Auto-rotate uses \link[geomorph]{rotate.coords} to guess which type of rotation is required.
+#' @param auto_rotate Landmark templates are sometimes no longer upright after Procrustes-alignment. Auto-rotate uses \link[geomorph]{rotate.coords} to guess which type of rotation is required
+#' @param quiet Print short summary of loaded data
 #'
 #' @return Returns a list of the following components:
 #' \item{array}{Three-dimensional array containing Procrustes-aligned data}
@@ -20,21 +20,9 @@
 #' \item{pc_plot}{PCs for plotting. Will by default create list of coordinates for all selected PCs at +/- 3SDs. To create plots of other PCs or at different level of SD, please see \link[facefuns]{plot_2dpcs}}
 #' \item{summary}{Short summary of key descriptives}
 #'
-#' @export
-#' @examples
-#' path_to_tem <- system.file("extdata", "tem", package="facefuns")
-#' remove_points <- c(45:50, 100:104, 116:125, 146:158, 159:164, 165:170, 171:174, 175:179, 184:185)
+#' @keywords internal
 #'
-#' data <- read_lmdata(lmdata = path_to_tem, remove_points = remove_points)
-#' shapedata <- facefuns2d(data = data,
-#' pc_criterion = "broken_stick")
-#'
-#'# Plot sample
-#'shapedata$summary$plot_sample() #or geomorph::plotAllSpecimens(shapedata$array)
-#'
-#'# Plot PCs
-#'plot_2dpcs(shapedata$pc_plot, shapedata$average)
-facefuns2d <- function (data, pc_criterion = "broken_stick", plot_sample = TRUE, message = TRUE, auto_rotate = TRUE) {
+facefuns2d <- function (data, pc_criterion = "broken_stick", plot_sample = TRUE,  auto_rotate = TRUE, quiet = FALSE) {
 
   # CHECK DATA ----
   # add code to check data is of appropriate dimensions
@@ -126,7 +114,7 @@ facefuns2d <- function (data, pc_criterion = "broken_stick", plot_sample = TRUE,
     plot_sample = plotSample
   )
 
-  if (message == TRUE) {
+  if (quiet == FALSE) {
     cat(paste0("The loaded data set contains ", summary$data_n, " specimen, delineated with ", summary$data_lm, " ", summary$data_dim,"-D landmarks.", "\n",
                "The ", summary$pc_crit, " criterion was used to select ", summary$pc_nPCs, " principal components.", "\n",
                message_rot))}
@@ -142,7 +130,7 @@ facefuns2d <- function (data, pc_criterion = "broken_stick", plot_sample = TRUE,
     summary = summary
   ))
 
-  class(to_return) <- "facefuns_obj"
+  class(to_return) <- c("facefuns_obj", "list")
   return(to_return)
 
 }
