@@ -2,37 +2,48 @@
 % Please edit documentation in R/plot_3dpcs.R
 \name{plot_3dpcs}
 \alias{plot_3dpcs}
-\title{Plot 3D PCs}
+\title{Plot 3-D PCs}
 \usage{
-plot_3dpcs(input, ref, which_pcs = 1, vis_sd = 3, alpha = 1.2)
+plot_3dpcs(input, ref, which_pcs = 1, vis_sd = 3, alpha = 1.2, ref_mesh = NULL)
 }
 \arguments{
-\item{input}{Object of class \code{prcomp}, \code{gm.prcomp} or PC_list (see \code{make_pcs})}
+\item{input}{Object of class \code{prcomp}, \code{gm.prcomp} or \code{PC_list} (see \link[facefuns]{make_pcs})}
 
-\item{ref}{Reference face (sample average is recommended)}
+\item{ref}{Reference face used to visualize PCs (sample average is recommended)}
 
-\item{which_pcs}{Which PCs are to be created. Single number or vector, maximum allowed is 3}
+\item{which_pcs}{Which PCs are to be created. Single number or vector (maximum number of PCs to plot is 3)}
 
 \item{vis_sd}{Extent of desired manipulation in units of standard deviation}
 
-\item{alpha}{See \link[alphashape3d]{ashape3d}}
+\item{alpha}{See \link[alphashape3d]{ashape3d}. Tweak value to adjust appearance of your meshes}
+
+\item{ref_mesh}{Path to reference mesh}
 }
 \value{
 Returns plot
 }
 \description{
 \lifecycle{experimental}
+
+Create and plot principal components of 3-D mesh data. If path to reference mesh is provided, existing mesh information will be used to create meshes; otherwise, alpha shape is computed
 }
 \examples{
 
 \dontrun{
 path_to_ply <- system.file("extdata", "ply", package="facefuns")
 data <- read_vertices(path_to_ply)
-shapedata <- facefuns3d(data = data,
-pc_criterion = "broken_stick")
+shapedata <- facefuns(data = data,
+                      pc_criterion = "broken_stick")
 
-plot_3dpcs(input = shapedata$pc_plot, which_pcs = 1, ref = shapedata$average, alpha = 2)
+# PLOT MESHES WITHOUT REFERENCE MESH
+rgl::open3d()
+plot_3dpcs(input = shapedata$pc_plot, which_pcs = 1:2, ref = shapedata$average, alpha = 2)
 
+# PLOT MESHES WITH REFERENCE MESH
+ref_mesh <- paste0(system.file("extdata", "obj", package="facefuns"), "/example.wavefront")
+
+rgl::open3d()
+plot_3dpcs(input = shapedata$pc_plot, which_pcs = 1:2, ref = shapedata$average, ref_mesh = ref_mesh)
 }
 
 }

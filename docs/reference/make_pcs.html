@@ -155,7 +155,7 @@
     </tr>
     <tr>
       <th>ref</th>
-      <td><p>2D or 3D coordinates of reference face</p></td>
+      <td><p>2-D or 3-D coordinates of reference face</p></td>
     </tr>
     <tr>
       <th>which_pcs</th>
@@ -169,10 +169,11 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A list of 2D or 3D coordinates for the reference face at <code>-vis_SD</code> and <code>vis_SD</code> standard deviations for each principal component</p>
+    <p>A list of 2-D or 3-D coordinates for the reference face at <code>-vis_SD</code> and <code>vis_SD</code> standard deviations for each principal component</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>LondonSet_aligned</span><span class='op'>)</span>
+    <pre class="examples"><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>LondonSet_aligned</span><span class='op'>)</span>
 <span class='va'>data_aligned</span> <span class='op'>&lt;-</span> <span class='va'>LondonSet_aligned</span>
 <span class='va'>pca_output</span> <span class='op'>&lt;-</span> <span class='fu'>geomorph</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/geomorph/man/gm.prcomp.html'>gm.prcomp</a></span><span class='op'>(</span><span class='va'>data_aligned</span><span class='op'>)</span>
 <span class='va'>ref</span> <span class='op'>&lt;-</span> <span class='fu'>geomorph</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/geomorph/man/mshape.html'>mshape</a></span><span class='op'>(</span><span class='va'>data_aligned</span><span class='op'>)</span>

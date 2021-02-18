@@ -1,13 +1,16 @@
-#' Plot 3D PCs
+#' Plot 3-D PCs
 #'
 #' @description
 #' \lifecycle{experimental}
 #'
-#' @param input Object of class \code{prcomp}, \code{gm.prcomp} or PC_list (see \code{make_pcs})
-#' @param ref Reference face (sample average is recommended)
-#' @param which_pcs Which PCs are to be created. Single number or vector, maximum allowed is 3
+#' Create and plot principal components of 3-D mesh data. If path to reference mesh is provided, existing mesh information will be used to create meshes; otherwise, alpha shape is computed
+#'
+#' @param input Object of class \code{prcomp}, \code{gm.prcomp} or \code{PC_list} (see \link[facefuns]{make_pcs})
+#' @param ref Reference face used to visualize PCs (sample average is recommended)
+#' @param which_pcs Which PCs are to be created. Single number or vector (maximum number of PCs to plot is 3)
 #' @param vis_sd Extent of desired manipulation in units of standard deviation
-#' @param alpha See \link[alphashape3d]{ashape3d}
+#' @param alpha See \link[alphashape3d]{ashape3d}. Tweak value to adjust appearance of your meshes
+#' @param ref_mesh Path to reference mesh
 #'
 #' @return  Returns plot
 #' @export
@@ -17,18 +20,25 @@
 #' \dontrun{
 #' path_to_ply <- system.file("extdata", "ply", package="facefuns")
 #' data <- read_vertices(path_to_ply)
-#' shapedata <- facefuns3d(data = data,
-#' pc_criterion = "broken_stick")
+#' shapedata <- facefuns(data = data,
+#'                       pc_criterion = "broken_stick")
 #'
-#' plot_3dpcs(input = shapedata$pc_plot, which_pcs = 1, ref = shapedata$average, alpha = 2)
+#' # PLOT MESHES WITHOUT REFERENCE MESH
+#' rgl::open3d()
+#' plot_3dpcs(input = shapedata$pc_plot, which_pcs = 1:2, ref = shapedata$average, alpha = 2)
 #'
+#' # PLOT MESHES WITH REFERENCE MESH
+#' ref_mesh <- paste0(system.file("extdata", "obj", package="facefuns"), "/example.wavefront")
+#'
+#' rgl::open3d()
+#' plot_3dpcs(input = shapedata$pc_plot, which_pcs = 1:2, ref = shapedata$average, ref_mesh = ref_mesh)
 #' }
 #'
-plot_3dpcs <- function (input, ref, which_pcs = 1, vis_sd = 3, alpha = 1.2){
+plot_3dpcs <- function (input, ref, which_pcs = 1, vis_sd = 3, alpha = 1.2, ref_mesh = NULL){
 
   # LIMIT NUMBER OF PCs ----
   if (length(which_pcs) > 3) {
-    stop("This function will only plot up to 1 PC per plot")
+    stop("This function will only plot up to 3 PCs per plot")
   }
 
   # CHECK INPUT ----
@@ -47,28 +57,53 @@ plot_3dpcs <- function (input, ref, which_pcs = 1, vis_sd = 3, alpha = 1.2){
 
   }
 
+
   # CHECK ALL PCs are available ----
   if (!all(paste0("PC", which_pcs) %in% names(shapes_list))) {
     stop("At least one of the PCs you are trying to plot is out of range")
   }
 
+
   # CREATE MESHES ----
-  list_of_meshes <- rapply(shapes_list, function(x){
-    convert_points_to_mesh(x, alpha, FALSE)
-  }, how = "list")
+  # if ref_mesh is NULL, use convert_points_to_mesh; else, use convert_points_to_knownmesh
+    if (is.null(ref_mesh)) {
+
+    list_of_meshes <- rapply(shapes_list, function(x){
+      convert_points_to_mesh(x, alpha, FALSE)
+    }, how = "list")
+
+  } else {
+    # CHECK PATH
+    if ((file.exists(ref_mesh) & (grepl("\\.obj$", ref_mesh) || grepl("\\.wavefront$", ref_mesh)))) {
+
+      list_of_meshes <- rapply(shapes_list, function(x){
+        convert_points_to_knownmesh(x, ref_mesh)
+      }, how = "list")
+
+    } else {
+      stop("Path to reference mesh cannot be read. Is it an OBJ?")
+    }
+
+  }
+
 
   # PLOT MESHES ----
-  # Not everyone wants the rglwidget maybe - make optional
-  rgl::open3d()
-  rgl::mfrow3d(length(which_pcs), 2, sharedMouse = TRUE)
+  rgl::clear3d(type = c("shapes", "lights"))
+  rgl::light3d() # add light source to the scene
+  rgl::mfrow3d(length(which_pcs), 2, byrow = FALSE, sharedMouse = TRUE)
 
   lapply(list_of_meshes, lapply, function(x){
-    rgl::plot3d(x, type="wire", col="gray", box=FALSE, axes=FALSE, xlab="", ylab="", zlab="", specular="black")
+    rgl::next3d(clear = FALSE)
+    rgl::shade3d(x,
+                 type="wire", col="gray",
+                 box=FALSE, axes=FALSE,
+                 xlab="", ylab="", zlab="",
+                 specular="black")
   })
 
-  rgl::rglwidget()
+  rgl::aspect3d("iso")
+
 
   # ADD TEXTURE!
-
 
 }

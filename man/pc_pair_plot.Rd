@@ -7,9 +7,9 @@
 pc_pair_plot(f1, f2, pc)
 }
 \arguments{
-\item{f1}{function for first plot}
+\item{f1}{Function for first plot}
 
-\item{f2}{function for second plot}
+\item{f2}{Function for second plot}
 
 \item{pc}{Numeric label}
 }
@@ -17,5 +17,5 @@ pc_pair_plot(f1, f2, pc)
 plot
 }
 \description{
-set up specs for plotting pairs of PCs
+Set up specs for plotting pairs of PCs
 }

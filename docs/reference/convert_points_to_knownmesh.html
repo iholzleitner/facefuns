@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Plot 3-D PCs — plot_3dpcs • facefuns</title>
+<title>Convert 3-D coordinates to 3-D mesh based on reference mesh — convert_points_to_knownmesh • facefuns</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,9 @@
 
 
 
-<meta property="og:title" content="Plot 3-D PCs — plot_3dpcs" />
+<meta property="og:title" content="Convert 3-D coordinates to 3-D mesh based on reference mesh — convert_points_to_knownmesh" />
 <meta property="og:description" content="
-Create and plot principal components of 3-D mesh data. If path to reference mesh is provided, existing mesh information will be used to create meshes; otherwise, alpha shape is computed" />
+Build triangle mesh3d object from 3-D coordinates based on reference mesh with homologous vertices" />
 
 
 
@@ -136,70 +136,61 @@ Create and plot principal components of 3-D mesh data. If path to reference mesh
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Plot 3-D PCs</h1>
-    <small class="dont-index">Source: <a href='https://github.com/iholzleitner/facefuns/blob/master/R/plot_3dpcs.R'><code>R/plot_3dpcs.R</code></a></small>
-    <div class="hidden name"><code>plot_3dpcs.Rd</code></div>
+    <h1>Convert 3-D coordinates to 3-D mesh based on reference mesh</h1>
+    <small class="dont-index">Source: <a href='https://github.com/iholzleitner/facefuns/blob/master/R/convert_points_to_knownmesh.R'><code>R/convert_points_to_knownmesh.R</code></a></small>
+    <div class="hidden name"><code>convert_points_to_knownmesh.Rd</code></div>
     </div>
 
     <div class="ref-description">
     <p><a href='https://lifecycle.r-lib.org/articles/stages.html#experimental'><img src='figures/lifecycle-experimental.svg' alt='[Experimental]' /></a></p>
-<p>Create and plot principal components of 3-D mesh data. If path to reference mesh is provided, existing mesh information will be used to create meshes; otherwise, alpha shape is computed</p>
+<p>Build triangle mesh3d object from 3-D coordinates based on reference mesh with homologous vertices</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plot_3dpcs</span><span class='op'>(</span><span class='va'>input</span>, <span class='va'>ref</span>, which_pcs <span class='op'>=</span> <span class='fl'>1</span>, vis_sd <span class='op'>=</span> <span class='fl'>3</span>, alpha <span class='op'>=</span> <span class='fl'>1.2</span>, ref_mesh <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>convert_points_to_knownmesh</span><span class='op'>(</span><span class='va'>point_matrix</span>, <span class='va'>obj</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>input</th>
-      <td><p>Object of class <code>prcomp</code>, <code>gm.prcomp</code> or <code>PC_list</code> (see <a href='make_pcs.html'>make_pcs</a>)</p></td>
+      <th>point_matrix</th>
+      <td><p>3-D coordinates to be visualized (rows = vertices, columns = coordinates)</p></td>
     </tr>
     <tr>
-      <th>ref</th>
-      <td><p>Reference face used to visualize PCs (sample average is recommended)</p></td>
-    </tr>
-    <tr>
-      <th>which_pcs</th>
-      <td><p>Which PCs are to be created. Single number or vector (maximum number of PCs to plot is 3)</p></td>
-    </tr>
-    <tr>
-      <th>vis_sd</th>
-      <td><p>Extent of desired manipulation in units of standard deviation</p></td>
-    </tr>
-    <tr>
-      <th>alpha</th>
-      <td><p>See <a href='https://rdrr.io/pkg/alphashape3d/man/ashape3d.html'>ashape3d</a>. Tweak value to adjust appearance of your meshes</p></td>
-    </tr>
-    <tr>
-      <th>ref_mesh</th>
-      <td><p>Path to reference mesh</p></td>
+      <th>obj</th>
+      <td><p>Path to reference mesh in OBJ format</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Returns plot</p>
+    <p>Object of class <a href='https://rdrr.io/pkg/rgl/man/mesh3d.html'>mesh3d</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='co'># CREATE EXAMPLE POINT MATRIX</span>
 <span class='va'>path_to_ply</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata"</span>, <span class='st'>"ply"</span>, package<span class='op'>=</span><span class='st'>"facefuns"</span><span class='op'>)</span>
 <span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='read_vertices.html'>read_vertices</a></span><span class='op'>(</span><span class='va'>path_to_ply</span><span class='op'>)</span>
+
 <span class='va'>shapedata</span> <span class='op'>&lt;-</span> <span class='fu'><a href='facefuns.html'>facefuns</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>data</span>,
-                      pc_criterion <span class='op'>=</span> <span class='st'>"broken_stick"</span><span class='op'>)</span>
+                      pc_criterion <span class='op'>=</span> <span class='st'>"broken_stick"</span>,
+                      quiet <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
-<span class='co'># PLOT MESHES WITHOUT REFERENCE MESH</span>
+<span class='va'>point_matrix</span> <span class='op'>&lt;-</span> <span class='va'>shapedata</span><span class='op'>$</span><span class='va'>pc_plot</span><span class='op'>$</span><span class='va'>PC1</span><span class='op'>$</span><span class='va'>minus</span>
+
+<span class='co'># PATH TO EXAMPLE REFERENCE MESH</span>
+<span class='va'>obj</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata"</span>, <span class='st'>"obj"</span>, package<span class='op'>=</span><span class='st'>"facefuns"</span><span class='op'>)</span>, <span class='st'>"/example.wavefront"</span><span class='op'>)</span>
+
+<span class='co'># RUN FUNCTION</span>
+<span class='va'>mesh</span> <span class='op'>&lt;-</span> <span class='fu'>convert_points_to_knownmesh</span><span class='op'>(</span>point_matrix <span class='op'>=</span> <span class='va'>point_matrix</span>,
+                                    obj <span class='op'>=</span> <span class='va'>obj</span><span class='op'>)</span>
+
+<span class='co'># PLOT RESULT</span>
 <span class='fu'>rgl</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rgl/man/open3d.html'>open3d</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='fu'>plot_3dpcs</span><span class='op'>(</span>input <span class='op'>=</span> <span class='va'>shapedata</span><span class='op'>$</span><span class='va'>pc_plot</span>, which_pcs <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span>, ref <span class='op'>=</span> <span class='va'>shapedata</span><span class='op'>$</span><span class='va'>average</span>, alpha <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
-
-<span class='co'># PLOT MESHES WITH REFERENCE MESH</span>
-<span class='va'>ref_mesh</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata"</span>, <span class='st'>"obj"</span>, package<span class='op'>=</span><span class='st'>"facefuns"</span><span class='op'>)</span>, <span class='st'>"/example.wavefront"</span><span class='op'>)</span>
-
-<span class='fu'>rgl</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rgl/man/open3d.html'>open3d</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='fu'>plot_3dpcs</span><span class='op'>(</span>input <span class='op'>=</span> <span class='va'>shapedata</span><span class='op'>$</span><span class='va'>pc_plot</span>, which_pcs <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span>, ref <span class='op'>=</span> <span class='va'>shapedata</span><span class='op'>$</span><span class='va'>average</span>, ref_mesh <span class='op'>=</span> <span class='va'>ref_mesh</span><span class='op'>)</span>
+<span class='fu'>rgl</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rgl/man/mesh3d.html'>shade3d</a></span><span class='op'>(</span><span class='va'>mesh</span>,
+             box <span class='op'>=</span> <span class='cn'>FALSE</span>, axes <span class='op'>=</span> <span class='cn'>FALSE</span>,
+             xlab <span class='op'>=</span> <span class='st'>""</span>, ylab <span class='op'>=</span> <span class='st'>""</span>, zlab <span class='op'>=</span> <span class='st'>""</span>,
+             col <span class='op'>=</span> <span class='st'>"white"</span>, specular <span class='op'>=</span> <span class='st'>"black"</span><span class='op'>)</span>
 <span class='op'>}</span>
-
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

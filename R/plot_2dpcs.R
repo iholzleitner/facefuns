@@ -67,10 +67,10 @@ plot_2dpcs <- function (input, ref, which_pcs = 1:3, vis_sd = 3){
 
 #' pc_pair_plot
 #'
-#' set up specs for plotting pairs of PCs
+#' Set up specs for plotting pairs of PCs
 #'
-#' @param f1 function for first plot
-#' @param f2 function for second plot
+#' @param f1 Function for first plot
+#' @param f2 Function for second plot
 #' @param pc Numeric label
 #'
 #' @return plot
