@@ -58,6 +58,11 @@ rgl::shade3d(objexample,
 rgl::rglwidget() # open widget
 ```
 
+```{r echo=FALSE}
+rm(objexample)
+```
+
+
 Click and drag the face to move it. Note that the texture file needs to be a PNG to load successfully. If you get an `Instructions "usemtl" ignored` warning, you can either ignore it or remove the offending line from the OBJ in a text editor.
 
 `readOBJ` can be fairly slow - the package `readobj` [@readobj] promises faster reading of OBJ files!
@@ -68,7 +73,10 @@ Click and drag the face to move it. Note that the texture file needs to be a PNG
 
 You can use `geomorph::read.ply` to import ASCII PLYs, or `Morpho::file2mesh` [@morpho] to import both ASCII and binary PLYs. The example faces included in `facefuns` are binary PLYs, so we use `Morpho`to read them:
 
-```{r}
+
+
+```{r eval = FALSE}
+# not run to keep file size down
 path_to_ply <- system.file("extdata", "ply", package="facefuns")
 files <- list.files(path = path_to_ply,
                           pattern = "\\.ply$",
@@ -93,6 +101,7 @@ As you can see in the environment, the mesh3d object is quite large (>3MB). But,
 `facefuns::read_vertices` uses `rgl::readOBJ` and `Morpho::file2mesh` to import meshes, extract only vertex coordinates and save them into an array
 
 ```{r}
+path_to_ply <- system.file("extdata", "ply", package="facefuns")
 data <- read_vertices(path_to_ply)
 str(data)
 ```
@@ -108,8 +117,10 @@ shapedata <- facefuns(data = data,
 ## `plot_3dpcs`
 
 ```{r}
-ref_mesh <- paste0(system.file("extdata", "obj", package="facefuns"), "/example.wavefront")
-plot_3dpcs(input = shapedata$pc_plot, which_pcs = 1, ref = shapedata$average, ref_mesh = ref_mesh)
+plot_3dpcs(input = shapedata$pc_plot,
+           which_pcs = 1,
+           ref = shapedata$average,
+           ref_mesh = paste0(system.file("extdata", "obj", package="facefuns"), "/example.wavefront"))
 rgl::rglwidget()
 ```
 

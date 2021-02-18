@@ -48,6 +48,7 @@ reference:
   - bind_arrays
   - convert_array_to_matrix
   - convert_points_to_mesh
+  - convert_points_to_knownmesh
   - convert_tem_to_tps
   - geom_flat_violin
   - geom_split_violin

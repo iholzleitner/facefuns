@@ -144,7 +144,7 @@
 </tr>
 <tr class="odd">
 <td align="left"><code>plot_3dpcs</code></td>
-<td align="left">Create plots for 3-D PCs</td>
+<td align="left">Create and plot 3-D PCs</td>
 </tr>
 <tr class="even">
 <td align="left"><code>mirror_templates</code></td>
@@ -216,6 +216,11 @@
 <a href="#utility-functions" class="anchor"></a>Utility functions</h2>
 <p>Functions for formatting data</p>
 <table class="table">
+<colgroup>
+<col width="10%">
+<col width="79%">
+<col width="10%">
+</colgroup>
 <thead><tr class="header">
 <th align="left">Function name</th>
 <th align="left">Brief description</th>
@@ -234,10 +239,15 @@
 </tr>
 <tr class="odd">
 <td align="left"><code>convert_points_to_mesh</code></td>
-<td align="left">Convert matrix of 3-D coordinates to 3-D mesh</td>
+<td align="left">Convert 3-D coordinates to 3-D mesh using ashape3d</td>
 <td align="left"></td>
 </tr>
 <tr class="even">
+<td align="left"><code>convert_points_to_knownmesh</code></td>
+<td align="left">Convert 3-D coordinates to 3-D mesh using reference mesh</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
 <td align="left"><code>convert_tem_to_tps</code></td>
 <td align="left">Read Webmorph template files and save as TPS</td>
 <td align="left"></td>
