@@ -5,7 +5,7 @@
 #'
 #' Calculates fluctuating asymmetry (FA) of landmark templates. FA scores are calculated as Euclidean distance between original and symmetrised templates, corrected for directional asymmetry of sample
 #'
-#' @param data Quickstart object or three-dimensional array of dimensions p, k, and n
+#' @param data \code{facefuns} object or three-dimensional array of dimensions p, k, and n
 #' @param mirroredlandmarks Vector specifying order of mirrored landmarks
 #'
 #' @return Returns tibble containing ID and FA scores
@@ -19,7 +19,7 @@
 calc_fa <- function (data, mirroredlandmarks) {
 
   if (any(class(data) == "facefuns_obj")) {
-    org <- data$array
+    org <- data$aligned
   } else if (is_shape_array(data)) {
     org <- data
   } else {

@@ -21,10 +21,10 @@ mirror_templates <- function(data, mirroredlandmarks) {
                    function(x) data[,,x] %*% matrix(c(-1, 0, 0, 1), 2, 2, byrow = T),
                    simplify = "array")
 
-  dimnames(mirr) <- dimnames(data)
-
   # REORDER MIRRORED LANDMARKS
   mirr <- mirr[order(mirroredlandmarks), , ]
+
+  dimnames(mirr) <- dimnames(data)
 
   return(mirr)
 }

@@ -2,10 +2,11 @@
 #'
 #' Convenience function for plotting shape PCs based on \code{geomorph::plotRefToTarget()}. Other than \code{plotRefToTarget}, magnitude of visualized difference in shape between reference face at average and low/high levels of the respective PC is based on standard deviations (instead of range).
 #'
-#' @param input Object of class \code{prcomp}, \code{gm.prcomp} or PC_list (see \code{make_pcs})
-#' @param ref Reference face (sample average is recommended)
+#' @param input Object of class \code{facefuns}, \code{prcomp}, \code{gm.prcomp} or PC_list (see \code{make_pcs})
+#' @param ref Reference face. Defaults to sample average if input is facefuns object
 #' @param which_pcs Which PCs are to be created. Single number or vector, maximum allowed is 5
 #' @param vis_sd Extent of desired manipulation in units of standard deviation
+#' @param output Specify file name/path to save plot
 #'
 #' @return Returns plot
 #' @export
@@ -16,15 +17,26 @@
 #' ref <- geomorph::mshape(LondonSet_aligned)
 #' plot_2dpcs(pca_output, ref)
 #'
-plot_2dpcs <- function (input, ref, which_pcs = 1:3, vis_sd = 3){
+plot_2dpcs <- function (input, ref = NULL, which_pcs = 1:3, vis_sd = 3, output = NULL){
 
   # LIMIT NUMBER OF PCs ----
-  if (length(which_pcs) > 5) {
-    stop("This function will only plot up to 5 PCs per plot. You can choose a subset of PCs with the which_pcs argument")
+  if (length(which_pcs) > 3) {
+    stop("This function will only plot up to 3 PCs per plot. You can choose a subset of PCs with the which_pcs argument")
   }
 
   # CHECK INPUT ----
-  if ("sdev" %in% names(input)) {
+  if (!any(class(input) == "facefuns_obj") & is.null(ref)){
+    stop("You need to specify a reference face")
+  }
+
+  # EXTRACT PC SHAPES OR CREATE THEM ----
+  if (any(class(input) == "facefuns_obj")) {
+
+    pcs <- paste0("PC", which_pcs)
+    ref <- input$average
+    shapes_list <- input$pc_plot[pcs]
+
+  } else if ("sdev" %in% names(input)) {
 
     shapes_list <- make_pcs(input, ref, which_pcs, vis_sd)
 
@@ -34,12 +46,10 @@ plot_2dpcs <- function (input, ref, which_pcs = 1:3, vis_sd = 3){
     shapes_list <- input[pcs]
 
   } else {
-
-    stop("Input cannot be read - check it is output from gm.prcomp/prcomp or list of PCs")
-
+    stop("Input cannot be read - check it is object of class facefuns, gm.prcomp/prcomp object, or PC_list")
   }
 
-  # CHECK PCs are available
+  # CHECK ALL REQUESTED PCs are available
   if (!all(paste0("PC", which_pcs) %in% names(shapes_list))) {
     stop("At least one of the PCs you are trying to plot is out of range")
   }
@@ -59,10 +69,15 @@ plot_2dpcs <- function (input, ref, which_pcs = 1:3, vis_sd = 3){
     pc_pair_plot(f1, f2, pc)
   })
 
-  # AND, LASTLY... combine plots.
-    do.call(cowplot::plot_grid, c(pcs, list(ncol = 1)))
-}
+  # PRINT PLOT ----
+  plot <- do.call(cowplot::plot_grid, c(pcs, list(ncol = 1)))
+  print(plot)
 
+  # SAVE PLOT ----
+  if (!is.null(output)){
+    cowplot::save_plot(output, plot, ncol = 1, nrow = length(which_pcs))}
+
+}
 
 
 #' pc_pair_plot
@@ -76,6 +91,7 @@ plot_2dpcs <- function (input, ref, which_pcs = 1:3, vis_sd = 3){
 #' @return plot
 #'
 pc_pair_plot <- function(f1, f2, pc) {
+
   empty <- ggplot2::ggplot() + ggplot2::theme_void()
 
   plot <- cowplot::plot_grid(

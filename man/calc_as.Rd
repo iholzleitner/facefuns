@@ -7,15 +7,15 @@
 calc_as(data, mirroredlandmarks)
 }
 \arguments{
-\item{data}{Quickstart object or three-dimensional array of dimensions p, k, and n}
+\item{data}{\code{facefuns} object or three-dimensional array of dimensions p, k, and n}
 
 \item{mirroredlandmarks}{Vector specifying order of mirrored landmarks}
 }
 \value{
-Returns tibble containing ID and asymmetry values
+Returns tibble containing ID and asymmetry scores
 }
 \description{
-Function mirrors templates and runs GPA on original plus mirrored templates. Asymmetry scores are then calculated as Euclidean distance between original template and its symmetrized version (i.e. the mean of original and mirrored template)
+Mirrors templates and runs GPA on original plus mirrored templates. Asymmetry scores are then calculated as Euclidean distance between original template and its symmetrized version (i.e. the mean of original and mirrored template)
 }
 \details{
 NOTE: does not distinguish between directional and fluctuating asymmetry

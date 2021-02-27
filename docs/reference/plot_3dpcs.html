@@ -186,14 +186,15 @@ Create and plot principal components of 3-D mesh data. If path to reference mesh
 <span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='va'>path_to_ply</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata"</span>, <span class='st'>"ply"</span>, package<span class='op'>=</span><span class='st'>"facefuns"</span><span class='op'>)</span>
 <span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='read_vertices.html'>read_vertices</a></span><span class='op'>(</span><span class='va'>path_to_ply</span><span class='op'>)</span>
-<span class='va'>shapedata</span> <span class='op'>&lt;-</span> <span class='fu'><a href='facefuns.html'>facefuns</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>data</span>,
-                      pc_criterion <span class='op'>=</span> <span class='st'>"broken_stick"</span><span class='op'>)</span>
+<span class='va'>shapedata</span> <span class='op'>&lt;-</span> <span class='fu'><a href='facefuns.html'>facefuns</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>data</span><span class='op'>)</span>
 
-<span class='co'># PLOT MESHES WITHOUT REFERENCE MESH</span>
+<span class='co'># PLOT MESHES</span>
+<span class='co'># Will rebuild mesh from point coordinates</span>
 <span class='fu'>rgl</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rgl/man/open3d.html'>open3d</a></span><span class='op'>(</span><span class='op'>)</span>
 <span class='fu'>plot_3dpcs</span><span class='op'>(</span>input <span class='op'>=</span> <span class='va'>shapedata</span><span class='op'>$</span><span class='va'>pc_plot</span>, which_pcs <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span>, ref <span class='op'>=</span> <span class='va'>shapedata</span><span class='op'>$</span><span class='va'>average</span>, alpha <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
 
 <span class='co'># PLOT MESHES WITH REFERENCE MESH</span>
+<span class='co'># Will rebuild mesh from reference mesh</span>
 <span class='va'>ref_mesh</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata"</span>, <span class='st'>"obj"</span>, package<span class='op'>=</span><span class='st'>"facefuns"</span><span class='op'>)</span>, <span class='st'>"/example.wavefront"</span><span class='op'>)</span>
 
 <span class='fu'>rgl</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rgl/man/open3d.html'>open3d</a></span><span class='op'>(</span><span class='op'>)</span>

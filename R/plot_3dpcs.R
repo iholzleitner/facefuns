@@ -20,14 +20,15 @@
 #' \dontrun{
 #' path_to_ply <- system.file("extdata", "ply", package="facefuns")
 #' data <- read_vertices(path_to_ply)
-#' shapedata <- facefuns(data = data,
-#'                       pc_criterion = "broken_stick")
+#' shapedata <- facefuns(data = data)
 #'
-#' # PLOT MESHES WITHOUT REFERENCE MESH
+#' # PLOT MESHES
+#' # Will rebuild mesh from point coordinates
 #' rgl::open3d()
 #' plot_3dpcs(input = shapedata$pc_plot, which_pcs = 1:2, ref = shapedata$average, alpha = 2)
 #'
 #' # PLOT MESHES WITH REFERENCE MESH
+#' # Will rebuild mesh from reference mesh
 #' ref_mesh <- paste0(system.file("extdata", "obj", package="facefuns"), "/example.wavefront")
 #'
 #' rgl::open3d()
@@ -35,6 +36,8 @@
 #' }
 #'
 plot_3dpcs <- function (input, ref, which_pcs = 1, vis_sd = 3, alpha = 1.2, ref_mesh = NULL){
+
+  # NOTE TO SELF: add facefuns object as possible input, with ref being optional (à la 2-d version)
 
   # LIMIT NUMBER OF PCs ----
   if (length(which_pcs) > 3) {

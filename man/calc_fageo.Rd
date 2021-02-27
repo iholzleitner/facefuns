@@ -7,17 +7,17 @@
 calc_fageo(data, mirroredlandmarks)
 }
 \arguments{
-\item{data}{Quickstart object or three-dimensional array of dimensions p, k, and n}
+\item{data}{\code{facefuns} object or three-dimensional array of dimensions p, k, and n}
 
-\item{mirroredlandmarks}{Vector specifying order of mirrored landmarks}
+\item{mirroredlandmarks}{Vector specifying index of mirrored landmarks}
 }
 \value{
-Returns tibble containing ID and asymmetry values
+Returns tibble containing ID and FA values
 }
 \description{
 \lifecycle{experimental}
 
-Function uses \link[geomorph]{bilat.symmetry} to calculate fluctuating asymmetry component for each template. FA score is calculated as distance between FA component and mean symmetric shape
+Function uses \link[geomorph]{bilat.symmetry} to calculate fluctuating asymmetry (FA) component for each template. FA score is calculated as distance between FA component and mean symmetric shape
 }
 \examples{
 data(LondonSet_aligned)

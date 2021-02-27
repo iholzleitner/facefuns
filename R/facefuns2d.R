@@ -7,13 +7,14 @@
 #' \code{vignette("intro", package = "facefuns")}
 #'
 #' @param data Three-dimensional array of dimensions p, k, and n. p = number of landmarks, k = dimension (2D or 3D), n = number of specimens
+#' @param remove_points Specify any points/lamdmarks you want to remove. See \link[facefuns]{remove_points} and \link[facefuns]{frl_features}
 #' @param pc_criterion Criterion used to choose which PCs to retain. See \link[facefuns]{select_pcs}
 #' @param plot_sample Plot sample to check data. See \link[geomorph]{plotAllSpecimens}
 #' @param auto_rotate Landmark templates are sometimes no longer upright after Procrustes-alignment. Auto-rotate uses \link[geomorph]{rotate.coords} to guess which type of rotation is required
 #' @param quiet Print short summary of loaded data
 #'
 #' @return Returns a list of the following components:
-#' \item{array}{Three-dimensional array containing Procrustes-aligned data}
+#' \item{aligned}{Three-dimensional array containing Procrustes-aligned data}
 #' \item{average}{Coordinates of sample average for plotting}
 #' \item{pc_info}{List of selected PCs (including their SD, variance explained and cumulative variance explained), number of selected PCs, criterion used to select PCs}
 #' \item{pc_scores}{Principal component scores}
@@ -22,10 +23,32 @@
 #'
 #' @keywords internal
 #'
-facefuns2d <- function (data, pc_criterion = "broken_stick", plot_sample = TRUE,  auto_rotate = TRUE, quiet = FALSE) {
+facefuns2d <- function (data, remove_points = NULL, pc_criterion = "broken_stick", plot_sample = TRUE,  auto_rotate = TRUE, quiet = FALSE) {
+
+  check_data <- data
 
   # CHECK DATA ----
-  # add code to check data is of appropriate dimensions
+  if (!is_shape_array(check_data)){
+    stop("Your data could not be read. Check its dimensions")
+  }
+
+  # REMOVE POINTS ----
+  if (!is.null(remove_points)){
+    data <- remove_points(check_data,
+                              points = remove_points,
+                              relabel_points = TRUE,
+                              plot = FALSE, quiet = TRUE)
+
+    old_p <- dim(check_data)[[1]]
+    new_p <- dim(data)[[1]]
+    diff_p <- old_p - new_p
+
+    message_rmp <- paste0("You removed ", diff_p, " landmarks prior to analyses.")
+
+  } else{
+    data <- check_data
+    message_rmp <- paste0("All landmarks were used in analyses.")
+  }
 
   # ALIGN DATA ----
   gpa <- geomorph::gpagen(data, print.progress = FALSE)
@@ -115,14 +138,15 @@ facefuns2d <- function (data, pc_criterion = "broken_stick", plot_sample = TRUE,
   )
 
   if (quiet == FALSE) {
-    cat(paste0("The loaded data set contains ", summary$data_n, " specimen, delineated with ", summary$data_lm, " ", summary$data_dim,"-D landmarks.", "\n",
+    cat(paste0(message_rmp, "\n",
+               "The loaded data set contains ", summary$data_n, " specimen, delineated with ", summary$data_lm, " ", summary$data_dim,"-D landmarks.", "\n",
                "The ", summary$pc_crit, " criterion was used to select ", summary$pc_nPCs, " principal components.", "\n",
                message_rot))}
 
 
   # RETURN----
   to_return <- invisible(list(
-    array = data_aligned,
+    aligned = data_aligned,
     average = ref,
     pc_info = pc_sel,
     pc_scores = data_scores,

@@ -150,6 +150,7 @@ vignette(&quot;intro&quot;, package = &quot;facefuns&quot;)" />
 
     <pre class="usage"><span class='fu'>facefuns2d</span><span class='op'>(</span>
   <span class='va'>data</span>,
+  remove_points <span class='op'>=</span> <span class='cn'>NULL</span>,
   pc_criterion <span class='op'>=</span> <span class='st'>"broken_stick"</span>,
   plot_sample <span class='op'>=</span> <span class='cn'>TRUE</span>,
   auto_rotate <span class='op'>=</span> <span class='cn'>TRUE</span>,
@@ -162,6 +163,10 @@ vignette(&quot;intro&quot;, package = &quot;facefuns&quot;)" />
     <tr>
       <th>data</th>
       <td><p>Three-dimensional array of dimensions p, k, and n. p = number of landmarks, k = dimension (2D or 3D), n = number of specimens</p></td>
+    </tr>
+    <tr>
+      <th>remove_points</th>
+      <td><p>Specify any points/lamdmarks you want to remove. See <a href='remove_points.html'>remove_points</a> and <a href='frl_features.html'>frl_features</a></p></td>
     </tr>
     <tr>
       <th>pc_criterion</th>
@@ -184,7 +189,7 @@ vignette(&quot;intro&quot;, package = &quot;facefuns&quot;)" />
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>Returns a list of the following components:</p>
-<dt>array</dt><dd><p>Three-dimensional array containing Procrustes-aligned data</p></dd>
+<dt>aligned</dt><dd><p>Three-dimensional array containing Procrustes-aligned data</p></dd>
 <dt>average</dt><dd><p>Coordinates of sample average for plotting</p></dd>
 <dt>pc_info</dt><dd><p>List of selected PCs (including their SD, variance explained and cumulative variance explained), number of selected PCs, criterion used to select PCs</p></dd>
 <dt>pc_scores</dt><dd><p>Principal component scores</p></dd>

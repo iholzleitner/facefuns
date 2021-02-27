@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Bind two arrays — bind_arrays • facefuns</title>
+<title>Bind arrays — bind_arrays • facefuns</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Bind two arrays — bind_arrays" />
-<meta property="og:description" content="Bind two arrays" />
+<meta property="og:title" content="Bind arrays — bind_arrays" />
+<meta property="og:description" content="Binds two or more p x k matrices or p x k x n arrays into one three-dimensional array. Dimension names are set by those of first array/matrix entered" />
 
 
 
@@ -135,38 +135,40 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Bind two arrays</h1>
+    <h1>Bind arrays</h1>
     <small class="dont-index">Source: <a href='https://github.com/iholzleitner/facefuns/blob/master/R/bind_arrays.R'><code>R/bind_arrays.R</code></a></small>
     <div class="hidden name"><code>bind_arrays.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Bind two arrays</p>
+    <p>Binds two or more p x k matrices or p x k x n arrays into one three-dimensional array. Dimension names are set by those of first array/matrix entered</p>
     </div>
 
-    <pre class="usage"><span class='fu'>bind_arrays</span><span class='op'>(</span><span class='va'>array1</span>, <span class='va'>array2</span>, message <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>bind_arrays</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>array1</th>
-      <td><p>Three-dimensional array</p></td>
-    </tr>
-    <tr>
-      <th>array2</th>
-      <td><p>Three-dimensional array</p></td>
-    </tr>
-    <tr>
-      <th>message</th>
-      <td><p>Give warning if arrays are named inconsistently</p></td>
+      <th>...</th>
+      <td><p>Matrices/arrays to be bound, separated by commas</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>Returns new array</p>
+    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
+    <p>See <a href='https://rdrr.io/pkg/Morpho/man/bindArr.html'>bindArr</a> for more flexible function that allows to bind along different dimensions</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>londonSet_aligned</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: data set ‘londonSet_aligned’ not found</span></div><div class='input'>
+<span class='va'>new_array</span> <span class='op'>&lt;-</span> <span class='fu'>bind_arrays</span><span class='op'>(</span><span class='va'>LondonSet_aligned</span>, <span class='va'>LondonSet_aligned</span><span class='op'>)</span>
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

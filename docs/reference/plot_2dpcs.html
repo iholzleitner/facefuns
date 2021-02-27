@@ -144,18 +144,18 @@
     <p>Convenience function for plotting shape PCs based on <code><a href='https://rdrr.io/pkg/geomorph/man/plotRefToTarget.html'>geomorph::plotRefToTarget()</a></code>. Other than <code>plotRefToTarget</code>, magnitude of visualized difference in shape between reference face at average and low/high levels of the respective PC is based on standard deviations (instead of range).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plot_2dpcs</span><span class='op'>(</span><span class='va'>input</span>, <span class='va'>ref</span>, which_pcs <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>, vis_sd <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>plot_2dpcs</span><span class='op'>(</span><span class='va'>input</span>, ref <span class='op'>=</span> <span class='cn'>NULL</span>, which_pcs <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>, vis_sd <span class='op'>=</span> <span class='fl'>3</span>, output <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>input</th>
-      <td><p>Object of class <code>prcomp</code>, <code>gm.prcomp</code> or PC_list (see <code>make_pcs</code>)</p></td>
+      <td><p>Object of class <code>facefuns</code>, <code>prcomp</code>, <code>gm.prcomp</code> or PC_list (see <code>make_pcs</code>)</p></td>
     </tr>
     <tr>
       <th>ref</th>
-      <td><p>Reference face (sample average is recommended)</p></td>
+      <td><p>Reference face. Defaults to sample average if input is facefuns object</p></td>
     </tr>
     <tr>
       <th>which_pcs</th>
@@ -164,6 +164,10 @@
     <tr>
       <th>vis_sd</th>
       <td><p>Extent of desired manipulation in units of standard deviation</p></td>
+    </tr>
+    <tr>
+      <th>output</th>
+      <td><p>Specify file name/path to save plot</p></td>
     </tr>
     </table>
 

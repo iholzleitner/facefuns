@@ -157,7 +157,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>lmdata</th>
-      <td><p>Landmark data as webmorph_list, tps file or tem file(s)</p></td>
+      <td><p>Path to single file or directory containing landmark data. Accepted file formats are Webmorph template files, a TPS file or a Webmorph list</p></td>
     </tr>
     <tr>
       <th>specID</th>
@@ -165,11 +165,11 @@
     </tr>
     <tr>
       <th>remove_points</th>
-      <td><p>If reading tem file(s), specify if any points should be removed</p></td>
+      <td><p>If reading TEM files, you can specify vector of points you want removed</p></td>
     </tr>
     <tr>
       <th>path_to_tps</th>
-      <td><p>If reading temlist or tem file(s), specify if you want to save data as TPS file</p></td>
+      <td><p>If reading TEM files or a Webmorph list, specify if you want to save data as TPS file</p></td>
     </tr>
     <tr>
       <th>plot</th>
@@ -179,14 +179,18 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Returns three-dimensional array of dimensions p, k, and n. p = number of landmarks, k = dimension (2D or 3D), n = number of specimens.</p>
+    <p>Returns three-dimensional array of dimensions p, k, and n. p = number of landmarks, k = dimensionality of data (2D or 3D), n = number of specimens</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>path_to_tem</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata"</span>, <span class='st'>"tem"</span>, package<span class='op'>=</span><span class='st'>"facefuns"</span><span class='op'>)</span>
-<span class='va'>remove_points</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>45</span><span class='op'>:</span><span class='fl'>50</span>, <span class='fl'>100</span><span class='op'>:</span><span class='fl'>104</span>, <span class='fl'>116</span><span class='op'>:</span><span class='fl'>125</span>, <span class='fl'>146</span><span class='op'>:</span><span class='fl'>158</span>, <span class='fl'>159</span><span class='op'>:</span><span class='fl'>164</span>, <span class='fl'>165</span><span class='op'>:</span><span class='fl'>170</span>, <span class='fl'>171</span><span class='op'>:</span><span class='fl'>174</span>, <span class='fl'>175</span><span class='op'>:</span><span class='fl'>179</span>, <span class='fl'>184</span><span class='op'>:</span><span class='fl'>185</span><span class='op'>)</span>
-
-<span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'>read_lmdata</span><span class='op'>(</span>lmdata <span class='op'>=</span>  <span class='va'>path_to_tem</span>, remove_points <span class='op'>=</span> <span class='va'>remove_points</span><span class='op'>)</span>
+<span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'>read_lmdata</span><span class='op'>(</span>lmdata <span class='op'>=</span>  <span class='va'>path_to_tem</span><span class='op'>)</span>
 </div><div class='img'><img src='read_lmdata-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># NOTE: You can also remove points on reading in your landmark data by specifying their indices</span>
+<span class='co'># If you are using Webmorph labels to decide which points to remove,</span>
+<span class='co'># add +1 as Webmorph is 0-based (in R, the index of Webmorph point "0 - left pupil" is 1)</span>
+<span class='va'>remove_points</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>44</span><span class='op'>:</span><span class='fl'>49</span>, <span class='fl'>99</span><span class='op'>:</span><span class='fl'>103</span>, <span class='fl'>115</span><span class='op'>:</span><span class='fl'>124</span>, <span class='fl'>145</span><span class='op'>:</span><span class='fl'>157</span>, <span class='fl'>158</span><span class='op'>:</span><span class='fl'>163</span>, <span class='fl'>164</span><span class='op'>:</span><span class='fl'>169</span>, <span class='fl'>170</span><span class='op'>:</span><span class='fl'>173</span>, <span class='fl'>174</span><span class='op'>:</span><span class='fl'>178</span>, <span class='fl'>183</span><span class='op'>:</span><span class='fl'>184</span><span class='op'>)</span> <span class='op'>+</span> <span class='fl'>1</span>
+<span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'>read_lmdata</span><span class='op'>(</span>lmdata <span class='op'>=</span>  <span class='va'>path_to_tem</span>, remove_points <span class='op'>=</span> <span class='va'>remove_points</span><span class='op'>)</span>
+</div><div class='img'><img src='read_lmdata-2.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

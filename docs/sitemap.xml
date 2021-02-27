@@ -16,6 +16,9 @@
     <loc>https://iholzleitner.github.io/facefuns/reference/LondonSet_scores.html</loc>
   </url>
   <url>
+    <loc>https://iholzleitner.github.io/facefuns/reference/bind_array_helper.html</loc>
+  </url>
+  <url>
     <loc>https://iholzleitner.github.io/facefuns/reference/bind_arrays.html</loc>
   </url>
   <url>
@@ -70,6 +73,9 @@
     <loc>https://iholzleitner.github.io/facefuns/reference/facefuns_app.html</loc>
   </url>
   <url>
+    <loc>https://iholzleitner.github.io/facefuns/reference/frl_features.html</loc>
+  </url>
+  <url>
     <loc>https://iholzleitner.github.io/facefuns/reference/geom_flat_violin.html</loc>
   </url>
   <url>
@@ -122,6 +128,9 @@
   </url>
   <url>
     <loc>https://iholzleitner.github.io/facefuns/reference/read_vertices.html</loc>
+  </url>
+  <url>
+    <loc>https://iholzleitner.github.io/facefuns/reference/remove_points.html</loc>
   </url>
   <url>
     <loc>https://iholzleitner.github.io/facefuns/reference/select_pcs.html</loc>

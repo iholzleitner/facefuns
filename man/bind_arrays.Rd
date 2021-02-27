@@ -2,20 +2,26 @@
 % Please edit documentation in R/bind_arrays.R
 \name{bind_arrays}
 \alias{bind_arrays}
-\title{Bind two arrays}
+\title{Bind arrays}
 \usage{
-bind_arrays(array1, array2, message = TRUE)
+bind_arrays(...)
 }
 \arguments{
-\item{array1}{Three-dimensional array}
-
-\item{array2}{Three-dimensional array}
-
-\item{message}{Give warning if arrays are named inconsistently}
+\item{...}{Matrices/arrays to be bound, separated by commas}
 }
 \value{
 Returns new array
 }
 \description{
-Bind two arrays
+Binds two or more p x k matrices or p x k x n arrays into one three-dimensional array. Dimension names are set by those of first array/matrix entered
+}
+\note{
+See \link[Morpho]{bindArr} for more flexible function that allows to bind along different dimensions
+}
+\examples{
+
+data(londonSet_aligned)
+
+new_array <- bind_arrays(LondonSet_aligned, LondonSet_aligned)
+
 }

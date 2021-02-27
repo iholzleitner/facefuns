@@ -3,12 +3,12 @@
 #' @description
 #' \lifecycle{experimental}
 #'
-#' Function uses \link[geomorph]{bilat.symmetry} to calculate fluctuating asymmetry component for each template. FA score is calculated as distance between FA component and mean symmetric shape
+#' Function uses \link[geomorph]{bilat.symmetry} to calculate fluctuating asymmetry (FA) component for each template. FA score is calculated as distance between FA component and mean symmetric shape
 #'
-#' @param data Quickstart object or three-dimensional array of dimensions p, k, and n
-#' @param mirroredlandmarks Vector specifying order of mirrored landmarks
+#' @param data \code{facefuns} object or three-dimensional array of dimensions p, k, and n
+#' @param mirroredlandmarks Vector specifying index of mirrored landmarks
 #'
-#' @return Returns tibble containing ID and asymmetry values
+#' @return Returns tibble containing ID and FA values
 #'
 #' @export
 #' @examples
@@ -19,7 +19,7 @@
 calc_fageo <- function (data, mirroredlandmarks) {
 
   if (any(class(data) == "facefuns_obj")) {
-    data <- data$array
+    data <- data$aligned
   } else if (!is_shape_array(data)) {
     stop("Your data is neither a facefuns object nor a three-dimensional array")
   }

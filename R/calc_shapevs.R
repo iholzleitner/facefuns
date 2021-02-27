@@ -12,34 +12,40 @@
 #'
 #'@export
 #' @examples
-#' # CALCULATE FEMALE-MALE VECTOR SCORES FROM (SYMMETRIZED) SET OF FACES
-#' # Read and prep data
+#'
+#' # READ AND PREP DATA
 #' path_to_tem <- system.file("extdata", "tem", package="facefuns")
-#' remove_points <- c(45:50, 100:104, 116:125, 146:158, 159:164, 165:170, 171:174, 175:179, 184:185)
 #'
 #' data <- read_lmdata(lmdata = path_to_tem,
-#'                     remove_points = remove_points)
+#'                     plot = FALSE)
 #'
 #' shapedata <- facefuns(data = data,
-#'                        pc_criterion = "broken_stick",
-#'                        plot_sample = FALSE,
-#'                        quiet = TRUE)
+#'                       remove_points = "frlshape2019",
+#'                       plot_sample = FALSE,
+#'                       quiet = TRUE)
 #'
-#' # Load info on sex of faces
+#' # CREATE ANCHORS, e.g. female and male averages
 #' data("LondonSet_info")
 #'
-#' # Load vector specifying order of mirrored landmarks
-#' data("mirroredlandmarks")
-#'
-#' # Pull together indices of faces for male and female averages
-#' fem_i <- gsub("^ID=","", dimnames(shapedata$array)[[3]]) %in%
+#' # Specify indices of faces that will constitute male and female averages
+#' fem_i <- gsub("^ID=","", dimnames(shapedata$aligned)[[3]]) %in%
 #' LondonSet_info$face_id[which(LondonSet_info$face_sex == "female")]
 #'
-#' mal_i <- gsub("^ID=", "", dimnames(shapedata$array)[[3]]) %in%
+#' mal_i <- gsub("^ID=", "", dimnames(shapedata$aligned)[[3]]) %in%
 #' LondonSet_info$face_id[which(LondonSet_info$face_sex == "male")]
 #'
-#' # Calculate vector scores
-#' calc_shapevs(shapedata, fem_i, mal_i, symm=TRUE, mirroredlandmarks = mirroredlandmarks)
+#' # CALCULATE FEMALE-MALE VECTOR SCORES
+#' calc_shapevs(shapedata, fem_i, mal_i)
+#'
+#'
+#' # CALCULATE FEMALE-MALE VECTOR SCORES FROM SYMMETRIZED FACES
+#' # To symmetrize faces before calculating vector scores,
+#' # you will have to provide indices of landmarks after mirroring
+#'
+#' data("mirroredlandmarks")
+#'
+#' calc_shapevs(shapedata, fem_i, mal_i,
+#'              symm = TRUE, mirroredlandmarks = mirroredlandmarks)
 #'
 calc_shapevs <- function(data, anchor1_index, anchor2_index, symm = FALSE, mirroredlandmarks){
 
@@ -56,7 +62,7 @@ calc_shapevs <- function(data, anchor1_index, anchor2_index, symm = FALSE, mirro
   if (symm == TRUE) {
 
     # SYMMETRIZE
-    data <- symm_templates(input$array, mirroredlandmarks)
+    data <- symm_templates(input$aligned, mirroredlandmarks)
 
     # GPA
     gpa <- geomorph::gpagen(data, print.progress = FALSE)

@@ -13,26 +13,30 @@ read_lmdata(
 )
 }
 \arguments{
-\item{lmdata}{Landmark data as webmorph_list, tps file or tem file(s)}
+\item{lmdata}{Path to single file or directory containing landmark data. Accepted file formats are Webmorph template files, a TPS file or a Webmorph list}
 
 \item{specID}{If reading TPS file, specify specID (see \code{geomorphs}'s \link[geomorph]{readland.tps})}
 
-\item{remove_points}{If reading tem file(s), specify if any points should be removed}
+\item{remove_points}{If reading TEM files, you can specify vector of points you want removed}
 
-\item{path_to_tps}{If reading temlist or tem file(s), specify if you want to save data as TPS file}
+\item{path_to_tps}{If reading TEM files or a Webmorph list, specify if you want to save data as TPS file}
 
 \item{plot}{Plot all specimens to check data (see \code{geomorphs}'s \link[geomorph]{plotAllSpecimens})}
 }
 \value{
-Returns three-dimensional array of dimensions p, k, and n. p = number of landmarks, k = dimension (2D or 3D), n = number of specimens.
+Returns three-dimensional array of dimensions p, k, and n. p = number of landmarks, k = dimensionality of data (2D or 3D), n = number of specimens
 }
 \description{
 Read landmark data
 }
 \examples{
 path_to_tem <- system.file("extdata", "tem", package="facefuns")
-remove_points <- c(45:50, 100:104, 116:125, 146:158, 159:164, 165:170, 171:174, 175:179, 184:185)
+data <- read_lmdata(lmdata =  path_to_tem)
 
+# NOTE: You can also remove points on reading in your landmark data by specifying their indices
+# If you are using Webmorph labels to decide which points to remove,
+# add +1 as Webmorph is 0-based (in R, the index of Webmorph point "0 - left pupil" is 1)
+remove_points <- c(44:49, 99:103, 115:124, 145:157, 158:163, 164:169, 170:173, 174:178, 183:184) + 1
 data <- read_lmdata(lmdata =  path_to_tem, remove_points = remove_points)
 
 }

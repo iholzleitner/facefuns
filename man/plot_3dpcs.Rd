@@ -32,14 +32,15 @@ Create and plot principal components of 3-D mesh data. If path to reference mesh
 \dontrun{
 path_to_ply <- system.file("extdata", "ply", package="facefuns")
 data <- read_vertices(path_to_ply)
-shapedata <- facefuns(data = data,
-                      pc_criterion = "broken_stick")
+shapedata <- facefuns(data = data)
 
-# PLOT MESHES WITHOUT REFERENCE MESH
+# PLOT MESHES
+# Will rebuild mesh from point coordinates
 rgl::open3d()
 plot_3dpcs(input = shapedata$pc_plot, which_pcs = 1:2, ref = shapedata$average, alpha = 2)
 
 # PLOT MESHES WITH REFERENCE MESH
+# Will rebuild mesh from reference mesh
 ref_mesh <- paste0(system.file("extdata", "obj", package="facefuns"), "/example.wavefront")
 
 rgl::open3d()

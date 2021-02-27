@@ -12,9 +12,9 @@
 #' calc_avg(LondonSet_aligned)
 calc_avg <- function (data) {
 
-  if (class(data)[1] == "facefuns_obj") {
+  if (any(class(data) == "facefuns_obj")) {
 
-    old_array <- data$array
+    old_array <- data$aligned
     average <- data$average
 
   } else {
@@ -28,7 +28,7 @@ calc_avg <- function (data) {
 
 
   # SET UP -----
-  # ... very clunky: all we do is add average to existing array
+  # ... very clunky, pre bind_arrays; UPDATE
   new_dim <- c(dim(old_array)[[1]],
                dim(old_array)[[2]],
                dim(old_array)[[3]]+1)

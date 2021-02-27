@@ -7,7 +7,7 @@
 calc_fa(data, mirroredlandmarks)
 }
 \arguments{
-\item{data}{Quickstart object or three-dimensional array of dimensions p, k, and n}
+\item{data}{\code{facefuns} object or three-dimensional array of dimensions p, k, and n}
 
 \item{mirroredlandmarks}{Vector specifying order of mirrored landmarks}
 }

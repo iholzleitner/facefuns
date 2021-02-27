@@ -1,5 +1,5 @@
 test_that("warnings", {
-  too_many <- "This function will only plot up to 5 PCs per plot. You can choose a subset of PCs with the which_pcs argument"
+  too_many <- "This function will only plot up to 3 PCs per plot. You can choose a subset of PCs with the which_pcs argument"
 
   pca_out <- geomorph::gm.prcomp(LondonSet_aligned)
   ref <- geomorph::mshape(LondonSet_aligned)

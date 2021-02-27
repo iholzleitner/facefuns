@@ -50,10 +50,12 @@ reference:
   - convert_points_to_mesh
   - convert_points_to_knownmesh
   - convert_tem_to_tps
+  - frl_features
   - geom_flat_violin
   - geom_split_violin
   - make_id
   - pc_pair_plot
+  - remove_points
 - title: Example data
   desc: Data included in facefuns
 - contents:

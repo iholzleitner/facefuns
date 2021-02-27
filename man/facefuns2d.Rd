@@ -6,6 +6,7 @@
 \usage{
 facefuns2d(
   data,
+  remove_points = NULL,
   pc_criterion = "broken_stick",
   plot_sample = TRUE,
   auto_rotate = TRUE,
@@ -14,6 +15,8 @@ facefuns2d(
 }
 \arguments{
 \item{data}{Three-dimensional array of dimensions p, k, and n. p = number of landmarks, k = dimension (2D or 3D), n = number of specimens}
+
+\item{remove_points}{Specify any points/lamdmarks you want to remove. See \link[facefuns]{remove_points} and \link[facefuns]{frl_features}}
 
 \item{pc_criterion}{Criterion used to choose which PCs to retain. See \link[facefuns]{select_pcs}}
 
@@ -25,7 +28,7 @@ facefuns2d(
 }
 \value{
 Returns a list of the following components:
-\item{array}{Three-dimensional array containing Procrustes-aligned data}
+\item{aligned}{Three-dimensional array containing Procrustes-aligned data}
 \item{average}{Coordinates of sample average for plotting}
 \item{pc_info}{List of selected PCs (including their SD, variance explained and cumulative variance explained), number of selected PCs, criterion used to select PCs}
 \item{pc_scores}{Principal component scores}

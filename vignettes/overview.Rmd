@@ -24,7 +24,7 @@ Function name | Brief description
 `read_vertices` | Read vertex data from PLY and OBJ files
 `select_pcs` | Select PCs based on *broken stick*, *Kaiser Guttman* or *total variance explained* criterion 
 `make_pcs` | Creates coordinates for a reference face at +/- x units of standard deviations for a (list of) given principal component(s) 
-`plot_2dpcs` | Create TPS grid plots for 2-D PCs
+`plot_2dpcs` | Create and save TPS grid plots for 2-D PCs
 `plot_3dpcs` | Create and plot 3-D PCs
 `mirror_templates` | Mirror landmark templates
 `symm_templates` | Symmetrise landmark templates
@@ -47,11 +47,13 @@ Functions for formatting data
 
 Function name | Brief description | Vignette
 :-------- | :---------------------------------------------------------------------- | :-------- 
-`bind_arrays` | Bind two 3-D arrays
+`bind_arrays` | Bind matrices/arrays into one 3-D array
 `convert_array_to_matrix` | Convert 3-D array to 2-D matrix
 `convert_points_to_mesh` | Convert 3-D coordinates to 3-D mesh using ashape3d
 `convert_points_to_knownmesh`| Convert 3-D coordinates to 3-D mesh using reference mesh
 `convert_tem_to_tps` | Read Webmorph template files and save as TPS
+`frl_features` | Get point indices of FRL standard template features
+`remove_points` | Remove points from 2-D landmark templates
 
 ## Example data
 Data included in `facefuns`
@@ -62,4 +64,4 @@ Data | Content
 `LondonSet_aligned` | FRL London set: Procrustes-aligned templates (p=132, k=2, n=102) 
 `LondonSet_scores` | FRL London set: principal component scores (first eight PCs) 
 `LondonSet_info` | FRL London set: basic demographic data  
-`mirroredlandmarks` | FRL London set: order of mirrored landmarks (p=132)  
+`mirroredlandmarks` | FRL London set: index of mirrored landmarks (p=132)  

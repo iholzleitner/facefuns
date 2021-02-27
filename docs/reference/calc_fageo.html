@@ -41,7 +41,7 @@
 
 <meta property="og:title" content="Calculate fluctuating asymmetry — calc_fageo" />
 <meta property="og:description" content="
-Function uses bilat.symmetry to calculate fluctuating asymmetry component for each template. FA score is calculated as distance between FA component and mean symmetric shape" />
+Function uses bilat.symmetry to calculate fluctuating asymmetry (FA) component for each template. FA score is calculated as distance between FA component and mean symmetric shape" />
 
 
 
@@ -143,7 +143,7 @@ Function uses bilat.symmetry to calculate fluctuating asymmetry component for ea
 
     <div class="ref-description">
     <p><a href='https://lifecycle.r-lib.org/articles/stages.html#experimental'><img src='figures/lifecycle-experimental.svg' alt='[Experimental]' /></a></p>
-<p>Function uses <a href='https://rdrr.io/pkg/geomorph/man/bilat.symmetry.html'>bilat.symmetry</a> to calculate fluctuating asymmetry component for each template. FA score is calculated as distance between FA component and mean symmetric shape</p>
+<p>Function uses <a href='https://rdrr.io/pkg/geomorph/man/bilat.symmetry.html'>bilat.symmetry</a> to calculate fluctuating asymmetry (FA) component for each template. FA score is calculated as distance between FA component and mean symmetric shape</p>
     </div>
 
     <pre class="usage"><span class='fu'>calc_fageo</span><span class='op'>(</span><span class='va'>data</span>, <span class='va'>mirroredlandmarks</span><span class='op'>)</span></pre>
@@ -153,17 +153,17 @@ Function uses bilat.symmetry to calculate fluctuating asymmetry component for ea
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data</th>
-      <td><p>Quickstart object or three-dimensional array of dimensions p, k, and n</p></td>
+      <td><p><code>facefuns</code> object or three-dimensional array of dimensions p, k, and n</p></td>
     </tr>
     <tr>
       <th>mirroredlandmarks</th>
-      <td><p>Vector specifying order of mirrored landmarks</p></td>
+      <td><p>Vector specifying index of mirrored landmarks</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Returns tibble containing ID and asymmetry values</p>
+    <p>Returns tibble containing ID and FA values</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>LondonSet_aligned</span><span class='op'>)</span>

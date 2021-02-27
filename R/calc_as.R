@@ -1,13 +1,13 @@
 #' Calculate asymmetry
 #'
-#' Function mirrors templates and runs GPA on original plus mirrored templates. Asymmetry scores are then calculated as Euclidean distance between original template and its symmetrized version (i.e. the mean of original and mirrored template)
+#' Mirrors templates and runs GPA on original plus mirrored templates. Asymmetry scores are then calculated as Euclidean distance between original template and its symmetrized version (i.e. the mean of original and mirrored template)
 #'
 #' NOTE: does not distinguish between directional and fluctuating asymmetry
 #'
-#' @param data Quickstart object or three-dimensional array of dimensions p, k, and n
+#' @param data \code{facefuns} object or three-dimensional array of dimensions p, k, and n
 #' @param mirroredlandmarks Vector specifying order of mirrored landmarks
 #'
-#' @return Returns tibble containing ID and asymmetry values
+#' @return Returns tibble containing ID and asymmetry scores
 #' @export
 #'
 #' @examples
@@ -18,7 +18,7 @@
 calc_as <- function (data, mirroredlandmarks) {
 
   if (any(class(data) == "facefuns_obj")) {
-    org <- data$array
+    org <- data$aligned
   } else if (is_shape_array(data)) {
     org <- data
   } else {
@@ -31,9 +31,9 @@ calc_as <- function (data, mirroredlandmarks) {
 
   # CREATE ARRAY CONTAINING ORIGINAL AND MIRRORED TEMPLATES ----
   super_array <- array(data = numeric(),
-                dim = c(dim(org)[[1]],
-                        dim(org)[[2]],
-                        n * 2))
+                       dim = c(dim(org)[[1]],
+                               dim(org)[[2]],
+                               n * 2))
   super_array[,, 1:n] <- org
   super_array[,, (n+1):(2*n)] <- mirr
 

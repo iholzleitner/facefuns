@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 
 **WORK IN PROGRESS**
 
-This tutorial will explain how to calculate facial (dis)similarity in a set of 2D faces. We will calculate the Euclidean distance between Procrustes-aligned landmark templates, as well as the Euclidean distance in face space (i.e. principal component space).
+This tutorial will explain how to calculate facial (dis)similarity in a set of 2-D faces. We will calculate the Euclidean distance between Procrustes-aligned landmark templates; to calculate it dissimilarity in face space, replace your matrix of landmark coordinates with the matrix of PC scores.
 
 ```{r setup, message=FALSE}
 library(facefuns)
@@ -27,25 +27,22 @@ library(geomorph)
 
 ```{r}
 path_to_tem <- system.file("extdata", "tem", package="facefuns")
-remove_points <- c(45:50, 100:104, 116:125, 146:158, 159:164, 165:170, 171:174, 175:179, 184:185)
 
 data <- read_lmdata(lmdata = path_to_tem,
-                       remove_points = remove_points,
-                       plot = FALSE)
+                    plot = FALSE)
 
 shapedata <- facefuns(data = data,
-                         plot_sample = TRUE,
-                         pc_criterion = "broken_stick")
+                      remove_points = "frlshape2019",
+                      plot_sample = FALSE,
+                      quiet = TRUE)
 ```
 
 
 ## Calculate facial similarity
 
-### From landmarks
-
 We will use `facefuns::calc_ed` to calculate similarity. `calc_ed` requires two arguments:
 
-1. Landmark coordinates in a matrix format
+1. Landmark coordinates (or PC scores) in a matrix format
 
 2. A table specifying for which pairs of faces you would like to calculate similarity
 
@@ -58,13 +55,13 @@ Currently, our landmark templates are stored in a three-dimensional array: a lis
 * _**n**_ The number of faces, here 102
 
 ```{r}
-str(shapedata$array)
+str(shapedata$aligned)
 ```
 
 We will use `facefuns::convert_array_to_matrix` to convert our array into a matrix with *n* rows and *p* x *k* columns.
 
 ```{r}
-data_matrix <- convert_array_to_matrix(shapedata$array)
+data_matrix <- convert_array_to_matrix(shapedata$aligned)
 str(data_matrix)
 ```
 
@@ -77,7 +74,7 @@ For this example, we will calculate the similarity between *all* possible combin
 We start by assigning all face IDs in our sample to a variable ...
 
 ```{r}
-face_names <- dimnames(shapedata$array)[[3]]
+face_names <- dimnames(shapedata$aligned)[[3]]
 ```
 
 ... and then create a list of all possible combinations
@@ -93,7 +90,7 @@ We now have everything we need to run our function
 
 ```{r}
 sim_table <- calc_ed(coords_matrix = data_matrix,
-                    pairs_table = pairs)
+                     pairs_table = pairs)
 
 head(sim_table)
 ```
@@ -107,18 +104,14 @@ sim_table %>%
   dplyr::slice(1:9)
 ```
 
-### In face space
-
-[to be filled in]
-
 ## Averageness
 
-Averageness can be quantified as distinctivenss from the sample average. For each face, we will calculate the Euclidean distance to the sample average, and then reverse scores, so higher scores mean "more average".
+Averageness can be quantified as distinctiveness from the sample average. For each face, we will calculate the Euclidean distance to the sample average, and then reverse scores, so higher scores mean "more average".
 
-You could use `calc_ed`, but this will require a wee bit of data wrangling: you will need to attach the average template to the array holding the aligned templates, then convert this new array to a matrix and finally you might also want to reverse the distinctiveness scores, so higher scores mean "more average'. `calc_avg` does all of that! It only takes one argument - a `facefuns` object:
+You could use `calc_ed`, but this will require a wee bit of data wrangling: you will need to attach the average template to the array holding the aligned templates, then convert this new array to a matrix and finally reverse the distinctiveness scores. `calc_avg` does all of that! It only takes one argument - a `facefuns` object:
 
 ```{r}
-distinctiveness <- calc_avg(shapedata)
+avg <- calc_avg(shapedata)
 
-head(distinctiveness)
+head(avg)
 ```

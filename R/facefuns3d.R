@@ -61,7 +61,7 @@ facefuns3d <- function (data, pc_criterion = "broken_stick", quiet = FALSE){
 
   # RETURN----
   to_return <- invisible(list(
-    array = data_aligned,
+    aligned = data_aligned,
     average = ref,
     pc_info = pc_sel,
     pc_scores = data_scores,

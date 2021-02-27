@@ -64,10 +64,10 @@ You can use `calc_vs` to calculate vector scores from a data frame or matrix of 
 We get the index of which faces in our array of Procrustes-aligned faces are female/male by testing which IDs have a corresponding entry in the info table for which sex == female/male
 
 ```{r}
-fem_i <- gsub("^ID=","", dimnames(shapedata$array)[[3]]) %in%
+fem_i <- gsub("^ID=","", dimnames(shapedata$aligned)[[3]]) %in%
   LondonSet_info$face_id[which(LondonSet_info$face_sex == "female")]
 
-mal_i <- gsub("^ID=", "", dimnames(shapedata$array)[[3]]) %in%
+mal_i <- gsub("^ID=", "", dimnames(shapedata$aligned)[[3]]) %in%
   LondonSet_info$face_id[which(LondonSet_info$face_sex == "male")]
 ```
 
@@ -187,10 +187,10 @@ hi_ds <- compareSD %>%
   dplyr::slice_max(DS, n=5) %>%
   dplyr::pull(face_id)
 
-plotl <- list(geomorph::mshape(shapedata$array[,,lo_vs]),
-              geomorph::mshape(shapedata$array[,,lo_ds]),
-              geomorph::mshape(shapedata$array[,,hi_vs]),
-              geomorph::mshape(shapedata$array[,,hi_ds]))
+plotl <- list(geomorph::mshape(shapedata$aligned[,,lo_vs]),
+              geomorph::mshape(shapedata$aligned[,,lo_ds]),
+              geomorph::mshape(shapedata$aligned[,,hi_vs]),
+              geomorph::mshape(shapedata$aligned[,,hi_ds]))
 
 ref <- shapedata$average
 
