@@ -15,12 +15,12 @@ Vector of corresponding FRL template indices
 \description{
 \lifecycle{experimental}
 
-Available features in alphabetical order: cheekbones, chin, ears, face, halo, left_brow, left_eye, lowerlip, mouth, neck1, neck2, nose, philtrum, right_brow, right_eye, smile_lines, undereyes. You can also use "frlshape2019" to choose features used in \href{https://doi.org/10.1037/xhp0000685}{Holzleitner et al., 2019}
+Available features in alphabetical order: cheekbones, chin, ears, face, halo, left_brow, left_eye, lowerlip, mouth, neck1, neck2, nose, philtrum, right_brow, right_eye, smilelines, undereyes. You can also use "frlgmm" to choose features used in \href{https://doi.org/10.1037/xhp0000685}{Holzleitner et al., 2019}
 }
 \examples{
 frl_features("mouth")
 frl_features("left_eye", "right_eye")
-frl_features("frlshape2019")
+frl_features("frlgmm")
 
 }
 \author{

@@ -34,11 +34,9 @@ Function projects data onto vector from anchor one (score of 0) to anchor two (s
 # READ AND PREP DATA
 path_to_tem <- system.file("extdata", "tem", package="facefuns")
 
-data <- read_lmdata(lmdata = path_to_tem,
-                    plot = FALSE)
-
-shapedata <- facefuns(data = data,
-                      remove_points = "frlshape2019",
+shapedata <- facefuns(data = read_lmdata(lmdata = path_to_tem,
+                                         plot = FALSE),
+                      remove_points = "frlgmm",
                       plot_sample = FALSE,
                       quiet = TRUE)
 

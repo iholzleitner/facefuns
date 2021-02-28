@@ -16,11 +16,9 @@
 #' # READ AND PREP DATA
 #' path_to_tem <- system.file("extdata", "tem", package="facefuns")
 #'
-#' data <- read_lmdata(lmdata = path_to_tem,
-#'                     plot = FALSE)
-#'
-#' shapedata <- facefuns(data = data,
-#'                       remove_points = "frlshape2019",
+#' shapedata <- facefuns(data = read_lmdata(lmdata = path_to_tem,
+#'                                          plot = FALSE),
+#'                       remove_points = "frlgmm",
 #'                       plot_sample = FALSE,
 #'                       quiet = TRUE)
 #'
@@ -50,7 +48,6 @@
 calc_shapevs <- function(data, anchor1_index, anchor2_index, symm = FALSE, mirroredlandmarks){
 
   # ONLY WORKS FOR WITHIN-SET SCORES; I.E. PCA OF DATA AND ANCHOR FACES COMBINED
-  # Also, totally redundant function - better to just pass symmetrized faces to facefuns; if symmetrized faces are used, PCs from symmetrized faces should be reported/plotted etc. But I'll keep it for now in case any of the code comes in handy for something else.
 
   # Check data is of class facefuns
   if (!any(class(data) == "facefuns_obj")) {

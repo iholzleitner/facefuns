@@ -6,6 +6,7 @@
 #' @param ref Reference face. Defaults to sample average if input is facefuns object
 #' @param which_pcs Which PCs are to be created. Single number or vector, maximum allowed is 5
 #' @param vis_sd Extent of desired manipulation in units of standard deviation
+#' @param print Print plot
 #' @param output Specify file name/path to save plot
 #'
 #' @return Returns plot
@@ -17,7 +18,7 @@
 #' ref <- geomorph::mshape(LondonSet_aligned)
 #' plot_2dpcs(pca_output, ref)
 #'
-plot_2dpcs <- function (input, ref = NULL, which_pcs = 1:3, vis_sd = 3, output = NULL){
+plot_2dpcs <- function (input, ref = NULL, which_pcs = 1:3, vis_sd = 3, print = TRUE, output = NULL){
 
   # LIMIT NUMBER OF PCs ----
   if (length(which_pcs) > 3) {
@@ -71,7 +72,10 @@ plot_2dpcs <- function (input, ref = NULL, which_pcs = 1:3, vis_sd = 3, output =
 
   # PRINT PLOT ----
   plot <- do.call(cowplot::plot_grid, c(pcs, list(ncol = 1)))
+
+  if (print) {
   print(plot)
+  }
 
   # SAVE PLOT ----
   if (!is.null(output)){

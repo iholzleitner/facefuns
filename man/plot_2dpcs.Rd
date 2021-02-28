@@ -4,7 +4,14 @@
 \alias{plot_2dpcs}
 \title{Plot 2D PCs}
 \usage{
-plot_2dpcs(input, ref = NULL, which_pcs = 1:3, vis_sd = 3, output = NULL)
+plot_2dpcs(
+  input,
+  ref = NULL,
+  which_pcs = 1:3,
+  vis_sd = 3,
+  print = TRUE,
+  output = NULL
+)
 }
 \arguments{
 \item{input}{Object of class \code{facefuns}, \code{prcomp}, \code{gm.prcomp} or PC_list (see \code{make_pcs})}
@@ -14,6 +21,8 @@ plot_2dpcs(input, ref = NULL, which_pcs = 1:3, vis_sd = 3, output = NULL)
 \item{which_pcs}{Which PCs are to be created. Single number or vector, maximum allowed is 5}
 
 \item{vis_sd}{Extent of desired manipulation in units of standard deviation}
+
+\item{print}{Print plot}
 
 \item{output}{Specify file name/path to save plot}
 }

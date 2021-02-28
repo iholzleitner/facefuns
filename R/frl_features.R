@@ -3,7 +3,7 @@
 #' @description
 #' \lifecycle{experimental}
 #'
-#' Available features in alphabetical order: cheekbones, chin, ears, face, halo, left_brow, left_eye, lowerlip, mouth, neck1, neck2, nose, philtrum, right_brow, right_eye, smile_lines, undereyes. You can also use "frlshape2019" to choose features used in \href{https://doi.org/10.1037/xhp0000685}{Holzleitner et al., 2019}
+#' Available features in alphabetical order: cheekbones, chin, ears, face, halo, left_brow, left_eye, lowerlip, mouth, neck1, neck2, nose, philtrum, right_brow, right_eye, smilelines, undereyes. You can also use "frlgmm" to choose features used in \href{https://doi.org/10.1037/xhp0000685}{Holzleitner et al., 2019}
 #'
 #' @param ...  Vector of feature names
 #'
@@ -15,7 +15,7 @@
 #' @examples
 #' frl_features("mouth")
 #' frl_features("left_eye", "right_eye")
-#' frl_features("frlshape2019")
+#' frl_features("frlgmm")
 #'
 frl_features <- function(...) {
   # 0-based for compatibility with webmorph
@@ -24,12 +24,12 @@ frl_features <- function(...) {
   named_features <- list(...) %>% unlist()
 
   features <- list(
-    # frlshape2019
+    # frlgmm
     undereyes = c(44:49),
     lowerlip = c(99:103),
     ears = c(115:124),
     halo = c(145:157),
-    smile_lines = c(158:163),
+    smilelines = c(158:163),
     cheekbones = c(164:169),
     philtrum = c(170:173),
     chin = c(174:178),
@@ -45,10 +45,10 @@ frl_features <- function(...) {
     face = c(109:114, 125:144, 185:188)
   )
 
-  if ("frlshape2019" %in% named_features) {
+  if ("frlgmm" %in% named_features) {
     named_features <- c(
       named_features, "undereyes", "lowerlip", "ears", "halo",
-      "smile_lines", "cheekbones",
+      "smilelines", "cheekbones",
       "philtrum", "chin", "neck1"
     )
   }

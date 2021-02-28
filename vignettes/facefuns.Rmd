@@ -41,7 +41,7 @@ path_to_tem <- system.file("extdata", "tem", package="facefuns")
 data <- read_lmdata(lmdata = path_to_tem)
 ```
 
-As you can see, `read_shapedata` will by default plot the loaded data. Use `plot = FALSE` to turn off plotting.
+As you can see, `read_lmdata` will by default plot the loaded data. Use `plot = FALSE` to turn off plotting.
 
 You might not want to retain all of the standard template's 189 landmarks for shape analyses. For this example, we will remove the following landmarks:
 

@@ -57,10 +57,10 @@ shapedata2d <- facefuns(data = data2d,
                         remove_points = c("left_eye", "right_eye", "nose", "mouth"))
 
 shapedata2d <- facefuns(data = data2d,
-                        remove_points = c(145:157, 183:184)+1)
+                        remove_points = c(115:124, 145:157, 183:184) + 1)
 
 shapedata2d <- facefuns(data = data2d,
-                        remove_points = "frlshape2019")
+                        remove_points = "frlgmm")
 
 # PLOT AlIGNED TEMPLATES
 shapedata2d$summary$plot_sample() #or geomorph::plotAllSpecimens(shapedata2d$aligned)

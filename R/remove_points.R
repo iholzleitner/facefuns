@@ -17,11 +17,12 @@
 #' @examples
 #'
 #' path_to_tem <- system.file("extdata", "tem", package="facefuns")
+#'
 #' data <- read_lmdata(lmdata = path_to_tem,
 #'                     plot = TRUE)
 #'
 #' new_data <- remove_points(lmdata = data,
-#'                           points = "frlshape2019",
+#'                           points = "frlgmm",
 #'                           plot = TRUE)
 #'
 remove_points <- function(lmdata, points, relabel_points = TRUE, plot = TRUE, quiet = FALSE){
