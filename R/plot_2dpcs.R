@@ -58,59 +58,39 @@ plot_2dpcs <- function (input, ref = NULL, which_pcs = 1:3, vis_sd = 3, print = 
   # CREATE PLOTS----
   # Nifty hack from stackoverflow user cartwheel: store plots as functions (https://stackoverflow.com/a/46961131/6401207)
   plot_list <- rapply(shapes_list, function(x) {
-    function() { geomorph::plotRefToTarget(ref, x) }
+    function() {
+      geomorph::plotRefToTarget(
+        ref, x, method = "TPS",
+        gridPars= geomorph::gridPar(
+          grid.col="grey50",
+          tar.pt.size = 0.5
+        )
+      )
+    }
   }, how = "list")
 
   # create pair plot for each PC
-  pcs <- lapply(seq_along(plot_list), function (x){
-    f1 <- plot_list[[x]]$minus
-    f2 <- plot_list[[x]]$plus
-    pc <- names(plot_list)[[x]]
-
-    pc_pair_plot(f1, f2, pc)
+  pcs <- lapply(plot_list, function (x){
+    cowplot::plot_grid(x$minus, x$plus, nrow = 1, scale = 1.3)
   })
 
   # PRINT PLOT ----
-  plot <- do.call(cowplot::plot_grid, c(pcs, list(ncol = 1)))
+  plot <- c(pcs, list(ncol = 1,
+                      scale = 1,
+                      label_y = 0.5,
+                      labels = names(plot_list))) %>%
+    do.call(cowplot::plot_grid, .)
 
   if (print) {
-  print(plot)
+    tmp <- tempfile(fileext = ".png")
+    cowplot::save_plot(tmp, plot, ncol = 1, nrow = length(which_pcs))
+    return(knitr::include_graphics(tmp))
   }
 
   # SAVE PLOT ----
   if (!is.null(output)){
-    cowplot::save_plot(output, plot, ncol = 1, nrow = length(which_pcs))}
+    cowplot::save_plot(output, plot, ncol = 1, nrow = length(which_pcs))
+  }
 
-}
-
-
-#' pc_pair_plot
-#'
-#' Set up specs for plotting pairs of PCs
-#'
-#' @param f1 Function for first plot
-#' @param f2 Function for second plot
-#' @param pc Numeric label
-#'
-#' @return plot
-#'
-pc_pair_plot <- function(f1, f2, pc) {
-
-  empty <- ggplot2::ggplot() + ggplot2::theme_void()
-
-  plot <- cowplot::plot_grid(
-    empty, f1, f2,
-    empty, empty, empty, # empty row to control spacing between rows, see *
-    labels = c(pc, "", "",
-               "", "", ""),
-    label_x = c(0, .4, .4),
-    label_y = c(.6, .95, .95),
-    ncol = 3,
-    rel_widths = c(.2, 1, 1,
-                   .2, 1, 1),
-    rel_heights = c(1,
-                    -.15), # *
-    scale = 1.3)
-
-  return(plot)
+  invisible(plot)
 }
