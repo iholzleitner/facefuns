@@ -47,7 +47,7 @@ plot_2dpcs <- function (input, ref = NULL, which_pcs = 1:3, vis_sd = 3, print = 
     shapes_list <- input[pcs]
 
   } else {
-    stop("Input cannot be read - check it is object of class facefuns, gm.prcomp/prcomp object, or PC_list")
+    stop("Input cannot be read - check it is object of class facefuns_obj, gm.prcomp/prcomp, or PC_list")
   }
 
   # CHECK ALL REQUESTED PCs are available
@@ -61,11 +61,8 @@ plot_2dpcs <- function (input, ref = NULL, which_pcs = 1:3, vis_sd = 3, print = 
     function() {
       geomorph::plotRefToTarget(
         ref, x, method = "TPS",
-        gridPars= geomorph::gridPar(
-          grid.col="grey50",
-          tar.pt.size = 0.5
-        )
-      )
+        gridPars = geomorph::gridPar(grid.col = "grey50",
+                                     tar.pt.size = 0.5))
     }
   }, how = "list")
 

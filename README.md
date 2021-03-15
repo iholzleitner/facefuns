@@ -8,10 +8,18 @@
 <!-- badges: end -->
 
 Miscellaneous convenience/wrapper functions around geometric
-morphometric analyses of 2D and 3D face data. A brief intro can be found
-[here](https://iholzleitner.github.io/facefuns/articles/facefuns.html)\!
+morphometric analyses of 2D and 3D face data. A brief intro to working
+with 2D face data can be found
+[here](https://iholzleitner.github.io/facefuns/articles/facefuns.html);
+there are also tutorials on how to calculate
+[averageness](./calcED.html), [asymmetry](./calcAsym.html) and [sexual
+dimorphism](./calcSD.html) from 2D face images. For an overview of all
+currently implemented functions, see [here](./overview.html).
 
-Last update: 2021-02-15
+This package is being developed with financial support from ERC grant
+\#647910 KINSHIP awarded to Lisa DeBruine.
+
+Last update: 2021-03-15
 
 ## Installation
 
@@ -28,6 +36,37 @@ If you get a 404 error, try:
 ``` r
 devtools::install_github("iholzleitner/facefuns", ref = "main")
 ```
+
+## Ethical Face Research
+
+We are committed to ethical face research. This means:
+
+  - Make sure that the use of face photographs respects participant
+    consent and personal data privacy. Images that are “freely”
+    available on the internet are a grey area and the ethical issues
+    should be carefully considered and approved by the relevant ethics
+    board.
+
+  - Do not use face images in research where there is a possibility of
+    real-world consequences for the pictured individuals. For example,
+    do not post identifiable images of real people on real dating sites
+    without the explicit consent of the pictured individuals for that
+    specific research.
+
+  - We will never support the use of face image analysis to predict
+    behaviour, or for automatic screening. For example, face images
+    cannot be used to predict criminality or decide who should proceed
+    to the interview stage in a job application. This type of
+    application is unethical because the predictive data is always
+    biased. Face image analysis is useful for researching what aspects
+    of face images give rise to the *perception* of traits like
+    trustworthiness, but should not be confused with the ability to
+    detect actual behaviour.
+
+## Funding
+
+The development of `facefuns` is support by ERC grant \#647910 KINSHIP
+awarded to Lisa DeBruine.
 
 ## Credits
 
