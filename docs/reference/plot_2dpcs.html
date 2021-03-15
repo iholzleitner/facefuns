@@ -144,7 +144,14 @@
     <p>Convenience function for plotting shape PCs based on <code><a href='https://rdrr.io/pkg/geomorph/man/plotRefToTarget.html'>geomorph::plotRefToTarget()</a></code>. Other than <code>plotRefToTarget</code>, magnitude of visualized difference in shape between reference face at average and low/high levels of the respective PC is based on standard deviations (instead of range).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plot_2dpcs</span><span class='op'>(</span><span class='va'>input</span>, ref <span class='op'>=</span> <span class='cn'>NULL</span>, which_pcs <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>, vis_sd <span class='op'>=</span> <span class='fl'>3</span>, output <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>plot_2dpcs</span><span class='op'>(</span>
+  <span class='va'>input</span>,
+  ref <span class='op'>=</span> <span class='cn'>NULL</span>,
+  which_pcs <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>,
+  vis_sd <span class='op'>=</span> <span class='fl'>3</span>,
+  print <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  output <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -166,6 +173,10 @@
       <td><p>Extent of desired manipulation in units of standard deviation</p></td>
     </tr>
     <tr>
+      <th>print</th>
+      <td><p>Print plot</p></td>
+    </tr>
+    <tr>
       <th>output</th>
       <td><p>Specify file name/path to save plot</p></td>
     </tr>
@@ -180,7 +191,9 @@
 <span class='va'>pca_output</span> <span class='op'>&lt;-</span> <span class='fu'>geomorph</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/geomorph/man/gm.prcomp.html'>gm.prcomp</a></span><span class='op'>(</span><span class='va'>LondonSet_aligned</span><span class='op'>)</span>
 <span class='va'>ref</span> <span class='op'>&lt;-</span> <span class='fu'>geomorph</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/geomorph/man/mshape.html'>mshape</a></span><span class='op'>(</span><span class='va'>LondonSet_aligned</span><span class='op'>)</span>
 <span class='fu'>plot_2dpcs</span><span class='op'>(</span><span class='va'>pca_output</span>, <span class='va'>ref</span><span class='op'>)</span>
-</div><div class='img'><img src='plot_2dpcs-1.png' alt='' width='700' height='433' /></div><div class='input'>
+</div><div class='output co'>#&gt; [1] "/var/folders/lh/555rbl4x0yvbf8n6w709q7kh0000gn/T//Rtmpouu1D0/fileeac2d51fa15.png"
+#&gt; attr(,"class")
+#&gt; [1] "knit_image_paths" "knit_asis"       </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

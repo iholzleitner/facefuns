@@ -219,13 +219,13 @@ vignette(&quot;intro&quot;, package = &quot;facefuns&quot;)" />
 #&gt; The broken_stick criterion was used to select 9 principal components.
 #&gt; Templates were rotated using "rotateC" after the GPA.</div><div class='input'>
 <span class='va'>shapedata2d</span> <span class='op'>&lt;-</span> <span class='fu'>facefuns</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>data2d</span>,
-                        remove_points <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>145</span><span class='op'>:</span><span class='fl'>157</span>, <span class='fl'>183</span><span class='op'>:</span><span class='fl'>184</span><span class='op'>)</span><span class='op'>+</span><span class='fl'>1</span><span class='op'>)</span>
-</div><div class='img'><img src='facefuns-4.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; You removed 15 landmarks prior to analyses.
-#&gt; The loaded data set contains 102 specimen, delineated with 174 2-D landmarks.
-#&gt; The broken_stick criterion was used to select 7 principal components.
-#&gt; Templates were not rotated after the GPA.</div><div class='input'>
+                        remove_points <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>115</span><span class='op'>:</span><span class='fl'>124</span>, <span class='fl'>145</span><span class='op'>:</span><span class='fl'>157</span>, <span class='fl'>183</span><span class='op'>:</span><span class='fl'>184</span><span class='op'>)</span> <span class='op'>+</span> <span class='fl'>1</span><span class='op'>)</span>
+</div><div class='img'><img src='facefuns-4.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; You removed 25 landmarks prior to analyses.
+#&gt; The loaded data set contains 102 specimen, delineated with 164 2-D landmarks.
+#&gt; The broken_stick criterion was used to select 8 principal components.
+#&gt; Templates were rotated using "rotateC" after the GPA.</div><div class='input'>
 <span class='va'>shapedata2d</span> <span class='op'>&lt;-</span> <span class='fu'>facefuns</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>data2d</span>,
-                        remove_points <span class='op'>=</span> <span class='st'>"frlshape2019"</span><span class='op'>)</span>
+                        remove_points <span class='op'>=</span> <span class='st'>"frlgmm"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; You removed 57 landmarks prior to analyses.
 #&gt; The loaded data set contains 102 specimen, delineated with 132 2-D landmarks.
 #&gt; The broken_stick criterion was used to select 8 principal components.
@@ -236,7 +236,9 @@ vignette(&quot;intro&quot;, package = &quot;facefuns&quot;)" />
 <span class='co'># PLOT PCS</span>
 <span class='fu'><a href='plot_2dpcs.html'>plot_2dpcs</a></span><span class='op'>(</span><span class='va'>shapedata2d</span>,
            which_pcs <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span><span class='op'>)</span>
-</div><div class='img'><img src='facefuns-6.png' alt='' width='700' height='433' /></div><div class='input'>
+</div><div class='output co'>#&gt; [1] "/var/folders/lh/555rbl4x0yvbf8n6w709q7kh0000gn/T//Rtmpouu1D0/fileeac6f0e1b0f.png"
+#&gt; attr(,"class")
+#&gt; [1] "knit_image_paths" "knit_asis"       </div><div class='input'>
 <span class='co'># To plot PCs at different levels of SD:</span>
 <span class='va'>pca</span> <span class='op'>&lt;-</span> <span class='fu'>geomorph</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/geomorph/man/gm.prcomp.html'>gm.prcomp</a></span><span class='op'>(</span><span class='va'>shapedata2d</span><span class='op'>$</span><span class='va'>aligned</span><span class='op'>)</span>
 
@@ -244,7 +246,9 @@ vignette(&quot;intro&quot;, package = &quot;facefuns&quot;)" />
            ref <span class='op'>=</span> <span class='va'>shapedata2d</span><span class='op'>$</span><span class='va'>average</span>,
            which_pcs <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span>,
            vis_sd <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
-</div><div class='img'><img src='facefuns-7.png' alt='' width='700' height='433' /></div><div class='input'>
+</div><div class='output co'>#&gt; [1] "/var/folders/lh/555rbl4x0yvbf8n6w709q7kh0000gn/T//Rtmpouu1D0/fileeac712aebf.png"
+#&gt; attr(,"class")
+#&gt; [1] "knit_image_paths" "knit_asis"       </div><div class='input'>
 <span class='co'># To save PC plots</span>
 <span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='fu'><a href='plot_2dpcs.html'>plot_2dpcs</a></span><span class='op'>(</span><span class='va'>shapedata2d</span>,

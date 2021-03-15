@@ -96,7 +96,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Calculate asymmetry of faces</h1>
             
-            <h4 class="date">2021-02-27</h4>
+            <h4 class="date">2021-03-15</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/iholzleitner/facefuns/blob/master/vignettes/calcAsym.Rmd"><code>vignettes/calcAsym.Rmd</code></a></small>
       <div class="hidden name"><code>calcAsym.Rmd</code></div>
@@ -114,19 +114,13 @@
 <a href="#load-and-prep-data" class="anchor"></a>Load and prep data</h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">path_to_tem</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"tem"</span>, package<span class="op">=</span><span class="st">"facefuns"</span><span class="op">)</span>
-<span class="va">remove_points</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">45</span><span class="op">:</span><span class="fl">50</span>, <span class="fl">100</span><span class="op">:</span><span class="fl">104</span>, <span class="fl">116</span><span class="op">:</span><span class="fl">125</span>, <span class="fl">146</span><span class="op">:</span><span class="fl">158</span>, <span class="fl">159</span><span class="op">:</span><span class="fl">164</span>, <span class="fl">165</span><span class="op">:</span><span class="fl">170</span>, <span class="fl">171</span><span class="op">:</span><span class="fl">174</span>, <span class="fl">175</span><span class="op">:</span><span class="fl">179</span>, <span class="fl">184</span><span class="op">:</span><span class="fl">185</span><span class="op">)</span>
 
-<span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_lmdata.html">read_lmdata</a></span><span class="op">(</span>lmdata <span class="op">=</span> <span class="va">path_to_tem</span>,
-                    remove_points <span class="op">=</span> <span class="va">remove_points</span>,
-                    plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-
-<span class="va">shapedata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/facefuns.html">facefuns</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>,
-                        pc_criterion <span class="op">=</span> <span class="st">"broken_stick"</span><span class="op">)</span></code></pre></div>
-<p><img src="calcAsym_files/figure-html/unnamed-chunk-2-1.png" width="700"></p>
-<pre><code>#&gt; All landmarks were used in analyses.
-#&gt; The loaded data set contains 102 specimen, delineated with 132 2-D landmarks.
-#&gt; The broken_stick criterion was used to select 8 principal components.
-#&gt; Templates were rotated using "rotateC" after the GPA.</code></pre>
+<span class="va">shapedata</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/facefuns.html">facefuns</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="../reference/read_lmdata.html">read_lmdata</a></span><span class="op">(</span>lmdata <span class="op">=</span> <span class="va">path_to_tem</span>,
+                                         plot <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>,
+                      remove_points <span class="op">=</span> <span class="st">"frlgmm"</span>,
+                      pc_criterion <span class="op">=</span> <span class="st">"broken_stick"</span>,
+                      plot_sample <span class="op">=</span> <span class="cn">FALSE</span>,
+                      quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="calculate-asymmetry" class="section level2">
 <h2 class="hasAnchor">
@@ -137,7 +131,7 @@
 <li><p><code>calc_fa</code>: calculates fluctuating asymmetry (FA) by correcting asymmetry as calculated above for DA following Klingenberg (2015)<span class="citation"><sup>[<a href="#ref-klingenberg2015" role="doc-biblioref">2</a>]</sup></span>; DA is calculated as the average of original templates minus the average of mirrored templates</p></li>
 <li><p><code>calc_fageo</code>: calculates FA, here using <code><a href="https://rdrr.io/pkg/geomorph/man/bilat.symmetry.html">geomorph::bilat.symmetry</a></code>. I am not entirely sure what <code>bilat.symmetry</code> is doing under the hood and hence whether I’m implementing this correctly. Resulting scores are strongly correlated with the other two, but of course that doesn’t mean much</p></li>
 </ul>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">as</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_as.html">calc_as</a></span><span class="op">(</span><span class="va">shapedata</span>, <span class="va">mirroredlandmarks</span><span class="op">)</span>
 <span class="va">fa</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_fa.html">calc_fa</a></span><span class="op">(</span><span class="va">shapedata</span>, <span class="va">mirroredlandmarks</span><span class="op">)</span>
 <span class="va">fa.geo</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/calc_fageo.html">calc_fageo</a></span><span class="op">(</span><span class="va">shapedata</span>, <span class="va">mirroredlandmarks</span><span class="op">)</span>

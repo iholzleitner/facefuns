@@ -186,11 +186,9 @@
 <span class='co'># READ AND PREP DATA</span>
 <span class='va'>path_to_tem</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata"</span>, <span class='st'>"tem"</span>, package<span class='op'>=</span><span class='st'>"facefuns"</span><span class='op'>)</span>
 
-<span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='read_lmdata.html'>read_lmdata</a></span><span class='op'>(</span>lmdata <span class='op'>=</span> <span class='va'>path_to_tem</span>,
-                    plot <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-
-<span class='va'>shapedata</span> <span class='op'>&lt;-</span> <span class='fu'><a href='facefuns.html'>facefuns</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>data</span>,
-                      remove_points <span class='op'>=</span> <span class='st'>"frlshape2019"</span>,
+<span class='va'>shapedata</span> <span class='op'>&lt;-</span> <span class='fu'><a href='facefuns.html'>facefuns</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='fu'><a href='read_lmdata.html'>read_lmdata</a></span><span class='op'>(</span>lmdata <span class='op'>=</span> <span class='va'>path_to_tem</span>,
+                                         plot <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>,
+                      remove_points <span class='op'>=</span> <span class='st'>"frlgmm"</span>,
                       plot_sample <span class='op'>=</span> <span class='cn'>FALSE</span>,
                       quiet <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 

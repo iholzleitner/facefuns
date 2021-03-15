@@ -96,7 +96,7 @@
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Introduction to facefuns</h1>
             
-            <h4 class="date">2021-02-27</h4>
+            <h4 class="date">2021-03-15</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/iholzleitner/facefuns/blob/master/vignettes/facefuns.Rmd"><code>vignettes/facefuns.Rmd</code></a></small>
       <div class="hidden name"><code>facefuns.Rmd</code></div>
@@ -124,7 +124,7 @@
 <code class="sourceCode R"><span class="va">path_to_tem</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"tem"</span>, package<span class="op">=</span><span class="st">"facefuns"</span><span class="op">)</span>
 <span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_lmdata.html">read_lmdata</a></span><span class="op">(</span>lmdata <span class="op">=</span> <span class="va">path_to_tem</span><span class="op">)</span></code></pre></div>
 <p><img src="facefuns_files/figure-html/unnamed-chunk-2-1.png" width="700"></p>
-<p>As you can see, <code>read_shapedata</code> will by default plot the loaded data. Use <code>plot = FALSE</code> to turn off plotting.</p>
+<p>As you can see, <code>read_lmdata</code> will by default plot the loaded data. Use <code>plot = FALSE</code> to turn off plotting.</p>
 <p>You might not want to retain all of the standard template’s 189 landmarks for shape analyses. For this example, we will remove the following landmarks:</p>
 <table class="table">
 <thead><tr class="header">
@@ -311,7 +311,7 @@
 <code class="sourceCode R"><span class="fu"><a href="../reference/plot_2dpcs.html">plot_2dpcs</a></span><span class="op">(</span>input <span class="op">=</span> <span class="va">shapedata</span><span class="op">$</span><span class="va">pc_plot</span>,
           ref <span class="op">=</span> <span class="va">shapedata</span><span class="op">$</span><span class="va">average</span>,
           which_pcs <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span></code></pre></div>
-<p><img src="facefuns_files/figure-html/unnamed-chunk-15-1.png" width="864" style="display: block; margin: auto;"></p>
+<p><img src="../../../../../../../private/var/folders/lh/555rbl4x0yvbf8n6w709q7kh0000gn/T/RtmpkkHLdV/filef563b7bff83.png" width="900" style="display: block; margin: auto;"></p>
 </div>
 </div>
   </div>
